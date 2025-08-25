@@ -4,3 +4,4 @@ obj/
 *.exe
 *.dll
 /WebBanHang/wwwroot/images/Docker Desktop Installer.exe
+/WebBanHang/wwwroot/images/
