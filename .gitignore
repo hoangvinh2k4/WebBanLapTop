@@ -3,3 +3,4 @@ bin/
 obj/
 *.exe
 *.dll
+/WebBanHang/wwwroot/images/Docker Desktop Installer.exe
