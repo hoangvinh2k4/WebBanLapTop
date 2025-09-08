@@ -79,6 +79,7 @@ wwwroot\images\pavilion14.jpg
 wwwroot\images\pavilion15.jpg
 wwwroot\images\thinkpad.jpg
 wwwroot\js\bootstrap.min.js
+wwwroot\js\Cart.js
 wwwroot\js\ChatHub.js
 wwwroot\js\contact.js
 wwwroot\js\gmaps.js
@@ -145,4 +146,3 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
-wwwroot\js\Cart.js
