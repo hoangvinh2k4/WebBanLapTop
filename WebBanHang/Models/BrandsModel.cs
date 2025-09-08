@@ -12,7 +12,7 @@ namespace WebBanHang.Models
         //dotnet ef migrations remove
         public int BrandID { get; set; }
         public string NameBrand { get; set; }
-        public string Slug { get; set; }
+  
         public ICollection<ProductModel> Products { get; set; } // Cái này để liên kết tới bảng Products
         public string Description { get; set; }
         public DateTime Created { get; set; }

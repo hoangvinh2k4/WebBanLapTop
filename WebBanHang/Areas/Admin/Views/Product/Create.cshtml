@@ -1,0 +1,87 @@
+﻿@model ProductModel
+@{
+    ViewData["title"] = "Create Product";
+}
+<h1>Create</h1>
+
+
+<div class="col-md-9">
+    <form asp-action="Create" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label asp-for="ProductID"></label>
+            <input asp-for="ProductID" class="form-control" />
+            <span asp-validation-for="ProductID" class="text-danger"></span>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label>Name</label>
+            <input asp-for="NameProduct" class="form-control" />
+            <span asp-validation-for="NameProduct" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Price</label>
+            <input asp-for="Price" pattern="[0-9.,]+" class="form-control typing-price" />
+            <span id="price-convert"></span>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.Categories">
+                <option value="">-- Choose a category --</option>
+            </select>
+            <span asp-validation-for="CategoryID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Brand</label>
+            <select asp-for="BrandID" class="form-control" asp-items="ViewBag.Brands">
+                <option value="">-- Choose a brand --</option>
+            </select>
+            <span asp-validation-for="BrandID" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Image</label>
+            <input asp-for="ImageUpload" type="file" class="form-control" />
+            <span asp-validation-for="ImageUpload" class="text-danger"></span>
+            <img id="imgpreview" class="pt-2" />
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary">Create</button>
+        </div>
+
+    </form>
+    <a asp-action="Index">Back to list product</a>
+    <
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml"); 
+    }
+ 
+}
+    
+
+    <script>
+        document.getElementById('ImageUpload').addEventListener('change', function(){
+            const file = this.files[0];
+            if(file){
+                const reader = new FileReader();
+                reader.onload = e => document.getElementById('imgpreview').src = e.target.result;
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+

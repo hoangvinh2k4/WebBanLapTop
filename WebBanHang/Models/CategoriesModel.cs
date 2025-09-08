@@ -11,5 +11,9 @@ namespace WebBanHang.Models
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public int? ParentID { get; set; }
+
+        // Mỗi Category có nhiều Product
+        public ICollection<ProductModel> Products { get; set; }
+
     }
 }
