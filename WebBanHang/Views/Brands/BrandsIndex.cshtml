@@ -38,9 +38,8 @@
                             </a>
 
                             <a class="btn btn-default add-to-cart"
-                               asp-action="AddToCart"
-                               asp-controller="Cart"
-                               asp-route-id="@item.ProductID">
+                               data-id="@item.ProductID"
+                               href="#">
                                 <i class="fa fa-shopping-cart"></i> Add to cart
                             </a>
                         </div>

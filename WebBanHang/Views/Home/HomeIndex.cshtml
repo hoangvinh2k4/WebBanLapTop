@@ -31,9 +31,9 @@
                                         imagePath = "/images/no-image-available.jpg";
                                     }
                                 }
-                                <img src="@imagePath" alt="@item.NameProduct" />                          
-                                <h2>@item.Price.ToString("N0") VNĐ</h2>                              
-                                   <p>Tên sản phẩm : @item.NameProduct </p>
+                                <img src="@imagePath" alt="@item.NameProduct" />
+                                <h2>@item.Price.ToString("N0")  VNĐ</h2>
+                                <p>Tên sản phẩm : @item.NameProduct </p>
                                    <p>Thương hiệu : @item.Brand.NameBrand </p>
                             </a>
                             <a class="btn btn-default add-to-cart"
@@ -55,38 +55,3 @@
         }
     </div>
 </div>
-
-@section Scripts {
-    <!-- Nhúng thư viện jQuery (nếu Layout chưa có) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $(".add-to-cart").click(function (e) {
-                e.preventDefault();
-
-                var id = $(this).data("id");
-
-                $.ajax({
-                    url: '/Cart/AddToCart',
-                    type: 'POST',
-                    data: { id: id },
-                    success: function (res) {
-                        $("#cart-count").text(res.totalItems);
-                        $("#cart-total").text(res.totalPrice.toLocaleString() + "VNĐ");
-                             $("#cart-message")
-            .text("✅ Thêm sản phẩm thành công!")
-            .fadeIn();
-
-            setTimeout(function () {
-                    $("#cart-message").fadeOut();
-                      }, 2000); // 2 giây ẩn đi
-                    },
-                    error: function () {
-                        alert("Có lỗi khi thêm vào giỏ!");
-                    }
-                });
-            });
-        });
-    </script>
-}
