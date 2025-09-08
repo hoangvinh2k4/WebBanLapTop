@@ -62,7 +62,7 @@
 									<p class="cart_total_price">@Model.CartModels.Where(x => x.ProductID == item.ProductID).Sum(x => x.Quantity * x.Product.Price).ToString("#,##0")</p>
 								</td>
 								<td class="cart_delete">
-									<a class="cart_quantity_delete" asp-action="Remove" asp-controller="Cart" asp-route-id="@item.ProductID"><i class="fa fa-times"></i></a>
+									<a class="btn btn-danger btn-sm btn-remove" data-id="@item.ProductID" href="#">
 								</td>
 							</tr>
 						}
