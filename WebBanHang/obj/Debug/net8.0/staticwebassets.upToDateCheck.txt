@@ -4,11 +4,11 @@ wwwroot\css\font-awesome.min.css
 wwwroot\css\main.css
 wwwroot\css\prettyPhoto.css
 wwwroot\css\price-range.css
+wwwroot\css\register.css
 wwwroot\css\responsive.css
 wwwroot\favicon.ico
 wwwroot\images\asusrog.jpg
 wwwroot\images\dellgaming.jpg
-wwwroot\images\Docker Desktop Installer.exe
 wwwroot\images\legion5.jpg
 wwwroot\images\nitro5.jpg
 wwwroot\js\bootstrap.min.js

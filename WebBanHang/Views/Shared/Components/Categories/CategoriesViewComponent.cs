@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebBanHang.Models.Repository;
+using WebBanHang.Models.Repository.component;
 
 namespace WebBanHang.Views.Shared.Components.Categories
 {

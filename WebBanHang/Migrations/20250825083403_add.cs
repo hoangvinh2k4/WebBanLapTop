@@ -18,7 +18,6 @@ namespace WebBanHang.Migrations
                     BrandID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameBrand = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -71,7 +70,7 @@ namespace WebBanHang.Migrations
                     BrandID = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Slug = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                
                 },
                 constraints: table =>
                 {

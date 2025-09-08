@@ -23,8 +23,5 @@ namespace WebBanHang.Models
         public ICollection<ProductImagesModel> ProductImages { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
-        [Required]
-        public string Slug { get; set; }
-   
     }
 }
