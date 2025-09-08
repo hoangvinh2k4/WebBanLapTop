@@ -13,21 +13,24 @@ namespace WebBanHang.Controllers
         }
         public IActionResult Index()
         {
-            var products = _datacontext.Products.Include(p => p.Brand).Include(p => p.ProductImages).ToList();
+            var products = _datacontext.Products.Include(p => p.Brand).Include(p => p.ProductImage).ToList();
 
             return View(products);
         }
+        public async Task<IActionResult> DetailProduct(int id)
+        {
+            var getbyproductID = _datacontext.Products
+                                     .Include(p => p.Brand)
+                                     .Include(p => p.ProductImage)
+                                     .FirstOrDefault(p => p.ProductID == id);
+
+            if (getbyproductID == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(getbyproductID);
+        }
     }
 }
-//public async Task<IActionResult> DetailProduct(int id )
-//{
-//    if(id == null) return RedirectToAction("Index");
-//    var productsByid = await _datacontext.Products
-//        .Include(p => p.Brand)
-//        .Include(p => p.Category)
-//        .Where(p => p.Id == id)
-//        .OrderByDescending(p => p.Id)
-//        .FirstOrDefaultAsync(p => p.Id == id);
-//    return View(productsByid);
-//}
 

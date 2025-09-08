@@ -9,7 +9,22 @@
 			<!--product-details-->
 			<div class="col-sm-5">
 				<div class="view-product" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-					@* <img src="~/images/@Model.Image" style="width: 200px; height: 200px; object-fit: cover;" alt="" /> *@
+					@{
+						// Lấy đối tượng ProductImage đầu tiên của sản phẩm
+						var firstImage = @Model.ProductImage?.FirstOrDefault();
+						string imagePath;
+						if (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
+						{
+							// Tạo đường dẫn tới thư mục images trong wwwroot
+							imagePath = $"/images/{firstImage.ImageUrl}";
+						}
+						else
+						{
+							// Ảnh mặc định nếu không có ảnh nào
+							imagePath = "/images/no-image-available.jpg";
+						}
+					}
+					<img src="@imagePath" alt="NameProduct" />
 					<h3>ZOOM</h3>
 				</div>
 
@@ -38,9 +53,9 @@
 				<div class="product-information">
 					<!--/product-information-->					
 					<h2>@Model.Description</h2>
-					<p>Web ID: 1089772</p>					
+					<p>Web ID: @Model.ProductID</p>					
 					<span>
-						<span>Giá : @Model.Price VNĐ</span>
+						<span>Giá : @Model.Price.ToString("N0") VNĐ</span>
 						<label>Quantity:</label>
 						<input type="text" value="" />
 						<button type="button" class="btn btn-fefault cart">

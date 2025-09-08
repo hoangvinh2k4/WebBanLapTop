@@ -12,6 +12,6 @@ namespace WebBanHang.Models.Repository
         public DbSet<BrandsModel> Brands { get; set; }
         public DbSet<ProductImagesModel> ProductImages { get; set; }
         public DbSet<CategoriesModel> Categories { get; set; }
-
+        public DbSet<OperatingSystemModel> OperatingSystem { get; set; }
     }
 }

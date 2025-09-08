@@ -11,23 +11,14 @@ namespace WebBanHang.Controllers
         {
             _datacontext = context;
         }
-        //public async Task<IActionResult> Index(int id = 0)
-        //{
-        //    var brands = await _datacontext.Brands.FirstOrDefaultAsync(b=>b.Id == id);
-        //    if (brands == null)
-        //        return RedirectToAction("Index", "Home");
-        
-        //    var productsByBrands = await _datacontext.Products
-        //        .Include(p => p.Brand)
-        //        .Include(p => p.Category)
-        //        .Where(p=> p.BrandId==id)
-        //        .OrderByDescending(p =>p.Id).ToListAsync();
-        //    return View(productsByBrands);
-        //}
-        //public IActionResult Default()
-        //{
-        //    var brands = _datacontext.Brands.ToList();
-        //    return View("~/Views/Shared/Components/Brands/Default.cshtml",brands);
-        //}
+        public IActionResult BrandsIndex(int id) // id chính là BrandID
+        {
+            var products = _datacontext.Products
+                               .Include(p => p.ProductImage) // load kèm bảng ProductImages
+                               .Include(p => p.Brand)         // load kèm thương hiệu
+                               .Where(p => p.BrandID == id)
+                               .ToList();
+            return View(products);
+        }     
     }
 }

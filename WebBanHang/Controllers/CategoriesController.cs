@@ -12,16 +12,14 @@ namespace WebBanHang.Controllers
         {
             _datacontext = context;
         }
-        public IActionResult Index()
+        public IActionResult CategoriesIndex(int id)
         {
-            // Lấy toàn bộ danh mục
-            var categories = _datacontext.Categories.ToList();
-            return View(categories);          
+           var categories = _datacontext.Products
+                                .Include(p => p.ProductImage)
+                                .Include(p => p.Category)
+                                .Where(p => p.CategoryID == id)
+                                .ToList();     
+            return View(categories);
         }
-        //public IActionResult Default()
-        //{
-        //    var categories = _datacontext.Categories.ToList();
-        //    return View("~/Views/Shared/Components/Categories/Default.cshtml", categories);
-        //}
     }
 }

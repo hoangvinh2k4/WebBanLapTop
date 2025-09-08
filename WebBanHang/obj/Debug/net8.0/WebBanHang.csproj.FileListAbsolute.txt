@@ -172,3 +172,4 @@ D:\C#\WebBanHang\WebBanHang\obj\Debug\net8.0\WebBanHang.genruntimeconfig.cache
 D:\C#\WebBanHang\WebBanHang\obj\Debug\net8.0\ref\WebBanHang.dll
 D:\C#\WebBanHang\WebBanHang\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\C#\WebBanHang\WebBanHang\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\C#\WebBanHang\WebBanHang\obj\Debug\net8.0\WebBanHang.sourcelink.json

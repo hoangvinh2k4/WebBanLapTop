@@ -19,10 +19,13 @@ namespace WebBanHang.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult HomeIndex()
         {
-            var product = _dataContext.Products.ToList();
-            return View(product);
+            var products = _dataContext.Products.Include(p => p.Brand)
+                                                .Include(p => p.ProductImage)
+                                                .Include(p => p.Category)
+                                                .Include(p => p.OperatingSystem).ToList();
+            return View(products);
         }       
         public IActionResult Privacy()
         {
