@@ -13,7 +13,7 @@
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
                         <div class="single-products">
-                            <div class="productinfo text-center">
+                           <div class="productinfo text-center">
                                <a asp-action="DetailProduct" asp-controller="Product" asp-route-id="@item.ProductID">
                                 @{
                                     // Lấy đối tượng ProductImage đầu tiên của sản phẩm
@@ -36,12 +36,11 @@
                                 <p>Tên sản phẩm : @item.NameProduct</p>
                                 <p>Thương hiệu : @item.Brand.NameBrand</p>
                              </a>
-                            <a class="btn btn-default add-to-cart"
-                               asp-action="AddToCart"
-                               asp-controller="Cart"
-                               asp-route-id="@item.ProductID">
+                             <a class="btn btn-default add-to-cart"
+                               data-id="@item.ProductID"
+                               href="#">
                                 <i class="fa fa-shopping-cart"></i> Add to cart
-                            </a>
+                             </a>
                             </div>
                         </div>
                     
@@ -55,3 +54,4 @@
         }
     </div>
 </div>
+
