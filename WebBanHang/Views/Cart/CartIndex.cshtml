@@ -62,8 +62,7 @@
 								<td class="cart_delete">
 									<a class="btn btn-danger btn-sm btn-remove" data-id="@item.ProductID" href="#">
 										<i class="fa fa-trash" style="color: gray;" ></i> 
-									</a>
-
+									</a>								
 								</td>
 							</tr>
 						}
@@ -146,7 +145,7 @@
 								</td>
 								
 							}  *@
-							<td colspan="3">
+							<td colspan="5">
 								<button id="btn-clear-cart" class="btn btn-danger btn-sm">
 									Xóa tất cả
 								</button>
@@ -156,8 +155,8 @@
 					else
 					{
 						<tr>
-							<td colspan="5">
-								<h4>Your cart is Empty.</h4>
+							<td colspan="5" style='text-align:center;'>
+								<h4>Giỏ hàng của bạn trống</h4>
 							</td>
 						</tr>
 					}
@@ -365,7 +364,7 @@
 
 				// nếu giỏ hàng trống, có thể hiện thông báo
 				if (res.totalItems === 0) {
-					$(".cart_info tbody").html("<tr><td colspan='6'><h4>Your cart is Empty.</h4></td></tr>");
+						$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Giỏ hàng của bạn trống.</h4></td></tr>");
 				}
 			});
 		});
@@ -388,7 +387,7 @@
 						if (!res) return;
 
 						// Xóa hết các dòng sản phẩm trong bảng
-						$(".cart_info tbody").html("<tr><td colspan='6'><h4>Your cart is Empty.</h4></td></tr>");
+												$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Giỏ hàng của bạn trống.</h4></td></tr>");
 
 						// Cập nhật giỏ hàng nhỏ (header)
 						$("#cart-count").text(0);
