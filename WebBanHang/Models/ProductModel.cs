@@ -8,8 +8,10 @@ namespace WebBanHang.Models
     public class ProductModel
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ProductID")]
         public int ProductID { get; set; }
+
 
         // -------- CATEGORY --------
         [Required(ErrorMessage = "Bạn phải chọn loại sản phẩm")]

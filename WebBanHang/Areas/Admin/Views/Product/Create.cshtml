@@ -8,11 +8,7 @@
 <div class="col-md-9">
     <form asp-action="Create" enctype="multipart/form-data">
 
-        <div class="form-group">
-            <label asp-for="ProductID"></label>
-            <input asp-for="ProductID" class="form-control" />
-            <span asp-validation-for="ProductID" class="text-danger"></span>
-        </div>
+       
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

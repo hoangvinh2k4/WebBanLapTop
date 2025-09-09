@@ -41,17 +41,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (await _datacontext.Products.AnyAsync(p => p.ProductID == product.ProductID))
-                {
-                    ModelState.AddModelError("ProductID", "Mã sản phẩm đã tồn tại!");
-
-                    // Gán lại dropdown
-                    ViewBag.Categories = new SelectList(_datacontext.Categories, "CategoryID", "CategoryName", product.CategoryID);
-                    ViewBag.Brands = new SelectList(_datacontext.Brands, "BrandID", "NameBrand", product.BrandID);
-                    ViewBag.OperatingSystem = new SelectList(_datacontext.OperatingSystem, "OperatingSystemID", "OperatingSystemName");
-
-                    return View(product);
-                }
+               
 
 
                 product.Created = product.Updated = DateTime.Now;
@@ -150,6 +140,8 @@ namespace WebBanHang.Areas.Admin.Controllers
                 existed_product.Price = product.Price;
                 existed_product.CategoryID = product.CategoryID;
                 existed_product.BrandID = product.BrandID;
+                existed_product.Stock = product.Stock;
+                existed_product.OperatingSystemID = product.OperatingSystemID;
                 // ... other properties
                 _datacontext.Update(existed_product);
                 await _datacontext.SaveChangesAsync();

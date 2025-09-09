@@ -90,6 +90,7 @@ wwwroot\media\products\25ada93e-cf4f-46c9-ba3a-ea89d836dce7.png
 wwwroot\media\products\2ef4c077-0e8a-4327-b2b4-e2b11ec554fe.png
 wwwroot\media\products\315cc6d5-78a7-4abd-a75c-c8e97357bc15.png
 wwwroot\media\products\34401533-144a-4bd4-bad0-65f70077e723.png
+wwwroot\media\products\392de9d2-9ad5-4a13-b243-31ec0443a3e4.png
 wwwroot\media\products\3aad3205-6042-4dc0-b080-a3cef595a44a.png
 wwwroot\media\products\4ae6d1c7-f2ea-48ae-9781-c1e2f3802e7f.png
 wwwroot\media\products\4bdb1635-f36e-4a53-a4b6-c59dc9fef144.png
