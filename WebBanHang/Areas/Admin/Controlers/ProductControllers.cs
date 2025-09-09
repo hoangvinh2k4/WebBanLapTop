@@ -22,14 +22,16 @@ namespace WebBanHang.Areas.Admin.Controllers
         [HttpGet]
         public async Task <IActionResult> Index()
         {
-            return View(await _datacontext.Products.OrderByDescending(p => p.ProductID  ).Include(p=>p.Category).Include(p=>p.Brand).Include(p=>p.ProductImages).ToListAsync());
+            return View(await _datacontext.Products.OrderByDescending(p => p.ProductID  ).Include(p=>p.Category).Include(p=>p.Brand).Include(p=>p.ProductImages).Include(p=>p.OperatingSystem).ToListAsync());
         }
+        [HttpGet]
         [HttpGet]
         public IActionResult Create()
         {
             ViewBag.Categories = new SelectList(_datacontext.Categories, "CategoryID", "CategoryName");
             ViewBag.Brands = new SelectList(_datacontext.Brands, "BrandID", "NameBrand");
-           
+            ViewBag.OperatingSystem = new SelectList(_datacontext.OperatingSystem, "OperatingSystemID", "OperatingSystemName");
+
             return View();
         }
 
@@ -46,6 +48,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                     // Gán lại dropdown
                     ViewBag.Categories = new SelectList(_datacontext.Categories, "CategoryID", "CategoryName", product.CategoryID);
                     ViewBag.Brands = new SelectList(_datacontext.Brands, "BrandID", "NameBrand", product.BrandID);
+                    ViewBag.OperatingSystem = new SelectList(_datacontext.OperatingSystem, "OperatingSystemID", "OperatingSystemName");
 
                     return View(product);
                 }
@@ -81,6 +84,8 @@ namespace WebBanHang.Areas.Admin.Controllers
                 TempData["success"] = "Thêm sản phẩm thành công";
                 return RedirectToAction("Index");
             }
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            TempData["error"] = string.Join(" | ", errors);
             return View(product);
         }
 
@@ -98,6 +103,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             // Gán ViewBag cho dropdown Category và Brand
             ViewBag.Categories = new SelectList(_datacontext.Categories, "CategoryID", "CategoryName", product.CategoryID);
             ViewBag.Brands = new SelectList(_datacontext.Brands, "BrandID", "NameBrand", product.BrandID);
+            ViewBag.OperatingSystem = new SelectList(_datacontext.OperatingSystem, "OperatingSystemID", "OperatingSystemName");
 
             return View(product);
         }
@@ -108,6 +114,8 @@ namespace WebBanHang.Areas.Admin.Controllers
             var existed_product = _datacontext.Products.Find(product.ProductID); //tìm sp theo id product
             ViewBag.Categories = new SelectList(_datacontext.Categories, "CategoryID", "CategoryName", product.CategoryID);
             ViewBag.Brands = new SelectList(_datacontext.Brands, "BrandID", "NameBrand", product.BrandID);
+            ViewBag.OperatingSystem = new SelectList(_datacontext.OperatingSystem, "OperatingSystemID", "OperatingSystemName");
+
             if (ModelState.IsValid)
             {
 

@@ -513,7 +513,6 @@ C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\WebBanHang.MvcApplicationPartsAssemb
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\WebBanHang.RazorAssemblyInfo.cache
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\WebBanHang.RazorAssemblyInfo.cs
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\WebBanHang.sourcelink.json
-C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\scopedcss\bundle\WebBanHang.styles.css
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\scopedcss\projectbundle\WebBanHang.bundle.scp.css
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\staticwebassets.build.json
@@ -533,3 +532,4 @@ C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\WebBanHang.pdb
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\WebBanHang.genruntimeconfig.cache
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\ref\WebBanHang.dll
 C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\scopedcss\Areas\Admin\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\WebBanLapTop\WebBanHang\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css

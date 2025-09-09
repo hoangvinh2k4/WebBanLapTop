@@ -21,7 +21,7 @@ namespace WebBanHang.Controllers
 
         public IActionResult Index()
         {
-                var products = _dataContext.Products.Include(p => p.Brand).Include(p => p.ProductImages).ToList();
+                var products = _dataContext.Products.Include(p => p.Brand).Include(p => p.ProductImages).Include(p=>p.OperatingSystem).ToList();
             return View(products);
         }       
         public IActionResult Privacy()

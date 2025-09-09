@@ -34,6 +34,9 @@ namespace WebBanHang.Models
         [Column(TypeName = "decimal(18,2)")]
         [Range(0, double.MaxValue, ErrorMessage = "Giá phải >= 0")]
         public decimal Price { get; set; }
+        [Required(ErrorMessage = "Bạn phải chọn hệ điều hành")]
+        public int OperatingSystemID { get; set; }
+
 
         public int Stock { get; set; }
 
@@ -46,6 +49,9 @@ namespace WebBanHang.Models
         [NotMapped]
         [FileExtension]
         public IFormFile? ImageUpload { get; set; }   // ✅ thêm dấu ?
+       [ForeignKey("OperatingSystemID")]
+public OperatingSystemModel? OperatingSystem { get; set; }
+// Cái này là khóa ngoại để liên kết 2 bảng Products vs OperatingSystem
     }
 }
         
