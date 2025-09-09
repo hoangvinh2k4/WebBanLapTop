@@ -24,6 +24,7 @@ namespace WebBanHang.Models
         public DateTime Updated { get; set; }
         //[Required]
         //public string Slug { get; set; }
+        public ICollection<WishListModel> WishList { get; set; } // Cái này để liên kết tới bảng WishList
         public ICollection<CartModel> Cart { get; set; } // Cái này để liên kết tới bảng Cart
         public ICollection<ProductImagesModel> ProductImage { get; set; } // Cái này để liên kết tới bảng ProductImage
         [ForeignKey("BrandID")]
