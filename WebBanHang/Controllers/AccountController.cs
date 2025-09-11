@@ -52,7 +52,7 @@ namespace WebBanHang.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View(new UserModel());
+            return View(new UserModel()); // 👉 Hiển thị form đăng ký cho user
         }
 
         // POST: /Account/Register

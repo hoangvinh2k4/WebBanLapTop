@@ -134,7 +134,17 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a asp-controller="Home" class="active">Home</a></li>
+								<li>
+									@if (Context.Session.GetString("UserRole") == "Admin")
+									{
+										<a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
+									}
+									else
+									{
+										<a asp-controller="Home" asp-action="Index">Home</a>
+									}
+								</li>
+
 								<li class="dropdown">
 									<a asp-controller="Categories">Shop<i class="fa fa-angle-down"></i></a>
 									<ul role="menu" class="sub-menu">
@@ -154,6 +164,11 @@
 								</li>
 								<li><a href="404.html">404</a></li>
 								<li><a href="contact-us.html">Contact</a></li>
+								@if (Context.Session.GetString("UserRole") == "Admin")
+								{
+									<li><a asp-controller="Admin" asp-action="Index">Admin</a></li>
+								}
+
 							</ul>
 						</div>
 					</div>

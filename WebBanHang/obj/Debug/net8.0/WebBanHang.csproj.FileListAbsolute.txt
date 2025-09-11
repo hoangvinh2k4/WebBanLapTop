@@ -330,3 +330,4 @@ F:\WebLapTop\WebBanLapTop\WebBanHang\bin\Debug\net8.0\Microsoft.AspNetCore.Ident
 F:\WebLapTop\WebBanLapTop\WebBanHang\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 F:\WebLapTop\WebBanLapTop\WebBanHang\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 F:\WebLapTop\WebBanLapTop\WebBanHang\bin\Debug\net8.0\BCrypt.Net-Next.dll
+F:\WebLapTop\WebBanLapTop\WebBanHang\obj\Debug\net8.0\scopedcss\Areas\Admin\Views\Shared\_Layout.cshtml.rz.scp.css

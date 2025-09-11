@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace WebBanHang.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("Admin/User")]
     public class UserController : Controller
     {
         private readonly DataConnect _context;
@@ -17,8 +16,14 @@ namespace WebBanHang.Areas.Admin.Controllers
             _context = context;
         }
 
+        // Hàm check admin
+        private bool IsAdmin()
+        {
+            return HttpContext.Session.GetString("UserRole") == "Admin";
+        }
+
         // Danh sách user
-        [HttpGet("ListUser")]
+        [HttpGet]
         public async Task<IActionResult> ListUser()
         {
             var users = await _context.Users
@@ -31,6 +36,9 @@ namespace WebBanHang.Areas.Admin.Controllers
         [HttpGet("Create")]
         public IActionResult Create()
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account", new { area = "" });
+
             ViewBag.Roles = GetRoles();
             return View(new UserModel());
         }
@@ -40,6 +48,9 @@ namespace WebBanHang.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UserModel user)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account", new { area = "" });
+
             if (ModelState.IsValid)
             {
                 // Hash mật khẩu trước khi lưu
@@ -59,6 +70,9 @@ namespace WebBanHang.Areas.Admin.Controllers
         [HttpGet("Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account", new { area = "" });
+
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
@@ -71,6 +85,9 @@ namespace WebBanHang.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UserModel userUpdate)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account", new { area = "" });
+
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
@@ -101,6 +118,9 @@ namespace WebBanHang.Areas.Admin.Controllers
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!IsAdmin())
+                return RedirectToAction("Login", "Account", new { area = "" });
+
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
@@ -114,10 +134,11 @@ namespace WebBanHang.Areas.Admin.Controllers
         private List<SelectListItem> GetRoles()
         {
             return new List<SelectListItem>
-            {
-                new SelectListItem { Value = "Admin", Text = "Admin" },
-                new SelectListItem { Value = "Customer", Text = "Customer" }
-            };
+    {
+        new SelectListItem { Value = "Admin", Text = "Admin" },
+        new SelectListItem { Value = "Customer", Text = "Customer" }
+    };
         }
+
     }
 }
