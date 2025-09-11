@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -10,23 +10,33 @@ namespace WebBanHang.Controllers
     public class HomeController : Controller
     {
 
-        private readonly DataConnect _dataContext;
+        private readonly DataConnect _datacontext;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger, DataConnect context)
         {
-            _dataContext = context;
+            _datacontext = context;
             _logger = logger;
         }
 
-        public IActionResult HomeIndex()
+        public IActionResult HomeIndex(string? keyword)
         {
-            var products = _dataContext.Products.Include(p => p.Brand)
-                                                .Include(p => p.ProductImage)
-                                                .Include(p => p.Category)
-                                                .Include(p => p.OperatingSystem).ToList();
-            return View(products);
-        }       
+            var products = _datacontext.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.ProductImage)
+                .Include(p => p.OperatingSystem)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                products = products.Where(p => p.NameProduct != null &&
+                                               p.NameProduct.ToLower().Contains(keyword.ToLower()));
+            }
+            return View(products.ToList());
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

@@ -26,6 +26,7 @@ namespace WebBanHang.Models
         //public string Slug { get; set; }
         public ICollection<WishListModel> WishList { get; set; } // Cái này để liên kết tới bảng WishList
         public ICollection<CartModel> Cart { get; set; } // Cái này để liên kết tới bảng Cart
+       
         public ICollection<ProductImagesModel> ProductImage { get; set; } // Cái này để liên kết tới bảng ProductImage
         [ForeignKey("BrandID")]
         public BrandsModel Brand { get; set; } // Cái này là khóa ngoại để liên kết 2 bảng Products vs Brands

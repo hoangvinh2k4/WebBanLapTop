@@ -64,17 +64,19 @@
 					</div>
 
 					<div class="col-sm-6">
-						<div class="search_box" style="width: 100%; position: relative;">
-							<input type="text" class="form-control" placeholder="Nhập tên, từ khóa cần tìm" style="padding-left: 40px;" />
+						<form id="searchForm" class="search_box" action="/Home/HomeIndex" autocomplete="off" style="width: 100%; position: relative;">
+							<input type="text" id="searchBox" name="keyword"
+								   class="form-control" placeholder="Nhập tên sản phẩm bạn cần tìm"
+								   style="padding-left: 40px;" />
 
-							<!-- Icon thành button -->
-							<button type="button"
+							<button type="submit" id="btnSearch"
 									style="position: absolute; top: 50%; left: 12px; transform: translateY(-50%);
                        background: none; border: none; color: #888; cursor: pointer;">
-								<i class="fa-solid fa-magnifying-glass"></i>
+								<i class="fa fa-search"></i>
 							</button>
-						</div>
+						</form>
 					</div>
+
 
 					<!-- Menu bên phải -->
 					<div class="col-sm-4">
@@ -353,34 +355,17 @@
 
 	</footer><!--/Footer-->
 
-
-
 	<script src="~/js/jquery.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>
-	<script src="~/js/jquery.scrollUp.min.js"></script>
+	<script src="~/lib/jquery.scrollUp.min.js"></script>
 	<script src="~/js/price-range.js"></script>
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
     <script src="~/js/cart.js"></script> <!-- Hoàng Vinh thêm --> 
 
-	<!-- div thông báo -->
-	<div id="cart-message" style="display:none;
-                              position:fixed;
-                              top:20px;
-                              left:50%;
-                              transform:translateX(-50%);
-                              background:#4caf50;
-                              color:#fff;
-                              padding:10px 20px;
-                              border-radius:8px;
-                              box-shadow:0 2px 6px rgba(0,0,0,0.3);
-                              z-index:9999;
-                              font-size:16px;
-                              font-weight:bold;
-                              text-align:center;">
-	</div>
-
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	@RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
