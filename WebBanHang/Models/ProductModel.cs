@@ -8,16 +8,27 @@ namespace WebBanHang.Models
     public class ProductModel
     {
         [Key]
-        //[DatabaseGenerated(DatabaseGeneratedOption.None)] //nếu không muốn id tự tăng
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ProductID")]
         public int ProductID { get; set; }
+
+
+        // -------- CATEGORY --------
+        [Required(ErrorMessage = "Bạn phải chọn loại sản phẩm")]
         public int CategoryID { get; set; }
         public int OperatingSystemID { get; set; }
 
         public string NameProduct { get; set; }
-        public string Description { get; set; }
+
+        public string? Description { get; set; }
+
         [Column(TypeName = "decimal(18,2)")]
+        [Range(0, double.MaxValue, ErrorMessage = "Giá phải >= 0")]
         public decimal Price { get; set; }
+        [Required(ErrorMessage = "Bạn phải chọn hệ điều hành")]
+        public int OperatingSystemID { get; set; }
+
+
         public int Stock { get; set; }
         public int BrandID { get; set; }
         public DateTime Created { get; set; }
@@ -36,3 +47,4 @@ namespace WebBanHang.Models
         public OperatingSystemModel OperatingSystem { get; set; } // Cái này là khóa ngoại để liên kết 2 bảng Products vs OperatingSystem
     }
 }
+        
