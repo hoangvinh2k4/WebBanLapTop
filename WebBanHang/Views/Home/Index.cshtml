@@ -20,7 +20,7 @@
                                 <!-- Hiển thị ảnh sản phẩm -->
                                 @{
                                     // Lấy đối tượng ProductImage đầu tiên của sản phẩm
-                                    var firstImage = item.ProductImages?.FirstOrDefault(x=>x.IsMain);
+                                    var firstImage = item.ProductImage?.FirstOrDefault(x=>x.IsMain);
                                     string imagePath;
 
                                     if (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))

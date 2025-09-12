@@ -42,7 +42,7 @@
                 <td>@item.Price</td>
                 <td>
                     @{
-                        var mainImage = item.ProductImages?.FirstOrDefault(x => x.IsMain);
+                        var mainImage = item.ProductImage?.FirstOrDefault(x => x.IsMain);
                         string imagePath = (mainImage != null && !string.IsNullOrEmpty(mainImage.ImageUrl))
                         ? $"/media/products/{mainImage.ImageUrl}"
                         : "/images/no-image-available.jpg";

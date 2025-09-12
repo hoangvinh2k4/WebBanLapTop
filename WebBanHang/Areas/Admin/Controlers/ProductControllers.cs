@@ -22,9 +22,9 @@ namespace WebBanHang.Areas.Admin.Controllers
         [HttpGet]
         public async Task <IActionResult> Index()
         {
-            return View(await _datacontext.Products.OrderByDescending(p => p.ProductID  ).Include(p=>p.Category).Include(p=>p.Brand).Include(p=>p.ProductImages).Include(p=>p.OperatingSystem).ToListAsync());
+            return View(await _datacontext.Products.OrderByDescending(p => p.ProductID  ).Include(p=>p.Category).Include(p=>p.Brand).Include(p=>p.ProductImage).Include(p=>p.OperatingSystem).ToListAsync());
         }
-        [HttpGet]
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -40,10 +40,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         public async Task<IActionResult> Create(ProductModel product)
         {
             if (ModelState.IsValid)
-            {
-               
-
-
+            {             
                 product.Created = product.Updated = DateTime.Now;
 
                 // Bước 1: thêm sản phẩm
@@ -84,7 +81,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             // Load sản phẩm cùng ảnh liên quan theo ProductID
             var product = await _datacontext.Products
-                .Include(p => p.ProductImages)
+                .Include(p => p.ProductImage)
                 .FirstOrDefaultAsync(p => p.ProductID == id);
 
             if (product == null)
@@ -170,7 +167,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             // Lấy sản phẩm
             var product = await _datacontext.Products
-                                .Include(p => p.ProductImages)
+                                .Include(p => p.ProductImage)
                                 .FirstOrDefaultAsync(p => p.ProductID == Id);
 
             if (product == null)
@@ -181,7 +178,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             // Xóa tất cả ảnh liên quan
             string uploadsDir = Path.Combine(_webHostEnviroment.WebRootPath, "media/products");
-            foreach (var img in product.ProductImages)
+            foreach (var img in product.ProductImage)
             {
                 if (!string.IsNullOrEmpty(img.ImageUrl) && img.ImageUrl != "no-image-available.jpg")
                 {
@@ -194,7 +191,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             }
 
             // Xóa ảnh trong database
-            _datacontext.ProductImages.RemoveRange(product.ProductImages);
+            _datacontext.ProductImages.RemoveRange(product.ProductImage);
 
             // Xóa sản phẩm
             _datacontext.Products.Remove(product);

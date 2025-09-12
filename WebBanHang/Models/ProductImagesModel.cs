@@ -15,6 +15,5 @@ namespace WebBanHang.Models
         [ForeignKey("ProductID")]
         public ProductModel Product { get; set; }
         
-
     } 
 }

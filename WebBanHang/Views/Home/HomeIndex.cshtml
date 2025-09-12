@@ -16,32 +16,3 @@
     </div>
 </div>
 
-}
-@* @section Scripts {
-    <script>
-        $(document).ready(function () {
-
-            function doSearch() {
-                var keyword = $("#searchBox").val();
-                $.get("@Url.Action("Search", "Product")", { keyword: keyword }, function (data) {
-                    $("#productList").html(data);
-                });
-            }
-
-            // Bấm nút tìm kiếm
-            $("#btnSearch").click(function () {
-                doSearch();
-            });
-
-            // Bấm Enter trong ô input
-            $("#searchBox").keydown(function (e) {
-                if (e.key === "Enter") {
-                    e.preventDefault(); // Ngăn form submit reload trang
-                    doSearch();
-                }
-            });
-        });
-    </script>
-}
-
- *@

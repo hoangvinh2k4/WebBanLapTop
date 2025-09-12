@@ -3,15 +3,9 @@
     ViewData["title"] = "Create Product";
 }
 <h1>Create</h1>
-
-
 <div class="col-md-9">
-    <form asp-action="Create" enctype="multipart/form-data">
-
-       
-
+    <form asp-action="Create" enctype="multipart/form-data"> 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
         <div class="form-group">
             <label>Name</label>
             <input asp-for="NameProduct" class="form-control" />
@@ -58,8 +52,6 @@
             </select>
             <span asp-validation-for="OperatingSystemID" class="text-danger"></span>
         </div>
-
-
         <div class="form-group">
             <label>Image</label>
             <input asp-for="ImageUpload" type="file" class="form-control" />
@@ -74,15 +66,12 @@
     </form>
     <a asp-action="Index">Back to list product</a>
     <
-
 @section Scripts{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml"); 
     }
  
-}
-    
-
+}    
     <script>
         document.getElementById('ImageUpload').addEventListener('change', function(){
             const file = this.files[0];

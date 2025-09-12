@@ -70,8 +70,8 @@
             <span asp-validation-for="ImageUpload" class="text-danger"></span>
           
             @{
-                var mainImage = Model.ProductImages?.FirstOrDefault(img => img.IsMain)
-                ?? Model.ProductImages?.FirstOrDefault();
+                var mainImage = Model.ProductImage?.FirstOrDefault(img => img.IsMain)
+                ?? Model.ProductImage?.FirstOrDefault();
                 string imagePath = (mainImage != null && !string.IsNullOrEmpty(mainImage.ImageUrl))
                 ? $"/media/products/{mainImage.ImageUrl}"
                 : "/images/no-image-available.jpg";
