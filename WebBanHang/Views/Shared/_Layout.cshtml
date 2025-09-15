@@ -134,42 +134,23 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li>
-									@if (Context.Session.GetString("UserRole") == "Admin")
-									{
-										<a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
-									}
-									else
-									{
-										<a asp-controller="Home" asp-action="Index">Home</a>
-									}
-								</li>
-
-								<li class="dropdown">
-									<a asp-controller="Categories">Shop<i class="fa fa-angle-down"></i></a>
-									<ul role="menu" class="sub-menu">
-										<li><a asp-controller="Categories" >Category</a></li>
-										<li><a asp-action="DetailProduct" asp-controller="Product" >Product Details</a></li>
-										<li><a asp-controller="CheckOut" >Checkout</a></li>
-										<li><a asp-controller="Cart">Cart</a></li>									
-										<li><a asp-controller="Login">Login</a></li>
-									</ul>
-								</li>
-								<li class="dropdown">
-									<a href="#">Blog<i class="fa fa-angle-down"></i></a>
-									<ul role="menu" class="sub-menu">
-										<li><a href="blog.html">Blog List</a></li>
-										<li><a href="blog-single.html">Blog Single</a></li>
-									</ul>
-								</li>
-								<li><a href="404.html">404</a></li>
-								<li><a href="contact-us.html">Contact</a></li>
 								@if (Context.Session.GetString("UserRole") == "Admin")
 								{
-									<li><a asp-controller="Admin" asp-action="Index">Admin</a></li>
+									<li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a></li>
+									<li><a asp-area="Admin" asp-controller="Product" asp-action="Index">Manage Product</a></li>
+									<li><a asp-area="Admin" asp-controller="Brand" asp-action="Index">Manage Brand</a></li>
+									<li><a asp-area="Admin" asp-controller="User" asp-action="Index">Manage User</a></li>
 								}
-
+								else
+								{
+									<li><a asp-controller="Home" asp-action="Index">Home</a></li>
+									<li><a asp-controller="Categories">Shop</a></li>
+									<li><a asp-controller="Cart">Cart</a></li>
+									<li><a asp-controller="CheckOut">Checkout</a></li>
+									<li><a asp-controller="Contact">Contact</a></li>
+								}
 							</ul>
+
 						</div>
 					</div>
 					<div class="col-sm-3">

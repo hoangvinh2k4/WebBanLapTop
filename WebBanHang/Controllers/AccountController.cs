@@ -18,7 +18,7 @@ namespace WebBanHang.Controllers
 
         // GET: /Account/Login
         [HttpGet]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
@@ -28,23 +28,28 @@ namespace WebBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel loginVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(loginVM);
+
+            var user = await _context.Users
+                                     .FirstOrDefaultAsync(u => u.Username == loginVM.Username);
+
+            if (user != null && BCrypt.Net.BCrypt.Verify(loginVM.Password, user.PasswordHash))
             {
-                var user = await _context.Users
-                                         .FirstOrDefaultAsync(u => u.Username == loginVM.Username);
+                // Lưu session
+                HttpContext.Session.SetString("UserId", user.UserID.ToString());
+                HttpContext.Session.SetString("Username", user.Username);
+                HttpContext.Session.SetString("UserRole", user.Role);
 
-                if (user != null && BCrypt.Net.BCrypt.Verify(loginVM.Password, user.PasswordHash))
+                // Điều hướng theo Role
+                if (user.Role == "Admin")
                 {
-                    // Lưu session
-                    HttpContext.Session.SetString("UserId", user.UserID.ToString());
-                    HttpContext.Session.SetString("Username", user.Username);
-                    HttpContext.Session.SetString("UserRole", user.Role);
-
-                    return Redirect(loginVM.ReturnUrl ?? "/");
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
                 }
-
-                ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu");
+                return RedirectToAction("Index", "Home", new { area = (string?)null });
             }
+
+            ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu");
             return View(loginVM);
         }
 
@@ -52,7 +57,7 @@ namespace WebBanHang.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View(new UserModel()); // 👉 Hiển thị form đăng ký cho user
+            return View(new UserModel());
         }
 
         // POST: /Account/Register
@@ -99,12 +104,16 @@ namespace WebBanHang.Controllers
             return View();
         }
 
-        // GET: /Account/Logout
+        // GET: /logout
         [HttpGet]
+        [Route("/logout")] // Bắt thẳng route, không phụ thuộc area
         public IActionResult Logout()
         {
+            // Xoá toàn bộ session
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Account");
+
+            // Chuyển về Login ngoài area Admin
+            return RedirectToAction("Login", "Account", new { area = (string?)null });
         }
     }
 }

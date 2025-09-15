@@ -16,10 +16,10 @@ namespace WebBanHang.Areas.Admin.Controllers
             _context = context;
         }
 
-        // Hàm check admin
-        private bool IsAdmin()
+        // ✅ Mặc định khi vào /Admin/User thì redirect về ListUser
+        public IActionResult Index()
         {
-            return HttpContext.Session.GetString("UserRole") == "Admin";
+            return RedirectToAction("ListUser");
         }
 
         // Danh sách user
@@ -33,7 +33,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // GET: Tạo user
-        [HttpGet("Create")]
+        [HttpGet]
         public IActionResult Create()
         {
             if (!IsAdmin())
@@ -44,7 +44,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // POST: Tạo user
-        [HttpPost("Create")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UserModel user)
         {
@@ -53,7 +53,6 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                // Hash mật khẩu trước khi lưu
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
                 _context.Users.Add(user);
@@ -67,7 +66,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // GET: Sửa user
-        [HttpGet("Edit/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             if (!IsAdmin())
@@ -81,7 +80,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // POST: Sửa user
-        [HttpPost("Edit/{id}")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UserModel userUpdate)
         {
@@ -98,7 +97,6 @@ namespace WebBanHang.Areas.Admin.Controllers
                 user.Phone = userUpdate.Phone;
                 user.Role = userUpdate.Role;
 
-                // Nếu có nhập password mới thì hash lại
                 if (!string.IsNullOrEmpty(userUpdate.Password))
                 {
                     user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userUpdate.Password);
@@ -115,7 +113,7 @@ namespace WebBanHang.Areas.Admin.Controllers
         }
 
         // Xóa user
-        [HttpGet("Delete/{id}")]
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
             if (!IsAdmin())
@@ -130,15 +128,20 @@ namespace WebBanHang.Areas.Admin.Controllers
             return RedirectToAction("ListUser");
         }
 
-        // Hàm tạo danh sách roles
+        // Check admin
+        private bool IsAdmin()
+        {
+            return HttpContext.Session.GetString("UserRole") == "Admin";
+        }
+
+        // Danh sách roles
         private List<SelectListItem> GetRoles()
         {
             return new List<SelectListItem>
-    {
-        new SelectListItem { Value = "Admin", Text = "Admin" },
-        new SelectListItem { Value = "Customer", Text = "Customer" }
-    };
+            {
+                new SelectListItem { Value = "Admin", Text = "Admin" },
+                new SelectListItem { Value = "Customer", Text = "Customer" }
+            };
         }
-
     }
 }

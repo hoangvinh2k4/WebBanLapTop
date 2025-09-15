@@ -37,7 +37,6 @@ app.UseRouting();
 
 app.UseSession();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 // ✅ Map routes (có cả Areas và Default)
