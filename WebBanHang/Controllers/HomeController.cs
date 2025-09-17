@@ -1,7 +1,6 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using WebBanHang.Models;
 using WebBanHang.Models.Repository.component;
 
@@ -10,20 +9,33 @@ namespace WebBanHang.Controllers
     public class HomeController : Controller
     {
 
-        private readonly DataConnect _dataContext;
+        private readonly DataConnect _datacontext;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger, DataConnect context)
         {
-            _dataContext = context;
+            _datacontext = context;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult HomeIndex(string? keyword)
         {
-            var product = _dataContext.Products.ToList();
-            return View(product);
-        }       
+            var products = _datacontext.Products
+                .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.ProductImage)
+                .Include(p => p.OperatingSystem)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                products = products.Where(p => p.NameProduct != null &&
+                                               p.NameProduct.ToLower().Contains(keyword.ToLower()));
+            }
+            return View(products.ToList());
+        }
+
+
         public IActionResult Privacy()
         {
             return View();
@@ -36,3 +48,5 @@ namespace WebBanHang.Controllers
         }
     }
 }
+
+

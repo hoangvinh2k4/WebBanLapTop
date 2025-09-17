@@ -5,9 +5,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<title>Home | E-Shopper</title>
-	<link href="~/css/bootstrap.min.css" rel="stylesheet">
-	<link href="~/css/font-awesome.min.css" rel="stylesheet">
+	<title>Home | Vinh-Shopper</title>
+	<!-- Bootstrap CSS -->
+	<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+	<!-- Font Awesome (dùng CDN đảm bảo load icon) -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-Xxj0h+1VYK4L+2B2JvGZK0... (cắt bớt) ..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- SweetAlert2 CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+	<!-- SweetAlert2 JS -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 	<link href="~/css/prettyPhoto.css" rel="stylesheet">
 	<link href="~/css/price-range.css" rel="stylesheet">
 	<link href="~/css/animate.css" rel="stylesheet">
@@ -36,22 +44,12 @@
 					<div class="col-sm-6">
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
-								<li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href="#"><i class="fa fa-phone"></i> 0973455740 </a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i> vinhtienle004@gmail.com</a></li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-sm-6">
-						<div class="social-icons pull-right">
-							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-								<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-								<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-							</ul>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div><!--/header_top-->
@@ -59,64 +57,47 @@
 		<div class="header-middle">
 			<!--header-middle-->
 			<div class="container">
+				<div class="row align-items-center">
+
+					<!-- Logo bên trái -->
+					<div class="col-sm-2">
+						<div class="logo">
+							<a href="/"><img src="~/images/thinkpad.jpg" alt="Logo" style="max-height:50px;" /></a>
+						</div>
+					</div>
+
+					<div class="col-sm-6">
+						<form id="searchForm" class="search_box" action="/Home/HomeIndex" autocomplete="off" style="width: 100%; position: relative;">
+							<input type="text" id="searchBox" name="keyword"
+								   class="form-control" placeholder="Nhập tên sản phẩm bạn cần tìm"
+								   style="padding-left: 40px;" />
+
+							<button type="submit" id="btnSearch"
+									style="position: absolute; top: 50%; left: 12px; transform: translateY(-50%);
+                       background: none; border: none; color: #888; cursor: pointer;">
+								<i class="fa fa-search"></i>
+							</button>
+						</form>
+					</div>
+
+
+					<!-- Menu bên phải -->
+					<div class="col-sm-4">
+						<div class="shop-menu d-flex justify-content-end">
+							<ul class="nav">
+								<li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-user"></i> Account</a></li>
+								<li class="nav-item"><a class="nav-link" href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<li class="nav-item"><a class="nav-link" href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
 							<a href="index.html"><img src="images/home/logo.png" alt="" /></a>
 						</div>
-						<div class="btn-group pull-right">
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									USA
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canada</a></li>
-									<li><a href="#">UK</a></li>
-								</ul>
-							</div>
-
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-									DOLLAR
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li><a href="#">Canadian Dollar</a></li>
-									<li><a href="#">Pound</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-8">
-					<div class="shop-menu pull-right">
-						<ul class="nav navbar-nav">
-							<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-
-							@if (Context.Session.GetString("UserId") != null) // đã đăng nhập
-							{
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-								<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li>
-									<a asp-controller="Account" asp-action="Logout">
-										<i class="fa fa-lock"></i> Hi, @Context.Session.GetString("Username") - Logout
-									</a>
-								</li>
-							}
-							else // chưa đăng nhập
-							{
-								<li>
-									<a asp-controller="Account" asp-action="Login">
-										<i class="fa fa-lock"></i> Login
-									</a>
-								</li>
-							}
-						</ul>
-					</div>
-				</div>
+					</div>				
 				</div>
 			</div>
+
 		</div><!--/header-middle-->
 
 		<div class="header-bottom">
@@ -134,29 +115,15 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								@if (Context.Session.GetString("UserRole") == "Admin")
-								{
-									<li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a></li>
-									<li><a asp-area="Admin" asp-controller="Product" asp-action="Index">Manage Product</a></li>
-									<li><a asp-area="Admin" asp-controller="Brand" asp-action="Index">Manage Brand</a></li>
-									<li><a asp-area="Admin" asp-controller="User" asp-action="Index">Manage User</a></li>
-								}
-								else
-								{
-									<li><a asp-controller="Home" asp-action="Index">Home</a></li>
-									<li><a asp-controller="Categories">Shop</a></li>
-									<li><a asp-controller="Cart">Cart</a></li>
-									<li><a asp-controller="CheckOut">Checkout</a></li>
-									<li><a asp-controller="Contact">Contact</a></li>
-								}
+								<li><a asp-controller="Home" asp-action="HomeIndex"><i class="fa-solid fa-house"></i> Trang chủ </a></li>
+								<li><a asp-controller="Cart" asp-action="CartIndex"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng </a></li>
+								<li><a asp-controller="WishList" asp-action="WishListIndex"><i class="fa-solid fa-heart"></i> Yêu thích</a></li>								
+								<li><a href="contact-us.html">Contact</a></li>
 							</ul>
 
 						</div>
 					</div>
-					<div class="col-sm-3">
-						<div class="search_box pull-right">
-							<input type="text" placeholder="Search" />
-						</div>
+					<div class="col-sm-3">						
 					</div>
 				</div>
 			</div>
@@ -178,21 +145,21 @@
 						<div class="carousel-inner">
 							<div class="item active">
 								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free E-Commerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<h1><span>VINH</span>-SHOPPER</h1>
+									<h2>CẬU BÉ NGU NGƠ</h2>
+									<p>SV Dũng  </p>
 									<button type="button" class="btn btn-default get">Get it now</button>
 								</div>
 								<div class="col-sm-6">
-									<img src="images/home/girl1.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png" class="pricing" alt="" />
+									<img src="images/aspire.jpgg" class="girl img-responsive" alt="" />
+									<img src="images/asusrog.jpg" class="pricing" alt="" />
 								</div>
 							</div>
 							<div class="item">
 								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>100% Responsive Design</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<h1><span>VINH</span>-SHOPPER</h1>
+									<h2>CẬU BÉ NGU NGƠ</h2>
+									<p>SV Hiếu </p>
 									<button type="button" class="btn btn-default get">Get it now</button>
 								</div>
 								<div class="col-sm-6">
@@ -203,9 +170,9 @@
 
 							<div class="item">
 								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free Ecommerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+									<h1><span>VINH</span>-SHOPPER</h1>
+									<h2>CẬU BÉ NGU NGƠ</h2>
+									<p>SV BẮC </p>
 									<button type="button" class="btn btn-default get">Get it now</button>
 								</div>
 								<div class="col-sm-6">
@@ -395,15 +362,17 @@
 
 	</footer><!--/Footer-->
 
-
-
 	<script src="~/js/jquery.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>
-	<script src="~/js/jquery.scrollUp.min.js"></script>
+	<script src="~/lib/jquery.scrollUp.min.js"></script>
 	<script src="~/js/price-range.js"></script>
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
+    <script src="~/js/cart.js"></script> <!-- Hoàng Vinh thêm --> 
 
-	@await RenderSectionAsync("Scripts", required: false)
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	@RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
