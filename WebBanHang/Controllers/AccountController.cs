@@ -44,9 +44,9 @@ namespace WebBanHang.Controllers
                 // Điều hướng theo Role
                 if (user.Role == "Admin")
                 {
-                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    return RedirectToAction("HomeAdmin", "Home", new { area = "Admin" });
                 }
-                return RedirectToAction("Index", "Home", new { area = (string?)null });
+                return RedirectToAction("HomeAdmin", "Home", new { area = (string?)null });
             }
 
             ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu");

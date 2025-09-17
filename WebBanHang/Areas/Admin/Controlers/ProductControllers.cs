@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
 using WebBanHang.Models;
 using WebBanHang.Models.Repository;
+using WebBanHang.Models.Repository.component;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {

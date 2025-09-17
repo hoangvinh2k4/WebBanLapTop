@@ -87,8 +87,27 @@
 							<ul class="nav">
 								<li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-user"></i> Account</a></li>
 								<li class="nav-item"><a class="nav-link" href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-								<li class="nav-item"><a class="nav-link" href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+								
+								@if (Context.Session.GetString("UserId") != null) // đã đăng nhập
+								{
+									<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+									<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
+									<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+									<li>
+										<a asp-controller="Account" asp-action="Logout">
+											<i class="fa fa-lock"></i>Chào, @Context.Session.GetString("Username") - Đăng Xuất
+										</a>
+									</li>
+								}
+								else // chưa đăng nhập
+								{
+									<li class="nav-item">
+										<a class="nav-link" asp-controller="Account" asp-action="Login">
+											<i class="fa fa-lock"></i> Login
+										</a>
+									</li>
 
+								}
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">

@@ -7,6 +7,7 @@ namespace WebBanHang.Models.Repository.component
         {
 
         }
+        public DbSet<UserModel> Users { get; set; }
         public DbSet<ProductModel> Products { get; set; }
         public DbSet<BrandsModel> Brands { get; set; }
         public DbSet<ProductImagesModel> ProductImages { get; set; }
