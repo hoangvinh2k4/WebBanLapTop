@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models.Repository.component;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,14 +38,11 @@ app.UseRouting();
 app.UseSession();
 
 app.UseAuthorization();
-
-// ✅ Map routes (có cả Areas và Default)
 app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
+    name: "Areas",
+    pattern: "{area:exists}/{controller=Product}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+    pattern: "{controller=Home}/{action=HomeIndex}/{id?}");
 app.Run();
+

@@ -1,0 +1,407 @@
+﻿@model WebBanHang.Models.ViewModel.CartViewModel
+
+@{
+	ViewData["Title"] = "Giỏ hàng";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="cart_items">
+	<div class="container">
+		<div class="breadcrumbs">
+			<ol class="breadcrumb">
+				@* <li><a href="#">Home</a></li>
+				<li class="active">Shopping Cart</li> *@
+			</ol>
+		</div>
+		<div class="table-responsive cart_info">
+			<table class="table table-condensed">
+				<thead>
+					<tr class="cart_menu">
+						<td class="image">Item</td>
+						<td class="description">Name</td>
+						<td class="price">Price</td>
+						<td class="quantity">Quantity</td>
+						<td class="total">Total</td>
+						<td></td>
+					</tr>
+				</thead>
+
+				<tbody>
+
+					@if (Model.CartModels.Count > 0)
+					{
+						foreach (var item in Model.CartModels)
+						{
+							<tr data-id="@item.ProductID" data-price="@item.Product.Price">
+								<td class="cart_product">
+									@{
+										var firstImage = item.Product.ProductImage?.FirstOrDefault();
+										string imagePath = firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl)
+										? $"/images/{firstImage.ImageUrl}"
+										: "/images/no-image-available.jpg"; // ảnh mặc định nếu null
+									}
+									<a href="#">
+										<img src="@imagePath" alt="@item.Product.NameProduct" width="100px" height="100px" />
+									</a>
+								</td>
+								<td class="cart_description">
+									<h4><a href="">@item.Product.NameProduct</a></h4>
+								</td>
+								<td class="cart_price">
+									<p>@item.Product.Price.ToString("#,##0 VNĐ")</p>
+								</td>
+								<td class="cart_quantity">
+
+									<button type="button" class="btn btn-default btn-sm btn-decrease" data-id="@item.ProductID"> - </button>
+									<input class="item-qty btn btn-default btn-sm" type="text" name="quantity" value="@item.Quantity" autocomplete="off" size="2">
+									<button type="button" class="btn btn-default btn-sm btn-increase" data-id="@item.ProductID"> + </button>
+								</td>
+								<td class="cart_total">
+									<p class="cart_total_price">@Model.CartModels.Where(x => x.ProductID == item.ProductID).Sum(x => x.Quantity * x.Product.Price).ToString("N0") VNĐ</p>
+								</td>
+								<td class="cart_delete">
+									<a class="btn btn-danger btn-sm btn-remove" data-id="@item.ProductID" href="#">
+										<i class="fa fa-trash" style="color: gray;" ></i> 
+									</a>								
+								</td>
+							</tr>
+						}
+						<tr>
+							<td rowspan="5">
+								Grand Total: <p id="grand-total" class="cart_total_price">@Model.TotalPrice.ToString("#,##0 VNĐ")</p>
+								@* <form>
+									Coupon Code: <input type="text" class="form-control coupon-value" /><span class="text text-success">@Model.CouponCode</span> <br />
+									
+									<input type="button" value="Apply" class="btn btn-sm btn-primary btn-apply-coupon" />
+								</form> *@
+
+								@*  Ship cost: <p class="cart_total_price">@Model.ShippingPrice.ToString("#,##0 đ") 
+
+						 		</p> 
+								 @if (@Model.ShippingPrice > 0)
+								{
+									<a style="cursor:pointer" class="btn-delete-shipping">Xóa vận chuyển</a>
+								}
+								<div class="form-group">
+									<label>Tỉnh thành phố</label>
+									<select class="css_select" id="tinh" name="tinh" class="form-control" title="Chọn Tỉnh Thành">
+										<option value="0">Tỉnh Thành</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label>Quận huyện</label>
+									<select class="css_select" id="quan" name="quan" class="form-control" title="Chọn Quận Huyện">
+										<option value="0">Quận Huyện</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label>Phường Xã</label>
+									<select class="css_select" id="phuong" name="phuong" class="form-control" title="Chọn Phường Xã">
+										<option value="0">Phường Xã</option>
+									</select>
+								</div> 
+									<button type="button" class="btn btn-primary btn-add-shipping">Tính phí vận chuyển</button>
+								
+							 </td>  *@
+
+								@*  @if (User.Identity?.IsAuthenticated ?? false)
+							{
+								<td>
+									@if (@Model.ShippingPrice > 0)
+									{
+										<a  class="btn btn-primary btn-sm btn-checkout"
+										   onclick="return confirm('Xác nhận đặt hàng?');"
+										   asp-action="Checkout" asp-controller="Checkout"> Xác nhận đặt hàng </a>
+										   
+									}
+									else
+									{
+										<a disabled class="btn btn-primary btn-sm btn-checkout"
+										   onclick="return confirm('Xác nhận đặt hàng?');"
+										   asp-action="Checkout" asp-controller="Checkout"> Xác nhận đặt hàng </a>
+										<p><span class="text text-danger">Tính phí vận chuyển để xác nhận đơn.</span></p>
+									}
+								</td>
+								<td>
+									<form method="POST" asp-action="CreatePaymentMomo" asp-controller="Payment">
+										<input type="hidden" name="FullName" value="@User.Identity.Name" />
+										<input type="hidden" name="Amount" value="@Model.GrandTotal" />
+										<input type="hidden" name="OrderInfo" value="Thanh toán qua Momo Payment tại HieuTanStore" />
+										
+										<button class="btn btn-danger" name="PayUrl" type="submit">Pay with MoMo</button>
+									</form>
+									<form method="POST" asp-action="CreatePaymentUrlVnpay" asp-controller="Payment">
+
+										<input type="hidden" name="Name" value="@User.Identity.Name" />
+										<input type="hidden" name="Amount" value="@Model.GrandTotal" />
+										<input type="hidden" name="OrderDescription" value="Thanh toán qua Vnpay tại HieuTanStore" />
+										<input type="hidden" name="OrderType" value="other" />
+
+										<button class="btn btn-success"  type="submit">Pay with Vnpay</button>
+									</form>
+									
+								</td>
+								
+							}  *@
+							<td colspan="5">
+								<button id="btn-clear-cart" class="btn btn-danger btn-sm">
+									Xóa tất cả
+								</button>
+							</td>
+						</tr>
+					}
+					else
+					{
+						<tr>
+							<td colspan="5" style='text-align:center;'>
+								<h4>Giỏ hàng của bạn trống</h4>
+							</td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+
+@*  @section Scripts{
+
+	<script>
+		//delete shipping cost
+		$(".btn-apply-coupon").click(function () {
+			var coupon_value = $(".coupon-value").val();
+			//alert(coupon_value);
+			$.ajax({
+				type: "POST",
+				url: "@Url.Action("GetCoupon", "Cart")",
+				data: { coupon_value: coupon_value },
+				success: function (result) {
+					if (result.success) {
+
+						Swal.fire(result.message);
+						location.reload();
+					} else {
+
+						Swal.fire(result.message);
+					}
+				}
+				
+			});
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+			$(".btn-add-shipping").click(function () {
+				var tinh = $("#tinh").find('option:selected').text();
+				var quan = $("#quan").find('option:selected').text();
+				var phuong = $("#phuong").find('option:selected').text();
+				
+				// alert(tinh);
+				// alert(quan);
+				// alert(phuong);
+				// alert(price);
+				if (tinh == '' || quan == '' || phuong == '') {
+					Swal.fire("Làm ơn ko bỏ trống.");
+				} else {
+					$.ajax({
+						type: "POST",
+						url: "@Url.Action("GetShipping", "Cart")",
+						data: { tinh: tinh, quan: quan, phuong: phuong}, // Send data to the server
+
+						success: function (result) {
+							// Handle successful update
+							if (result) {
+
+								location.reload();
+
+							} 
+						}
+
+					});
+				}
+
+
+			})
+			//delete shipping cost
+			$(".btn-delete-shipping").click(function () {
+				$.ajax({
+					type: "POST",
+					url: "@Url.Action("RemoveShippingCookie", "Cart")", // Replace with your controller and action name
+					success: function (result) {
+						if (result.success) {
+							// Handle successful removal (e.g., update UI or redirect)
+							Swal.fire("Xóa thành công.");
+							location.reload();
+						} else {
+							// Handle error (optional)
+							Swal.fire("Xóa thất bại.");
+						}
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						// Handle AJAX errors (optional)
+						console.error("Error removing cookie:", errorThrown);
+					}
+				});
+			});
+			//Lấy tỉnh thành
+			$.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+				if (data_tinh.error == 0) {
+					$.each(data_tinh.data, function (key_tinh, val_tinh) {
+						$("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+					});
+					$("#tinh").change(function (e) {
+						var idtinh = $(this).val();
+						//Lấy quận huyện
+						$.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+							if (data_quan.error == 0) {
+								$("#quan").html('<option value="0">Quận Huyện</option>');
+								$("#phuong").html('<option value="0">Phường Xã</option>');
+								$.each(data_quan.data, function (key_quan, val_quan) {
+									$("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+								});
+								//Lấy phường xã
+								$("#quan").change(function (e) {
+									var idquan = $(this).val();
+									$.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+										if (data_phuong.error == 0) {
+											$("#phuong").html('<option value="0">Phường Xã</option>');
+											$.each(data_phuong.data, function (key_phuong, val_phuong) {
+												$("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+											});
+										}
+									});
+								});
+
+							}
+						}); //end $.getJson
+
+					});
+
+				}
+			});
+		});
+	</script>
+} *@
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			// DELEGATION để phần tử mới cũng bắt được sự kiện
+			$(document).on("click", ".btn-decrease", function (e) {
+				e.preventDefault();
+				var id = $(this).data("id");
+				var row = $("tr[data-id='" + id + "']");
+
+				$.post("/Cart/Decrease", { id: id }, function (res) {
+					if (!res) return;
+
+					if (res.totalItems === 0) {
+						// giỏ hàng rỗng: refresh để hiển thị thông báo rỗng hoặc redirect
+						location.reload();
+						return;
+					}
+
+					// cập nhật số lượng trong input
+					row.find(".item-qty").val(res.itemQuantity);
+
+					// cập nhật tổng tiền của dòng (dựa vào data-price)
+					var pricePer = parseFloat(row.data("price")) || 0;
+					var perTotal = res.itemQuantity * pricePer;
+					row.find(".cart_total_price").text(perTotal.toLocaleString('vi-VN') + " VNĐ");
+
+					// cập nhật giỏ hàng nhỏ (header)
+					$("#cart-count").text(res.totalItems);
+					$("#cart-total").text(res.totalPrice.toLocaleString('vi-VN') + " VNĐ");
+					$("#grand-total").text(res.totalPrice.toLocaleString('vi-VN') + " VNĐ");
+
+
+					// nếu số lượng = 0 thì xóa dòng
+					if (res.itemQuantity === 0) {
+						row.remove();
+					}
+				});
+			});
+
+			// (Tùy chọn) nút tăng: gọi action Increase (nên trả Json, giống Decrease)
+			$(document).on("click", ".btn-increase", function (e) {
+				e.preventDefault();
+				var id = $(this).data("id");
+				var row = $("tr[data-id='" + id + "']");
+
+				$.post("/Cart/Increase", { id: id }, function (res) {
+					if (!res) return;
+					// xử lý giống decrease
+					row.find(".item-qty").val(res.itemQuantity);
+					var pricePer = parseFloat(row.data("price")) || 0;
+					var perTotal = res.itemQuantity * pricePer;
+					row.find(".cart_total_price").text(perTotal.toLocaleString('vi-VN') + " VNĐ");
+					$("#cart-count").text(res.totalItems);
+					$("#cart-total").text(res.totalPrice.toLocaleString('vi-VN') + " VNĐ");
+					$("#grand-total").text(res.totalPrice.toLocaleString('vi-VN') + " VNĐ");
+				});
+			});
+		});
+
+			$(document).on("click", ".btn-remove", function (e) {
+			e.preventDefault();
+
+			var id = $(this).data("id");
+			var row = $("tr[data-id='" + id + "']");
+
+			$.post("/Cart/Remove", { id: id }, function (res) {
+				if (!res) return;
+
+				if (res.removed) {
+					// xóa dòng sản phẩm khỏi table
+					row.remove();
+				}
+
+				// cập nhật giỏ hàng nhỏ (header)
+				$("#cart-count").text(res.totalItems);
+				$("#cart-total").text(res.totalPrice.toLocaleString() + " VNĐ");
+
+				// nếu giỏ hàng trống, có thể hiện thông báo
+				if (res.totalItems === 0) {
+						$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Giỏ hàng của bạn trống.</h4></td></tr>");
+				}
+			});
+		});
+
+		$(document).on("click", "#btn-clear-cart", function (e) {
+			e.preventDefault();
+
+			Swal.fire({
+				title: 'Bạn có chắc chắn?',
+				text: "Tất cả sản phẩm trong giỏ hàng sẽ bị xóa!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#d33',
+				cancelButtonColor: '#3085d6',
+				confirmButtonText: 'Có, xóa tất cả!',
+				cancelButtonText: 'Hủy'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.post("/Cart/Clear", function(res) {
+						if (!res) return;
+
+						// Xóa hết các dòng sản phẩm trong bảng
+												$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Giỏ hàng của bạn trống.</h4></td></tr>");
+
+						// Cập nhật giỏ hàng nhỏ (header)
+						$("#cart-count").text(0);
+						$("#cart-total").text("0 VNĐ");
+
+						// Cập nhật Grand Total
+						$("#grand-total").text("0 VNĐ");
+
+						Swal.fire('Đã xóa!', 'Giỏ hàng đã được làm trống.', 'success');
+					});
+				}
+			});
+		});
+		$(document).ready(function () {
+
+	</script>
+}

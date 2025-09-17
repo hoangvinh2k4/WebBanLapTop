@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ProductModel>
+<div class="col-sm-3">
+    @Html.Partial("_SidebarParticial")
+</div>
+
+<div class="col-sm-9 padding-right">
+    <div class="features_items">
+        <!--features_items-->
+        <h2 class="title text-center">Features Items</h2>
+
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                        <div class="single-products">
+                           <div class="productinfo text-center">
+                               <a asp-action="DetailProduct" asp-controller="Product" asp-route-id="@item.ProductID">
+                                @{
+                                    // Lấy đối tượng ProductImage đầu tiên của sản phẩm
+                                    var firstImage = item.ProductImage?.FirstOrDefault();
+                                    string imagePath;
+
+                                    if (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
+                                    {
+                                        // Tạo đường dẫn tới thư mục images trong wwwroot
+                                        imagePath = $"/images/{firstImage.ImageUrl}";
+                                    }
+                                    else
+                                    {
+                                        // Ảnh mặc định nếu không có ảnh nào
+                                        imagePath = "/images/no-image-available.jpg";
+                                    }
+                                }
+                                <img src="@imagePath" alt="@item.NameProduct" />
+                                <h2>@item.Price.ToString("N0") VNĐ</h2>
+                                <p>Tên sản phẩm : @item.NameProduct</p>
+                                <p>Thương hiệu : @item.Brand.NameBrand</p>
+                             </a>
+                             <a class="btn btn-default add-to-cart"
+                               data-id="@item.ProductID"
+                               href="#">
+                                <i class="fa fa-shopping-cart"></i> Add to cart
+                             </a>
+                            </div>
+                        </div>
+
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified">
+                            <li>
+                                <a class="btn btn-default add-to-wishlist"
+                                   data-id="@item.ProductID"
+                                   href="#">
+                                    <i class="fa fa-plus-square"></i> Add to wishlist
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,128 @@
+﻿@model WebBanHang.Models.ViewModel.WishListViewModel
+
+@{
+	ViewData["Title"] = "Yêu thích";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="cart_items">
+	<div class="container">
+		<div class="breadcrumbs">
+			<ol class="breadcrumb">
+			</ol>
+		</div>
+		<div class="table-responsive cart_info">
+			<table class="table table-condensed">
+				<thead>
+					<tr class="cart_menu">
+						<td class="image">Item</td>
+						<td class="description">Name</td>
+						<td class="description">Description</td>
+						<td></td>
+					</tr>
+				</thead>
+
+				<tbody>
+
+					@if (Model.WishLists.Count > 0)
+					{
+						foreach (var item in Model.WishLists)
+						{
+							<tr data-id="@item.ProductID">
+								<td class="cart_product">
+									@{
+										var firstImage = item.Product.ProductImage?.FirstOrDefault();
+										string imagePath = firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl)
+										? $"/images/{firstImage.ImageUrl}"
+										: "/images/no-image-available.jpg"; // ảnh mặc định nếu null
+									}
+									<a href="#">
+										<img src="@imagePath" alt="@item.Product.NameProduct" width="100px" height="100px" />
+									</a>
+								</td>
+								<td class="cart_description">
+									<h4><a href="">@item.Product.NameProduct</a></h4>
+								</td>
+
+								<td class="cart_description">
+									<h4><a href="">@item.Product.Description</a></h4>
+								</td>
+								
+								<td class="cart_delete">
+									<a class="btn btn-danger btn-sm btn-remove" data-id="@item.ProductID" href="#">
+										<i class="fa fa-trash" style="color: gray;"></i>
+									</a>
+
+								</td>
+							</tr>
+						}						
+						<tr>
+							<td colspan="3">
+								<button id="btn-clear-wishlist" class="btn btn-danger btn-sm">
+									Xóa tất cả
+								</button>
+							</td>
+						</tr>
+					}
+					else
+					{
+						<tr>
+							<td colspan="5" style='text-align:center;'>
+								<h4>Danh sách yêu thích của bạn trống.</h4>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+
+@section Scripts {
+	<script>				
+			$(document).on("click", ".btn-remove", function (e) {
+			e.preventDefault();
+
+			var id = $(this).data("id");
+			var row = $("tr[data-id='" + id + "']");
+
+			$.post("/WishList/Remove", { id: id }, function (res) {
+				if (!res) return;
+
+				if (res.removed) {
+					// xóa dòng sản phẩm khỏi table
+					row.remove();
+				}
+				// nếu giỏ hàng trống, có thể hiện thông báo
+				if (res.totalItems === 0) {
+						$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Danh sách yêu thích của bạn trống.</h4></td></tr>");
+				}
+			});
+		});
+
+		$(document).on("click", "#btn-clear-wishlist", function (e) {
+			e.preventDefault();
+
+			Swal.fire({
+				title: 'Bạn có chắc chắn?',
+				text: "Tất cả sản phẩm trong danh sách yêu thích sẽ bị xóa!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#d33',
+				cancelButtonColor: '#3085d6',
+				confirmButtonText: 'Có, xóa tất cả!',
+				cancelButtonText: 'Hủy'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.post("/WishList/Clear", function(res) {
+						if (!res) return;
+
+						// Xóa hết các dòng sản phẩm trong bảng
+						$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Danh sách yêu thích của bạn trống.</h4></td></tr>");
+						Swal.fire('Đã xóa!', 'Danh sách yêu thích đã được làm trống.', 'success');
+					});
+				}
+			});
+		});
+	</script>
+}

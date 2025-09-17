@@ -8,6 +8,7 @@
         <!--features_items-->
         <h2 class="title text-center">Features Items</h2>
 
+
         @foreach (var item in Model)
         {
             <div class="col-sm-4">
@@ -15,13 +16,26 @@
                     <div class="single-products">
                         <a asp-action="DetailProduct" asp-controller="Product" asp-route-id="">
                         <div class="productinfo text-center">
+
                                 <!-- Hiển thị ảnh sản phẩm -->
                                 @{
-                                    var imageUrl = item.ProductImages?.FirstOrDefault()?.ImageUrl;
-                                    var imagePath = !string.IsNullOrEmpty(imageUrl) ? $"~/images/{imageUrl}" : "~/images/no-image-available.jpg";
+                                    // Lấy đối tượng ProductImage đầu tiên của sản phẩm
+                                    var firstImage = item.ProductImage?.FirstOrDefault(x=>x.IsMain);
+                                    string imagePath;
+
+                                    if (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
+                                    {
+                                        // Tạo đường dẫn tới thư mục images trong wwwroot
+                                        imagePath = $"/media/products/{firstImage.ImageUrl}";
+                                    }
+                                    else
+                                    {
+                                        // Ảnh mặc định nếu không có ảnh nào
+                                        imagePath = "/images/no-image-available.jpg";
+                                    }
                                 }
-                                <img src="@Url.Content(imagePath)" alt="@item.NameProduct" />
-                            @* <img src="images/legion5.jpg" alt="" /> *@
+                                <img src="@imagePath" alt="@item.NameProduct" />
+
                             <h2>@item.Price VNĐ</h2>
                             <p>Tên sản phẩm :@item.NameProduct </p>
                             <p>Thương hiệu :@item.Brand.NameBrand </p>

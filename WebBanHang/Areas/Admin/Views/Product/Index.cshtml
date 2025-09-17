@@ -1,0 +1,98 @@
+﻿@model IEnumerable<ProductModel>
+@{
+    ViewData["title"] = "Bang san pham";
+}
+<h3>
+    Danh sách sản phẩm
+</h3>
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["success"]
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["error"]
+    </div>
+}
+<a class="btn btn-primary" asp-action="Create" asp-controller="Product">Add Product</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên máy</th>
+            <th scope="col">Giá</th>
+            <th scope="col">Hình ảnh</th>
+            <th scope="col">Thương hiệu</th>
+            <th scope="col">Kiểu máy</th>
+            <th scope="col">Mô tả</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Hệ điều hành</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderBy(x => x.ProductID)) // sắp xếp tăng dần theo ProductID
+        {
+            <tr>
+                <td>@item.ProductID</td>   <!-- STT chính là ProductID -->
+                <td>@item.NameProduct</td>
+                <td>@item.Price</td>
+                <td>
+                    @{
+                        var mainImage = item.ProductImage?.FirstOrDefault(x => x.IsMain);
+                        string imagePath = (mainImage != null && !string.IsNullOrEmpty(mainImage.ImageUrl))
+                        ? $"/media/products/{mainImage.ImageUrl}"
+                        : "/images/no-image-available.jpg";
+                    }
+                    <img src="@imagePath"
+                         alt="@item.NameProduct"
+                         style="width:90px; height:90px; object-fit:cover; border-radius:5px;"
+                         class="img-thumbnail" />
+
+                </td>
+                <td>@item.Brand.NameBrand</td>
+                <td>@item.Category.CategoryName</td>
+                <td>@item.Description</td>
+                  <td>@item.Stock</td>
+                <td>@item.OperatingSystem.OperatingSystemName</td>
+
+                <td>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-controller="Product" asp-route-Id="@item.ProductID">Edit</a>
+                    <form asp-action="Delete" method="post" style="display:inline;" class="delete-form">
+                        <input type="hidden" name="Id" value="@item.ProductID" />
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    <script>
+                        // Bắt sự kiện submit của tất cả form delete
+                        document.querySelectorAll(".delete-form").forEach(form => {
+                            form.addEventListener("submit", function (e) {
+                                e.preventDefault(); // chặn submit mặc định
+
+                                Swal.fire({
+                                    title: "Bạn có chắc muốn xóa?",
+                                    text: "Sản phẩm sẽ bị xóa vĩnh viễn!",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#d33",
+                                    cancelButtonColor: "#3085d6",
+                                    confirmButtonText: "Xóa",
+                                    cancelButtonText: "Hủy"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        form.submit(); // nếu chọn Xóa thì submit form
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

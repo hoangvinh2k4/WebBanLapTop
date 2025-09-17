@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc;
 
 namespace WebBanHang.Models
 {
@@ -11,5 +9,6 @@ namespace WebBanHang.Models
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public int? ParentID { get; set; }
+        public ICollection<ProductModel> Products { get; set; } // Cái này để liên kết tới bảng Products
     }
 }
