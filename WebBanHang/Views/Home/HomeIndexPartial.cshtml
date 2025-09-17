@@ -19,7 +19,7 @@ else
                                 @{
                                     var firstImage = item.ProductImage?.FirstOrDefault();
                                     string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
-                                    ? $"/images/{firstImage.ImageUrl}"
+                                    ? $"/media/products/{firstImage.ImageUrl}"
                                     : "/images/no-image-available.jpg";
                                 }
                                 <img src="@imagePath" alt="@item.NameProduct" class="img-fluid" />
