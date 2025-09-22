@@ -3,11 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewData["Title"]</title>
-
-    <!-- CSS -->
-    <link href="~/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css/main.css" rel="stylesheet" asp-append-version="true" />
-
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/main.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -17,7 +14,6 @@
 
     <script src="~/js/jquery.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
-
     @RenderSection("Scripts", required: false)
 </body>
 </html>

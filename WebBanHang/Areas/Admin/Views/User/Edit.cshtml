@@ -1,10 +1,13 @@
 ﻿@model UserModel
 @{
     ViewData["Title"] = "Edit User";
+    Layout = "_LayoutMini";
 }
-<h3>Edit User</h3>
-<div class="col-md-9">
+<link rel="stylesheet" href="~/css/Edit.css" />
+
+<div class="edit-user-container">
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <h3>Edit User</h3>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         @* ẩn UserID để controller biết đang sửa user nào *@

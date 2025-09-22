@@ -78,7 +78,9 @@
 								<i class="fa fa-search"></i>
 							</button>
 						</form>
-					</div
+					</div>
+
+
 					<!-- Menu bên phải -->
 					<div class="col-sm-4">
 						<div class="shop-menu d-flex justify-content-end">
@@ -107,6 +109,7 @@
 										</div>
 									</div>
 								</div>
+							</ul>
 						</div>
 
 					</div><!--/header-middle-->
@@ -126,10 +129,8 @@
 									</div>
 									<div class="mainmenu pull-left">
 										<ul class="nav navbar-nav collapse navbar-collapse">
-											<li><a asp-area="Admin" asp-controller="Admin" asp-action="HomeAdmin"><i class="fa-solid fa-house"></i> Trang chủ </a></li>
-											<li><a asp-controller="Cart" asp-action="CartIndex"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng </a></li>
-											<li><a asp-controller="WishList" asp-action="WishListIndex"><i class="fa-solid fa-heart"></i> Yêu thích</a></li>
-											<li><a href="contact-us.html">Contact</a></li>
+											<li><a asp-controller="Home" asp-action="HomeIndex"><i class="fa-solid fa-house"></i> Trang chủ </a></li>
+											<li><a asp-controller="User" asp-action="ListUser"><i class="fa-solid fa-gear"></i> Quản lý người dùng </a></li>
 										</ul>
 
 									</div>
@@ -385,5 +386,4 @@
 	@RenderSection("Scripts", required: false)
 </body>
 </html>
-
 

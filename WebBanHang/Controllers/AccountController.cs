@@ -44,9 +44,17 @@ namespace WebBanHang.Controllers
                 // Điều hướng theo Role
                 if (user.Role == "Admin")
                 {
-                    return RedirectToAction("HomeAdmin", "Home", new { area = "Admin" });
+                    return RedirectToAction("HomeAdmin", "Admin", new { area = "Admin" });
                 }
-                return RedirectToAction("HomeAdmin", "Home", new { area = (string?)null });
+                else if (user.Role == "Customer")
+                {
+                    return RedirectToAction("HomeIndex", "Home", new { area = (string?)null });
+                }
+                else
+                {
+                    // Nếu có role khác → đưa về trang chủ
+                    return RedirectToAction("HomeIndex", "Home", new { area = (string?)null });
+                }
             }
 
             ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu");
@@ -112,8 +120,9 @@ namespace WebBanHang.Controllers
             // Xoá toàn bộ session
             HttpContext.Session.Clear();
 
-            // Chuyển về Login ngoài area Admin
-            return RedirectToAction("Login", "Account", new { area = (string?)null });
+            // Chuyển về trang chủ
+            return RedirectToAction("HomeIndex", "Home", new { area = (string?)null });
         }
     }
 }
+    

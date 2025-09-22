@@ -3,77 +3,47 @@
 
 @{
     ViewData["Title"] = "List User";
-    Layout = null;   // không dùng layout chính
+    Layout = "_LayoutMini";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewData["Title"]</title>
+<h3>Danh sách người dùng</h3>
+<a class="btn btn-primary mb-2" asp-action="Create" asp-controller="User">Thêm Người Dùng</a>
 
-    <!-- Thêm bootstrap -->
-    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
-    <style>
-        body {
-            margin: 20px;
-            background: #f9f9f9;
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>PasswordHash</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserID</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.PasswordHash</td>
+                <td>@user.Phone</td>
+                <td>@user.Role</td>
+                <td>
+                    <a class="btn btn-warning btn-sm"
+                       asp-action="Edit"
+                       asp-controller="User"
+                       asp-route-id="@user.UserID">Chỉnh sửa</a>
+
+                    <a class="btn btn-danger btn-sm"
+                       asp-action="Delete"
+                       asp-controller="User"
+                       asp-route-id="@user.UserID"
+                       onclick="return confirm('Bạn có chắc muốn xóa?');">Xoá</a>
+                </td>
+            </tr>
         }
-
-        h3 {
-            margin-bottom: 20px;
-        }
-
-        .table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h3>List User</h3>
-        <a class="btn btn-primary mb-3" asp-action="Create" asp-controller="User">➕ Add User</a>
-
-        <table class="table table-bordered table-hover table-striped text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Id</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>PasswordHash</th>
-                    <th>Phone</th>
-                    <th>Role</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td>@user.UserID</td>
-                        <td>@user.Username</td>
-                        <td>@user.Email</td>
-                        <td style="max-width:250px; overflow:hidden; text-overflow:ellipsis;">@user.PasswordHash</td>
-                        <td>@user.Phone</td>
-                        <td>@user.Role</td>
-                        <td>
-                            <a class="btn btn-warning btn-sm"
-                               asp-action="Edit"
-                               asp-controller="User"
-                               asp-route-id="@user.UserID">Edit</a>
-
-                            <a class="btn btn-danger btn-sm"
-                               asp-action="Delete"
-                               asp-controller="User"
-                               asp-route-id="@user.UserID"
-                               onclick="return confirm('Bạn có chắc muốn xóa?');">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</body>
-</html>
+    </tbody>
+</table>

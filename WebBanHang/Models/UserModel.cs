@@ -13,6 +13,7 @@ namespace WebBanHang.Models
         [StringLength(50)]
         public string Username { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Vui lòng nhập Phone")]
         [StringLength(20)]
         public string? Phone { get; set; }
 
