@@ -17,7 +17,7 @@
                                <a asp-action="DetailProduct" asp-controller="Product" asp-route-id="@item.ProductID">
                                 @{
                                     // Lấy đối tượng ProductImage đầu tiên của sản phẩm
-                                    var firstImage = item.ProductImage?.FirstOrDefault();
+                                    var firstImage = item.ProductImage?.FirstOrDefault(x => x.IsMain);
                                     string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
                                     ? $"/media/products/{firstImage.ImageUrl}"
                                     : "/images/no-image-available.jpg";
