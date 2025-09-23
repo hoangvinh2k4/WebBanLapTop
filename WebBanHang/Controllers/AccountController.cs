@@ -102,14 +102,7 @@ namespace WebBanHang.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("RegisterSuccess");
-        }
-
-        // GET: /Account/RegisterSuccess
-        [HttpGet]
-        public IActionResult RegisterSuccess()
-        {
-            return View();
+            return RedirectToAction("Login");
         }
 
         // GET: /logout
@@ -125,4 +118,3 @@ namespace WebBanHang.Controllers
         }
     }
 }
-    

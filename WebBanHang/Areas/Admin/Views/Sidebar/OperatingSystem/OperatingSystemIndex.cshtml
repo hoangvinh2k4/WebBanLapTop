@@ -1,30 +1,32 @@
 ﻿@model IEnumerable<ProductModel>
+<div class="col-sm-3">
+    @Html.Partial("_SidebarParticial")
+</div>
 
-@if (Model == null || !Model.Any())
-{
-    <div class="col-12 text-center">
-        <h4>Không tìm thấy sản phẩm nào phù hợp.</h4>
-    </div>
-}
-else
-{
-    <div class="row">
+<div class="col-sm-9 padding-right">
+    <div class="features_items">
+        <!--features_items-->
+        <h2 class="title text-center">Features Items</h2>
+
         @foreach (var item in Model)
         {
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
                     <div class="single-products">
-                        <div class="productinfo text-center">                            
+                        <div class="productinfo text-center">
+                            <a asp-action="DetailProduct" asp-controller="Product" asp-route-id="@item.ProductID">
                                 @{
+                                    // Lấy đối tượng ProductImage đầu tiên của sản phẩm
                                     var firstImage = item.ProductImage?.FirstOrDefault();
                                     string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
                                     ? $"/media/products/{firstImage.ImageUrl}"
                                     : "/images/no-image-available.jpg";
                                 }
-                                <img src="@imagePath" alt="@item.NameProduct" class="img-fluid" />
+                                <img src="@imagePath" alt="@item.NameProduct" />
                                 <h2>@item.Price.ToString("N0") VNĐ</h2>
-                                <p>Tên sản phẩm: @item.NameProduct</p>
-                                <p>Thương hiệu: @item.Brand?.NameBrand</p>
+                                <p>Tên sản phẩm : @item.NameProduct</p>
+                                <p>Thương hiệu : @item.Brand.NameBrand</p>
+                            </a>
                             <a class="btn btn-default add-to-cart"
                                data-id="@item.ProductID"
                                href="#">
@@ -32,6 +34,7 @@ else
                             </a>
                         </div>
                     </div>
+
                     <div class="choose">
                         <ul class="nav nav-pills nav-justified">
                             <li>
@@ -47,4 +50,5 @@ else
             </div>
         }
     </div>
-}
+</div>
+

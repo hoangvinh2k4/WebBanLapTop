@@ -5,7 +5,6 @@ using WebBanHang.Models.Repository.component;
 namespace WebBanHang.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("Admin")]
     public class AdminController : Controller
     {
         private readonly DataConnect _datacontext;
