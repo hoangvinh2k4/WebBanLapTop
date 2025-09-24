@@ -11,7 +11,7 @@
 				<div class="view-product" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 					@{
 						// Lấy đối tượng ProductImage đầu tiên của sản phẩm
-						var firstImage = @Model.ProductImage?.FirstOrDefault();
+						var firstImage = @Model.ProductImage?.FirstOrDefault(x => x.IsMain);
 						string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
 						? $"/media/products/{firstImage.ImageUrl}"
 						: "/images/no-image-available.jpg";
