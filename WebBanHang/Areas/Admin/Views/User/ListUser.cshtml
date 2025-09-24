@@ -1,0 +1,49 @@
+﻿@using WebBanHang.Models;
+@model IEnumerable<UserModel>
+
+@{
+    ViewData["Title"] = "List User";
+    Layout = "_LayoutAdmin";
+}
+
+<h3>Danh sách người dùng</h3>
+<a class="btn btn-primary mb-2" asp-action="Create" asp-controller="User">Thêm Người Dùng</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>PasswordHash</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserID</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>@user.PasswordHash</td>
+                <td>@user.Phone</td>
+                <td>@user.Role</td>
+                <td>
+                    <a class="btn btn-warning btn-sm"
+                       asp-action="Edit"
+                       asp-controller="User"
+                       asp-route-id="@user.UserID">Chỉnh sửa</a>
+
+                    <a class="btn btn-danger btn-sm"
+                       asp-action="Delete"
+                       asp-controller="User"
+                       asp-route-id="@user.UserID"
+                       onclick="return confirm('Bạn có chắc muốn xóa?');">Xoá</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -12,17 +12,9 @@
 					@{
 						// Lấy đối tượng ProductImage đầu tiên của sản phẩm
 						var firstImage = @Model.ProductImage?.FirstOrDefault();
-						string imagePath;
-						if (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
-						{
-							// Tạo đường dẫn tới thư mục images trong wwwroot
-							imagePath = $"/images/{firstImage.ImageUrl}";
-						}
-						else
-						{
-							// Ảnh mặc định nếu không có ảnh nào
-							imagePath = "/images/no-image-available.jpg";
-						}
+						string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
+						? $"/media/products/{firstImage.ImageUrl}"
+						: "/images/no-image-available.jpg";
 					}
 					<img src="@imagePath" alt="NameProduct" />
 					<h3>ZOOM</h3>
@@ -52,21 +44,18 @@
 			<div class="col-sm-7">
 				<div class="product-information">
 					<!--/product-information-->					
-					<h2>@Model.Description</h2>
-					<p>Web ID: @Model.ProductID</p>					
+					<h2>@Model.NameProduct</h2>
+					<p>ID Sản phẩm : @Model.ProductID</p>					
 					<span>
 						<span>Giá : @Model.Price.ToString("N0") VNĐ</span>
 						<label>Quantity:</label>
 						<input type="text" value="" />
-						<button type="button" class="btn btn-fefault cart">
-							<i class="fa fa-shopping-cart"></i>
-							Add to cart
+						<button type="button"
+								class="btn btn-default btn-fefault cart add-to-cart"
+								data-id="@Model.ProductID">
+							<i class="fa fa-shopping-cart"></i> Add to cart
 						</button>
 					</span>
-					@* <p><b>Availability:</b> @Model.Status</p>					
-					<p><b>Brand:</b> @Model.Brand.Name</p>
-					<p><b>Category:</b> @Model.Category.Name</p> *@
-	
 				</div><!--/product-information-->
 			</div>
 		</div><!--/product-details-->

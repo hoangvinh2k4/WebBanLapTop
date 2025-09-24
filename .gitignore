@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 .vs/
 bin/
 obj/
@@ -425,40 +425,3 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
->>>>>>> f539e44ae9999c7148eae5dcccb9fd623e875bd0
-# Visual Studio / Project build artifacts
-[Bb]in/
-[Oo]bj/
-
-# NuGet
-.vs/
-.suo
-.user
-
-# Visual Studio Code
-.vscode/
-
-# Logs
-log/
-*.log
-
-# Project files that are automatically generated
-*.dll
-*.exe
-*.pdb
-*.cache
-*.user
-*.vspscc
-
-# Exclude all other files that end with .dll, .pdb, .exe
-[Dd]ebug/
-[Rr]elease/
-
-# Exclude other build artifacts
-[Tt]emp/
-*.tmp
-
-# The files that you are seeing in your screenshot
-*.dswa.cache.json
-*.dswa.json
-*upToDateCheck.txt

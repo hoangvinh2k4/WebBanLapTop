@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
-using WebBanHang.Models.Repository;
+using WebBanHang.Models.Repository; 
+using WebBanHang.Models.Repository.component;
 
 namespace WebBanHang.Controllers
 {
@@ -14,11 +15,11 @@ namespace WebBanHang.Controllers
         }
         public IActionResult CategoriesIndex(int id)
         {
-           var categories = _datacontext.Products
-                                .Include(p => p.ProductImage)
-                                .Include(p => p.Category)
-                                .Where(p => p.CategoryID == id)
-                                .ToList();     
+            var categories = _datacontext.Products
+                                 .Include(p => p.ProductImage)
+                                 .Include(p => p.Category)
+                                 .Where(p => p.CategoryID == id)
+                                 .ToList();
             return View(categories);
         }
     }

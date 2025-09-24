@@ -1,0 +1,94 @@
+﻿body {
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.edit-user-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px; /* Giữ nguyên hoặc điều chỉnh tùy theo ý bạn */
+    margin: 0 auto;
+}
+
+h3 {
+    text-align: center;
+    color: #333;
+    margin-top: 0; /* Đảm bảo không có margin trên */
+    margin-bottom: 20px; /* Giảm margin dưới để dịch lên */
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-control {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1em;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+    .form-control:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        outline: none;
+    }
+
+.btn-primary {
+    background-color: #ff9800;
+    border: none;
+    padding: 10px 20px; /* Tăng padding để nút trông vừa vặn hơn */
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Đặt chiều rộng 100% để bằng ô input */
+    display: block;
+    margin-top: 20px; /* Thêm khoảng cách trên nút */
+    margin-bottom: 20px; /* Thêm khoảng cách dưới nút */
+}
+
+    .btn-primary:hover {
+        background-color: #f57c00;
+    }
+
+a[asp-action="ListUser"] {
+    display: block;
+    text-align: center; /* Vẫn căn giữa như trước */
+    margin-top: 15px; /* Giảm khoảng cách trên */
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 500;
+    padding-left: 15px; /* Tạo khoảng đệm ảo bên trái */
+    padding-right: 15px; /* Tạo khoảng đệm ảo bên phải */
+}
+
+    a[asp-action="ListUser"]:hover {
+        text-decoration: underline;
+    }
+
+.text-danger {
+    font-size: 0.85em;
+    margin-top: 5px;
+}

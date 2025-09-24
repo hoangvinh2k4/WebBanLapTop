@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using WebBanHang.Models;
-using WebBanHang.Models.Repository;
+using WebBanHang.Models.Repository.component;
 
 namespace WebBanHang.Controllers
 {
@@ -49,3 +48,5 @@ namespace WebBanHang.Controllers
         }
     }
 }
+
+

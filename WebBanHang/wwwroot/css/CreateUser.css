@@ -1,0 +1,96 @@
+﻿body {
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.create-user-container {
+    background-color: #ffffff;
+    padding: 30px; /* Giảm padding để thu ngắn chiều cao */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+.create-user-form h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px; /* Giảm khoảng cách dưới tiêu đề */
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 15px; /* Giảm khoảng cách giữa các trường */
+}
+
+label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px; /* Giảm khoảng cách dưới label */
+    display: block;
+}
+
+.form-control {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px; /* Giảm padding để thu ngắn chiều cao của input */
+    font-size: 1em;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+    .form-control:focus {
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        outline: none;
+    }
+
+.btn-primary {
+    background-color: #ff9800;
+    border: none;
+    padding: 10px 20px; /* Giảm padding nút */
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+    .btn-primary:hover {
+        background-color: #f57c00;
+    }
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px; /* Giảm khoảng cách trên liên kết */
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+.create-user-form h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px; /* Giảm margin dưới để chữ dịch lên */
+    font-size: 1.8em;
+    font-weight: 600;
+}
+
+label {
+    font-weight: bold; /* Thêm thuộc tính này để chữ đậm hơn */
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}

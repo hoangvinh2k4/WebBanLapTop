@@ -1,0 +1,57 @@
+﻿@model UserModel
+@{
+    ViewData["Title"] = "Edit User";
+    Layout = "_LayoutMini";
+}
+<link rel="stylesheet" href="~/css/Edit.css" />
+
+<div class="edit-user-container">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <h3>Edit User</h3>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @* ẩn UserID để controller biết đang sửa user nào *@
+        <input type="hidden" asp-for="UserID" />
+
+        <div class="form-group">
+            <label>Username</label>
+            <input asp-for="Username" class="form-control" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input asp-for="Email" class="form-control" type="email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Phone</label>
+            <input asp-for="Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input asp-for="Password" class="form-control" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Role</label>
+            <select asp-for="RoleId" class="form-control" asp-items="ViewBag.Roles"></select>
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+    </form>
+    <a asp-action="ListUser">Back to list User</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

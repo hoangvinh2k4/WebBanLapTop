@@ -1,0 +1,92 @@
+﻿/* Bao quanh form */
+.login-form {
+    max-width: 400px;
+    margin: 50px auto;
+    border: 1px solid #e0e0e0;
+    padding: 40px 30px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+    /* Tiêu đề */
+    .login-form h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+/* Input */
+.form-control {
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    padding: 0 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Nhóm input */
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+    text-align: left;
+}
+
+/* Nút Login */
+.btn-default {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-default:hover {
+        background-color: #0056b3;
+    }
+
+/* Link */
+.login-form a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+    .login-form a:hover {
+        text-decoration: underline;
+    }
+
+/* Lỗi */
+.text-danger {
+    color: #dc3545;
+    font-size: 14px;
+    min-height: 18px;
+    display: block;
+}
+
+/* Icon mắt */
+#togglePassword {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+    height: 45px;
+    display: flex;
+    align-items: center;
+}

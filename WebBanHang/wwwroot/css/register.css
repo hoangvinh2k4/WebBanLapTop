@@ -1,0 +1,88 @@
+﻿.register-container {
+    width: 400px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+    .register-container h2 {
+        margin-bottom: 10px;
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+    .register-container p {
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #666;
+    }
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+    position: relative;
+}
+
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* style chung cho input */
+    .form-group input {
+        width: 100%;
+        height: 40px; /* fix chiều cao để icon ko lệch */
+        line-height: 40px;
+        padding: 0 10px;
+        border: none;
+        background: #f3f3eb;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+/* input password chừa chỗ cho icon */
+.password-group input {
+    padding-right: 40px;
+}
+
+/* icon mắt căn giữa tuyệt đối */
+.password-group .eye-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: #ff9800;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    button[type="submit"]:hover {
+        background: #007bff !important;
+    }
+
+.text-danger {
+    font-size: 13px;
+    color: red;
+    min-height: 18px; /* để tránh input nhảy khi hiện lỗi */
+    display: block;
+}
