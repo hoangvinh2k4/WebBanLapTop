@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ProductModel>
+@{
+    ViewData["Title"] = "Thống kê sản phẩm";
+
+    var totalProducts = Model.Sum(x => x.Stock);
+
+    var totalBrands = Model.Select(x => x.Brand.NameBrand).Distinct().Count();
+    var outOfStock = Model.Count(x => x.Stock == 0);
+    var lowStock = Model.Count(x => x.Stock > 0 && x.Stock < 5);
+    var avgPrice = Model.Any() ? Model.Average(x => x.Price) : 0;
+    var maxPrice = Model.Any() ? Model.Max(x => x.Price) : 0;
+    var minPrice = Model.Any() ? Model.Min(x => x.Price) : 0;
+}
+
+<div class="container mt-4">
+    <h3>📊 Thống kê sản phẩm</h3>
+    <table class="table table-bordered mt-3">
+        <tr>
+            <th>Tổng số sản phẩm</th>
+            <td>@totalProducts</td>
+        </tr>
+        <tr>
+            <th>Số thương hiệu</th>
+            <td>@totalBrands</td>
+        </tr>
+        <tr>
+            <th>Sản phẩm hết hàng</th>
+            <td>@outOfStock</td>
+        </tr>
+        <tr>
+            <th>Sản phẩm sắp hết hàng (&lt; 5)</th>
+            <td>@lowStock</td>
+        </tr>
+        <tr>
+            <th>Giá trung bình</th>
+            <td>@avgPrice.ToString("N0") đ</td>
+        </tr>
+        <tr>
+            <th>Giá cao nhất</th>
+            <td>@maxPrice.ToString("N0") đ</td>
+        </tr>
+        <tr>
+            <th>Giá thấp nhất</th>
+            <td>@minPrice.ToString("N0") đ</td>
+        </tr>
+    </table>
+</div>

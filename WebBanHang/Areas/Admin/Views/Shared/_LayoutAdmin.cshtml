@@ -62,7 +62,7 @@
 					<!-- Logo bên trái -->
 					<div class="col-sm-2">
 						<div class="logo">
-							<a href="/"><img src="~/images/thinkpad.jpg" alt="Logo" style="max-height:50px;" /></a>
+							<a href="/"><img src="~/images/nitro5.jpg" alt="Logo" style="max-height:100px;" /></a>
 						</div>
 					</div>
 
@@ -71,12 +71,14 @@
 							<input type="text" id="searchBox" name="keyword"
 								   class="form-control" placeholder="Nhập tên sản phẩm bạn cần tìm"
 								   style="padding-left: 40px;" />
-
 							<button type="submit" id="btnSearch"
-									style="position: absolute; top: 50%; left: 12px; transform: translateY(-50%);
-                       background: none; border: none; color: #888; cursor: pointer;">
-								<i class="fa fa-search"></i>
+									style="position: absolute; top: 50%; left: 100px; transform: translateY(-50%);
+               background: none; border: none; cursor: pointer;
+               padding: 2px; font-size: 14px; line-height: 1;">
+								<i class="fa fa-search" style="font-size:14px; color:aqua;"></i>
 							</button>
+
+
 						</form>
 					</div>
 
@@ -132,6 +134,8 @@
 											<li><a asp-controller="Admin" asp-action="HomeAdmin"><i class="fa-solid fa-house"></i> Trang chủ </a></li>
 											<li><a asp-controller="User" asp-action="ListUser"><i class="fa-solid fa-gear"></i> Quản lý người dùng </a></li>
 											<li><a asp-controller="Product" asp-action="Index"><i class="fa-solid fa-gear"></i> Quản lý sản phẩm </a></li>
+											<li><a asp-controller="Product" asp-action="thongke"><i class="fa-solid fa-gear"></i> Thống kê </a></li>
+
 										</ul>
 
 									</div>

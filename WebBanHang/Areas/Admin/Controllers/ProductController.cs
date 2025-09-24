@@ -25,6 +25,17 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             return View(await _datacontext.Products.OrderByDescending(p => p.ProductID).Include(p => p.Category).Include(p => p.Brand).Include(p => p.ProductImage).Include(p => p.OperatingSystem).ToListAsync());
         }
+       
+        public IActionResult thongke()
+        {
+            var products = _datacontext.Products
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.OperatingSystem)
+                .ToList();
+
+            return View(products);
+        }
 
         [HttpGet]
         public IActionResult Create()
@@ -197,7 +208,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             // Xóa sản phẩm
             _datacontext.Products.Remove(product);
             await _datacontext.SaveChangesAsync();
-
+            
             TempData["success"] = "Sản phẩm đã được xóa thành công";
             return RedirectToAction("Index");
         }

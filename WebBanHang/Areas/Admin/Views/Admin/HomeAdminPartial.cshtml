@@ -16,10 +16,10 @@ else
                     <div class="single-products">
                         <div class="productinfo text-center">                            
                                 @{
-                                    var firstImage = item.ProductImage?.FirstOrDefault();
-                                    string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
-                                    ? $"/media/products/{firstImage.ImageUrl}"
-                                    : "/images/no-image-available.jpg";
+                                var firstImage = item.ProductImage?.FirstOrDefault(x => x.IsMain);
+                                string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
+                                ? $"/media/products/{firstImage.ImageUrl}"
+                                : "/images/no-image-available.jpg";
                                 }
                                 <img src="@imagePath" alt="@item.NameProduct" class="img-fluid" />
                                 <h2>@item.Price.ToString("N0") VNĐ</h2>
