@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebBanHang.Models.DiscountModel>
+@{
+    ViewData["Title"] = "Mã giảm giá";
+    Layout = "_LayoutMini";
+}
+
+<h2>Danh sách Mã Giảm Giá</h2>
+
+<a asp-action="Create" class="btn btn-success mb-3">+ Tạo Mã Giảm Giá</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mã</th>
+            <th>Phần trăm</th>
+            <th>Ngày bắt đầu</th>
+            <th>Ngày kết thúc</th>
+            <th>Kích hoạt</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DiscountID</td>
+                <td>@item.Code</td>
+                <td>@item.Percentage %</td>
+                <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.EndDate.ToString("dd/MM/yyyy")</td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="badge bg-success">Đang kích hoạt</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Tắt</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.DiscountID" class="btn btn-warning btn-sm">Sửa</a>
+
+                    <form asp-action="Delete" asp-route-id="@item.DiscountID" method="post" style="display:inline"
+                          onsubmit="return confirm('Bạn có chắc muốn xoá mã này không?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

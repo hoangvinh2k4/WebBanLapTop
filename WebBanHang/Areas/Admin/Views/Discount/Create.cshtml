@@ -1,0 +1,44 @@
+﻿@model WebBanHang.Models.DiscountModel
+@{
+    ViewData["Title"] = "Tạo Mã Giảm Giá";
+    Layout = "_LayoutMini";
+}
+<link rel="stylesheet" href="~/css/discount.css" />
+
+<div class="discount-form-container">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label>Mã giảm</label>
+            <input asp-for="Code" class="form-control" />
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Phần trăm giảm</label>
+            <input asp-for="Percentage" class="form-control" type="number" min="1" max="100" />
+            <span asp-validation-for="Percentage" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Ngày bắt đầu</label>
+            <input asp-for="StartDate" class="form-control" type="date" />
+        </div>
+
+        <div class="form-group">
+            <label>Ngày kết thúc</label>
+            <input asp-for="EndDate" class="form-control" type="date" />
+        </div>
+
+        <div class="form-check">
+            <input asp-for="IsActive" class="form-check-input" type="checkbox" />
+            <label class="form-check-label">Kích hoạt</label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </form>
+</div>

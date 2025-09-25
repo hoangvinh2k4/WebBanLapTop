@@ -1,6 +1,7 @@
 wwwroot\css\animate.css
 wwwroot\css\bootstrap.min.css
 wwwroot\css\CreateUser.css
+wwwroot\css\Discount.css
 wwwroot\css\Edit.css
 wwwroot\css\font-awesome.min.css
 wwwroot\css\Login.css
@@ -10,78 +11,10 @@ wwwroot\css\price-range.css
 wwwroot\css\register.css
 wwwroot\css\responsive.css
 wwwroot\favicon.ico
-wwwroot\images\aspire.jpg
 wwwroot\images\asusrog.jpg
 wwwroot\images\dellgaming.jpg
-wwwroot\images\dellinspiron.jpg
-wwwroot\images\delllatitude.jpg
-wwwroot\images\Docker Desktop Installer.exe
-wwwroot\images\facebook.jpg
-wwwroot\images\facebook_files\1ce05b4b.js.tải xuống
-wwwroot\images\facebook_files\4f7f59796c5dda8f5dfc63a40583dfde7cebb050
-wwwroot\images\facebook_files\anchor.html
-wwwroot\images\facebook_files\api.js.tải xuống
-wwwroot\images\facebook_files\app-b5b389af504724b7c5115f3e03127a06.js.tải xuống
-wwwroot\images\facebook_files\app-wa-adc42f0f5cea7225671ba01ef8acb0ac.css
-wwwroot\images\facebook_files\brands.css
-wwwroot\images\facebook_files\carbon.js.tải xuống
-wwwroot\images\facebook_files\chisel-regular.css
-wwwroot\images\facebook_files\config.js.tải xuống
-wwwroot\images\facebook_files\duotone-light.css
-wwwroot\images\facebook_files\duotone-regular.css
-wwwroot\images\facebook_files\duotone-thin.css
-wwwroot\images\facebook_files\duotone.css
-wwwroot\images\facebook_files\etch-solid.css
-wwwroot\images\facebook_files\fontawesome.css
-wwwroot\images\facebook_files\inner.html
-wwwroot\images\facebook_files\jelly-duo-regular.css
-wwwroot\images\facebook_files\jelly-fill-regular.css
-wwwroot\images\facebook_files\jelly-regular.css
-wwwroot\images\facebook_files\js
-wwwroot\images\facebook_files\light.css
-wwwroot\images\facebook_files\m-outer-15a2b40a058ddff1cffdb63779fe3de1.js.tải xuống
-wwwroot\images\facebook_files\m-outer-3437aaddcdf6922d623e172c2d6f9278.html
-wwwroot\images\facebook_files\main.e33c0846.js.tải xuống
-wwwroot\images\facebook_files\monetization.js.tải xuống
-wwwroot\images\facebook_files\notdog-duo-solid.css
-wwwroot\images\facebook_files\notdog-solid.css
-wwwroot\images\facebook_files\out-4.5.44.js.tải xuống
-wwwroot\images\facebook_files\recaptcha__en.js.tải xuống
-wwwroot\images\facebook_files\regular.css
-wwwroot\images\facebook_files\saved_resource
-wwwroot\images\facebook_files\saved_resource(1)
-wwwroot\images\facebook_files\saved_resource(2).html
-wwwroot\images\facebook_files\saved_resource.html
-wwwroot\images\facebook_files\settings-f598960070dfae7413af5c36978e5890.js.tải xuống
-wwwroot\images\facebook_files\sharp-duotone-light.css
-wwwroot\images\facebook_files\sharp-duotone-regular.css
-wwwroot\images\facebook_files\sharp-duotone-solid.css
-wwwroot\images\facebook_files\sharp-duotone-thin.css
-wwwroot\images\facebook_files\sharp-light.css
-wwwroot\images\facebook_files\sharp-regular.css
-wwwroot\images\facebook_files\sharp-solid.css
-wwwroot\images\facebook_files\sharp-thin.css
-wwwroot\images\facebook_files\slab-press-regular.css
-wwwroot\images\facebook_files\slab-regular.css
-wwwroot\images\facebook_files\solid.css
-wwwroot\images\facebook_files\styles__ltr.css
-wwwroot\images\facebook_files\thin.css
-wwwroot\images\facebook_files\thumbprint-light.css
-wwwroot\images\facebook_files\vendor.90814eeb.js.tải xuống
-wwwroot\images\facebook_files\whiteboard-semibold.css
-wwwroot\images\facebook_files\woff2.css
-wwwroot\images\ideapad.jpg
 wwwroot\images\legion5.jpg
-wwwroot\images\macm1.jpg
-wwwroot\images\macm2.jpg
-wwwroot\images\macm3.jpg
-wwwroot\images\macm4.jpg
 wwwroot\images\nitro5.jpg
-wwwroot\images\nitro5tiger.jpg
-wwwroot\images\pavilion13.jpg
-wwwroot\images\pavilion14.jpg
-wwwroot\images\pavilion15.jpg
-wwwroot\images\thinkpad.jpg
 wwwroot\js\bootstrap.min.js
 wwwroot\js\Cart.js
 wwwroot\js\ChatHub.js
