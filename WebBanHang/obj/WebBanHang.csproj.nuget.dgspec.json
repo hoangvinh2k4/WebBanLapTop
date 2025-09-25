@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\ADMIN\\Source\\Repos\\WebBanLapTopmoine\\WebBanHang\\WebBanHang.csproj": {}
   },
   "projects": {
@@ -12,12 +13,29 @@
         "projectPath": "C:\\Users\\ADMIN\\Source\\Repos\\WebBanLapTopmoine\\WebBanHang\\WebBanHang.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ADMIN\\Source\\Repos\\WebBanLapTopmoine\\WebBanHang\\obj\\",
+=======
+    "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\WebBanHang.csproj": {}
+  },
+  "projects": {
+    "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\WebBanHang.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\WebBanHang.csproj",
+        "projectName": "WebBanHang",
+        "projectPath": "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\WebBanHang.csproj",
+        "packagesPath": "C:\\Users\\MY LAPTOP\\.nuget\\packages\\",
+        "outputPath": "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\obj\\",
+>>>>>>> h
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+          "C:\\Users\\MY LAPTOP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> h
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -25,7 +43,6 @@
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -114,7 +131,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+>>>>>>> h
         }
       }
     }

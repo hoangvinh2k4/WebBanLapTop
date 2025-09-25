@@ -1,6 +1,7 @@
 wwwroot\css\animate.css
 wwwroot\css\bootstrap.min.css
 wwwroot\css\CreateUser.css
+wwwroot\css\Discount.css
 wwwroot\css\Edit.css
 wwwroot\css\font-awesome.min.css
 wwwroot\css\Login.css
