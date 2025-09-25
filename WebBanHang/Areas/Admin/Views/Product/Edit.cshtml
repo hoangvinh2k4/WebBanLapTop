@@ -65,30 +65,89 @@
         </div>
 
         <div class="form-group">
-            <label>Image</label>
-            <input asp-for="ImageUpload" type="file" class="form-control" />
+            <label>Thêm ảnh mới</label>
+            <input asp-for="ImageUpload" type="file" class="form-control" multiple id="ImageUpload" />
             <span asp-validation-for="ImageUpload" class="text-danger"></span>
-          
-            @{
-                var mainImage = Model.ProductImage?.FirstOrDefault(img => img.IsMain)
-                ?? Model.ProductImage?.FirstOrDefault();
-                string imagePath = (mainImage != null && !string.IsNullOrEmpty(mainImage.ImageUrl))
-                ? $"/media/products/{mainImage.ImageUrl}"
-                : "/images/no-image-available.jpg";
-            }
-            <img src="@imagePath"
-                 alt="@Model.NameProduct"
-                 style="width:120px; height:120px; object-fit:cover; border-radius:5px;"
-                 class="img-thumbnail" />
-            <img id="imgpreview" class="pt-2" />
-            
+
+            <!-- khung preview ảnh -->
+            <div id="previewContainer" style="margin-top:10px; display:flex; flex-wrap:wrap; gap:10px;"></div>
         </div>
+
+        <script>
+            document.getElementById('ImageUpload').addEventListener('change', function () {
+                const previewContainer = document.getElementById('previewContainer');
+                previewContainer.innerHTML = ""; // xoá preview cũ
+
+                Array.from(this.files).forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        const img = document.createElement("img");
+                        img.src = e.target.result;
+                        img.style.width = "100px";
+                        img.style.height = "100px";
+                        img.style.objectFit = "cover";
+                        img.style.border = "1px solid #ccc";
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+        </script>
+
+
+       
+
        
         <div class="form-group">
             <button class="btn btn-primary">Update</button>
         </div>
+    </form> <!-- kết thúc form Edit ở đây -->
+        <!-- Danh sách ảnh và form xóa riêng -->
+    <h3>Ảnh hiện tại</h3>
+    <div style="display:flex; flex-wrap:wrap; gap:15px;">
+        @if (Model.ProductImage != null && Model.ProductImage.Any())
+        {
+            foreach (var img in Model.ProductImage)
+            {
+                var isMain = img.IsMain ? "2px solid red" : "1px solid #ccc";
 
-    </form>
+                <div style="width:130px; text-align:center; display:flex; flex-direction:column; align-items:center;">
+                    <!-- Ảnh -->
+                    <img src="/media/products/@img.ImageUrl"
+                         style="width:120px; height:120px; object-fit:cover; border:@isMain;" />
+
+                    <!-- Hai nút nhỏ dưới ảnh -->
+                    <div style="margin-top:5px; display:flex; gap:6px; justify-content:center;">
+                        <!-- Nút Set -->
+                        <form asp-action="SetMainImage" method="post" style="margin:0;">
+                            <input type="hidden" name="imageId" value="@img.ImageID" />
+                            <input type="hidden" name="productId" value="@Model.ProductID" />
+                            <button type="submit" class="btn btn-sm btn-success" style="padding:2px 8px; font-size:12px;">
+                                ✔ SetAvt
+                            </button>
+                        </form>
+
+                        <!-- Nút Xóa -->
+                        <form asp-action="DeleteImage" method="post" style="margin:0;"
+                              onsubmit="return confirm('Bạn có chắc muốn xóa ảnh này không?');">
+                            <input type="hidden" name="imageId" value="@img.ImageID" />
+                            <input type="hidden" name="productId" value="@Model.ProductID" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger" style="padding:2px 8px; font-size:12px;">
+                                ✖ Xóa
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p><i>Chưa có ảnh nào</i></p>
+        }
+    </div>
+
+
+    
     <a asp-action="Index">Back to list product</a>
     <
 
@@ -100,14 +159,5 @@
     }
 
 
-    <script>
-        document.getElementById('ImageUpload').addEventListener('change', function(){
-            const file = this.files[0];
-            if(file){
-                const reader = new FileReader();
-                reader.onload = e => document.getElementById('imgpreview').src = e.target.result;
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+    
 

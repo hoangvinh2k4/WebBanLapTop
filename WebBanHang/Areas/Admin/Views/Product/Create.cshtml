@@ -53,11 +53,12 @@
             <span asp-validation-for="OperatingSystemID" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label>Image</label>
-            <input asp-for="ImageUpload" type="file" class="form-control" />
+            <label>Images</label>
+            <input asp-for="ImageUpload" type="file" class="form-control" multiple />
             <span asp-validation-for="ImageUpload" class="text-danger"></span>
-            <img id="imgpreview" class="pt-2" />
+            <div id="preview" class="pt-2" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
         </div>
+
 
         <div class="form-group">
             <button class="btn btn-primary">Create</button>
@@ -74,12 +75,22 @@
 }    
     <script>
         document.getElementById('ImageUpload').addEventListener('change', function(){
-            const file = this.files[0];
-            if(file){
+            const preview = document.getElementById('preview');
+            preview.innerHTML = ''; // clear preview cũ
+            for (const file of this.files) {
                 const reader = new FileReader();
-                reader.onload = e => document.getElementById('imgpreview').src = e.target.result;
+                reader.onload = e => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = "100px";
+                    img.style.height = "100px";
+                    img.style.objectFit = "cover";
+                    img.style.border = "1px solid #ccc";
+                    preview.appendChild(img);
+                };
                 reader.readAsDataURL(file);
             }
         });
     </script>
+
 

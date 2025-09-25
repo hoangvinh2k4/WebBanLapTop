@@ -8,27 +8,35 @@
 		<div class="product-details">
 			<!--product-details-->
 			<div class="col-sm-5">
-				<div class="view-product" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-					@{
-						// Lấy đối tượng ProductImage đầu tiên của sản phẩm
-						var firstImage = @Model.ProductImage?.FirstOrDefault();
-						string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
-						? $"/media/products/{firstImage.ImageUrl}"
-						: "/images/no-image-available.jpg";
-					}
-					<img src="@imagePath" alt="NameProduct" />
-					<h3>ZOOM</h3>
-				</div>
-
 				<div id="similar-product" class="carousel slide" data-ride="carousel">
-
 					<!-- Wrapper for slides -->
 					<div class="carousel-inner">
-						<div class="item active">
-							<a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
-							<a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
-							<a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
-						</div>					
+						@{
+							if (Model.ProductImage != null && Model.ProductImage.Any())
+							{
+								int count = 0;
+								foreach (var img in Model.ProductImage)
+								{
+									var activeClass = count == 0 ? "active" : "";
+									<div class="item @activeClass">
+										<img src="/media/products/@img.ImageUrl"
+											 alt="@Model.NameProduct"
+											 style="width:100%; max-height:500px; object-fit:contain; margin:0 auto;" />
+									</div>
+									;
+									count++;
+								}
+							}
+							else
+							{
+								<div class="item active">
+									<img src="/images/no-image-available.jpg"
+										 alt="No image"
+										 style="max-height:300px; margin:0 auto;" />
+								</div>
+								;
+							}
+						}
 					</div>
 
 					<!-- Controls -->
@@ -39,13 +47,21 @@
 						<i class="fa fa-angle-right"></i>
 					</a>
 				</div>
+				
+
+
+				
 
 			</div>
 			<div class="col-sm-7">
 				<div class="product-information">
 					<!--/product-information-->					
 					<h2>@Model.NameProduct</h2>
-					<p>ID Sản phẩm : @Model.ProductID</p>					
+					<p>ID Sản phẩm : @Model.ProductID</p>
+					<p>Thương hiệu : @Model.Brand.NameBrand</p>
+					<p>Hệ điều hành : @Model.OperatingSystem.OperatingSystemName</p>
+					<p>Kiểu máy : @Model.Category.CategoryName</p>
+					<p>Mô tả : @Model.Description</p>
 					<span>
 						<span>Giá : @Model.Price.ToString("N0") VNĐ</span>
 						<label>Quantity:</label>

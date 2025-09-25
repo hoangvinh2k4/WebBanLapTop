@@ -35,9 +35,9 @@
 							<tr data-id="@item.ProductID" data-price="@item.Product.Price">
 								<td class="cart_product">
 									@{
-										var firstImage = item.Product.ProductImage?.FirstOrDefault();
+										var firstImage = item.Product.ProductImage?.FirstOrDefault(x => x.IsMain);
 										string imagePath = firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl)
-										? $"/images/{firstImage.ImageUrl}"
+										? $"/media/products/{firstImage.ImageUrl}"
 										: "/images/no-image-available.jpg"; // ảnh mặc định nếu null
 									}
 									<a href="#">
