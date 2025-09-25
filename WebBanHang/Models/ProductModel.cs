@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 using WebBanHang.Models.Repository.Validation;
 
 namespace WebBanHang.Models
@@ -54,9 +55,9 @@ namespace WebBanHang.Models
         [NotMapped]
         [FileExtension]
         public IFormFile? ImageUpload { get; set; }  // để upload ảnh mới
-
-        // -------- RELATIONSHIP --------
+        [JsonIgnore]
         public ICollection<WishListModel>? WishList { get; set; }
+        [JsonIgnore]
         public ICollection<CartModel>? Cart { get; set; }
     }
 }

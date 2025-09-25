@@ -152,3 +152,6 @@ D:\C#\WebBanHang\WebBanHang\obj\Debug\net8.0\refint\WebBanHang.dll
 D:\C#\WebBanHang\WebBanHang\obj\Debug\net8.0\WebBanHang.pdb
 D:\C#\WebBanHang\WebBanHang\obj\Debug\net8.0\WebBanHang.genruntimeconfig.cache
 D:\C#\WebBanHang\WebBanHang\obj\Debug\net8.0\ref\WebBanHang.dll
+D:\C#\WebBanHang\WebBanHang\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\C#\WebBanHang\WebBanHang\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\C#\WebBanHang\WebBanHang\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

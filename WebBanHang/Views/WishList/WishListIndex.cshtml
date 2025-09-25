@@ -32,9 +32,9 @@
 								<td class="cart_product">
 									@{
 										var firstImage = item.Product.ProductImage?.FirstOrDefault(x => x.IsMain);
-										string imagePath = firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl)
-										? $"/images/{firstImage.ImageUrl}"
-										: "/images/no-image-available.jpg"; // ảnh mặc định nếu null
+										string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
+										? $"/media/products/{firstImage.ImageUrl}"
+										: "/images/no-image-available.jpg";
 									}
 									<a href="#">
 										<img src="@imagePath" alt="@item.Product.NameProduct" width="100px" height="100px" />
@@ -52,7 +52,6 @@
 									<a class="btn btn-danger btn-sm btn-remove" data-id="@item.ProductID" href="#">
 										<i class="fa fa-trash" style="color: gray;"></i>
 									</a>
-
 								</td>
 							</tr>
 						}						
@@ -79,26 +78,30 @@
 </section>
 
 @section Scripts {
-	<script>				
-			$(document).on("click", ".btn-remove", function (e) {
+	<script>
+
+					$(document).on("click", ".btn-remove", function (e) {
 			e.preventDefault();
 
-			var id = $(this).data("id");
-			var row = $("tr[data-id='" + id + "']");
+			var productId = $(this).data("id");
+			var row = $(this).closest("tr");
 
-			$.post("/WishList/Remove", { id: id }, function (res) {
-				if (!res) return;
+			$.post("/WishList/RemoveItem", { productId: productId }, function (res) {
+				if (!res || !res.success) return;
 
-				if (res.removed) {
-					// xóa dòng sản phẩm khỏi table
-					row.remove();
-				}
-				// nếu giỏ hàng trống, có thể hiện thông báo
+				// Xóa dòng sản phẩm khỏi table
+				row.remove();
+
+				// Cập nhật số lượng wishlist trên header nếu có
+				$("#wishlist-count").text(res.totalItems);
+
+				// Nếu wishlist trống, hiển thị thông báo
 				if (res.totalItems === 0) {
-						$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Danh sách yêu thích của bạn trống.</h4></td></tr>");
+					$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Danh sách yêu thích của bạn trống.</h4></td></tr>");
 				}
 			});
 		});
+
 
 		$(document).on("click", "#btn-clear-wishlist", function (e) {
 			e.preventDefault();
@@ -114,7 +117,7 @@
 				cancelButtonText: 'Hủy'
 			}).then((result) => {
 				if (result.isConfirmed) {
-					$.post("/WishList/Clear", function(res) {
+					$.post("/WishList/ClearWishList", function(res) {
 						if (!res) return;
 
 						// Xóa hết các dòng sản phẩm trong bảng

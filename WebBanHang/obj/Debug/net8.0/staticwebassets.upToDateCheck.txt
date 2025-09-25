@@ -152,6 +152,7 @@ wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
 wwwroot\media\products\039795f2-07d9-48b4-8175-341993cd0f9e.png
+wwwroot\media\products\10494b55-94a4-4e35-8fc0-41faf6ca9eae.jpg
 wwwroot\media\products\1282e6d7-b99f-45c3-aab3-9df7bf66ea15.png
 wwwroot\media\products\168b57b7-8464-4001-9645-5cca6422ba9d - Copy.png
 wwwroot\media\products\168b57b7-8464-4001-9645-5cca6422ba9d.png

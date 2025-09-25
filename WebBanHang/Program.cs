@@ -1,48 +1,61 @@
+
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebBanHang.Models.Repository.component;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-// ✅ Đăng ký DbContext
-builder.Services.AddDbContext<DataConnect>(options =>
+internal class Program
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
-});
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Đăng ký Session
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-builder.Services.AddHttpContextAccessor();
+        //// Add services to the container.
+        //builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
+        // ✅ Đăng ký DbContext
+        builder.Services.AddDbContext<DataConnect>(options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
+        });
+        // Vòng lặp
+        builder.Services.AddControllersWithViews()
+       .AddNewtonsoftJson(options =>
+       {
+           options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+       });
 
-// ✅ Middleware
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
+        // ✅ Đăng ký Session
+        builder.Services.AddDistributedMemoryCache();
+        builder.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(30);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+        });
+        builder.Services.AddHttpContextAccessor();
+
+        var app = builder.Build();
+
+        // ✅ Middleware
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseSession();
+
+        app.UseAuthorization();
+        app.MapControllerRoute(
+            name: "areas",
+            pattern: "{area:exists}/{controller=Home}/{action=HomeAdmin}/{id?}");
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=HomeIndex}/{id?}");
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseSession();
-
-app.UseAuthorization();
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=HomeAdmin}/{id?}");
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=HomeIndex}/{id?}");
-app.Run();
-

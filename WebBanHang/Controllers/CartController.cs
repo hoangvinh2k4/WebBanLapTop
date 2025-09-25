@@ -15,140 +15,297 @@ namespace WebBanHang.Controllers
         {
             _datacontext = context;
         }
-        public IActionResult CartIndex()
+        public async Task<IActionResult> CartIndex()
         {
-            List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
-            foreach (var item in cart)
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userIdStr))
             {
-                item.Product = _datacontext.Products
-                                .Include(p => p.ProductImage)  
-                                .FirstOrDefault(p => p.ProductID == item.ProductID);
+                List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart")
+                                            ?? new List<CartModel>();
+
+                foreach (var item in cart)
+                {
+                    item.Product = await _datacontext.Products
+                        .Include(p => p.ProductImage)
+                        .FirstOrDefaultAsync(p => p.ProductID == item.ProductID);
+                }
+
+                CartViewModel cartVM = new()
+                {
+                    CartModels = cart,
+                    TotalPrice = cart.Sum(x => x.Product.Price * x.Quantity)
+                };
+                return View(cartVM);
             }
-            CartViewModel cartVM = new()
+            else
             {
-                CartModels = cart,
-                TotalPrice = cart.Sum(x => x.Product.Price * x.Quantity)
-            };
-            return View(cartVM);
+                int userId = int.Parse(userIdStr);
+                var cartDb = await _datacontext.CartItems
+                    .Where(c => c.UserID == userId)
+                    .Include(c => c.Product)
+                        .ThenInclude(p => p.ProductImage)
+                    .ToListAsync();
+                CartViewModel cartVM = new()
+                {
+                    CartModels = cartDb,
+                    TotalPrice = cartDb.Sum(x => x.TotalPrice)
+                };
+                return View(cartVM);
+            }
         }
+
         [HttpPost]
         public async Task<IActionResult> AddToCart(int id)
         {
-            ProductModel product = await _datacontext.Products
-                                        .FirstOrDefaultAsync(p => p.ProductID == id);
+            var product = await _datacontext.Products
+                .FirstOrDefaultAsync(p => p.ProductID == id);
+            if (product == null) return NotFound();
 
-            List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart")
-                                   ?? new List<CartModel>();
+            string? userIdStr = HttpContext.Session.GetString("UserId");
 
-            CartModel cartModel = cart.FirstOrDefault(c => c.ProductID == id);
-
-            if (cartModel == null)
-                cart.Add(new CartModel(product));
-            else
+            if (string.IsNullOrEmpty(userIdStr))
             {
-                cartModel.Quantity++;
-                cartModel.TotalPrice = cartModel.Quantity * product.Price;
-            }
+                List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart")
+                                            ?? new List<CartModel>();
 
-            HttpContext.Session.SetJson("Cart", cart);
-
-            // Trả về dữ liệu JSON cho client
-            return Json(new
-            {
-                totalItems = cart.Sum(x => x.Quantity),
-                totalPrice = cart.Sum(x => x.TotalPrice)
-            });
-        }
-
-        [HttpPost]
-        public IActionResult Decrease(int id)
-        {
-            List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart");
-            CartModel cartModel = cart.FirstOrDefault(c => c.ProductID == id);
-
-            if (cartModel != null)
-            {
-                if (cartModel.Quantity > 1)
+                var cartItem = cart.FirstOrDefault(c => c.ProductID == id);
+                if (cartItem == null)
+                    cart.Add(new CartModel(product));
+                else
                 {
-                    cartModel.Quantity--;
-                    cartModel.TotalPrice = cartModel.Quantity * cartModel.Product.Price;
-                }              
-            }           
-                HttpContext.Session.SetJson("Cart", cart);         
+                    cartItem.Quantity++;
+                    cartItem.TotalPrice = cartItem.Quantity * cartItem.Price;
+                }
 
-            // trả về JSON cho AJAX
-            return Json(new
-            {
-                itemId = id,
-                itemQuantity = cartModel?.Quantity ?? 0,
-                totalItems = cart.Sum(x => x.Quantity),
-                totalPrice = cart.Sum(x => x.TotalPrice)
-            });
-        }
-        [HttpPost]
-        public IActionResult Increase(int id)
-        {
-            // Lấy giỏ hàng từ Session
-            List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
+                HttpContext.Session.SetJson("Cart", cart);
 
-            // Tìm sản phẩm cần tăng
-            CartModel cartItem = cart.FirstOrDefault(c => c.ProductID == id);
-
-            if (cartItem != null)
-            {
-                cartItem.Quantity++; // tăng số lượng
-                cartItem.TotalPrice = cartItem.Quantity * cartItem.Product.Price;
-            }
-         
-            // Cập nhật lại Session
-            HttpContext.Session.SetJson("Cart", cart);
-
-            // Trả về JSON giống Decrease
-            return Json(new
-            {
-                itemId = id,
-                itemQuantity = cartItem?.Quantity ?? 0,
-                totalItems = cart.Sum(x => x.Quantity),
-                totalPrice = cart.Sum(x => x.TotalPrice)
-            });
-        }
-        [HttpPost]
-        public IActionResult Remove(int id)
-        {
-            // Lấy giỏ hàng từ session
-            var cart = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
-
-            // Tìm và xóa item theo ProductID
-            var removed = cart.RemoveAll(c => c.ProductID == id) > 0;
-
-            // Cập nhật session
-            if (cart.Count == 0)
-            {
-                HttpContext.Session.Remove("Cart"); // xóa toàn bộ cart nếu trống
+                return Json(new
+                {
+                    totalItems = cart.Sum(x => x.Quantity),
+                    totalPrice = cart.Sum(x => x.TotalPrice)
+                });
             }
             else
             {
-                HttpContext.Session.SetJson("Cart", cart);
+                int userId = int.Parse(userIdStr);
+
+                var cartItem = await _datacontext.CartItems
+                    .FirstOrDefaultAsync(c => c.UserID == userId && c.ProductID == id);
+
+                if (cartItem == null)
+                {
+                    var newItem = new CartModel(product, userId);
+                    _datacontext.CartItems.Add(newItem);
+                }
+                else
+                {
+                    cartItem.Quantity++;
+                    cartItem.TotalPrice = cartItem.Quantity * cartItem.Price;
+                }
+
+                await _datacontext.SaveChangesAsync();
+
+                var cartDb = await _datacontext.CartItems
+                    .Where(c => c.UserID == userId)
+                    .ToListAsync();
+
+                return Json(new
+                {
+                    totalItems = cartDb.Sum(x => x.Quantity),
+                    totalPrice = cartDb.Sum(x => x.Quantity * x.Price)
+                });
             }
-
-            // Tính tổng số lượng và tổng tiền mới
-            var totalItems = cart.Sum(x => x.Quantity);
-            var totalPrice = cart.Sum(x => x.TotalPrice);
-
-            // Trả về JSON cho AJAX
-            return Json(new
-            {
-                removed = removed,
-                totalItems = totalItems,
-                totalPrice = totalPrice
-            });
         }
         [HttpPost]
-        public IActionResult Clear()
+        public async Task<IActionResult> Decrease(int id)
         {
-            HttpContext.Session.Remove("Cart");
-            return Json(new { success = true });
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userIdStr))
+            { 
+                var cart = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
+                var cartItem = cart.FirstOrDefault(c => c.ProductID == id);
+
+                int itemQuantity = 0;
+
+                if (cartItem != null)
+                {
+                    if (cartItem.Quantity > 1)
+                    {
+                        cartItem.Quantity--;
+                        cartItem.TotalPrice = cartItem.Quantity * cartItem.Price;
+                        itemQuantity = cartItem.Quantity;
+                    }
+                    else
+                    {
+                        cart.Remove(cartItem);
+                    }
+                }
+
+                if (cart.Count == 0)
+                    HttpContext.Session.Remove("Cart");
+                else
+                    HttpContext.Session.SetJson("Cart", cart);
+
+                return Json(new
+                {
+                    itemId = id,
+                    itemQuantity = itemQuantity,
+                    totalItems = cart.Sum(x => x.Quantity),
+                    grandTotal = cart.Sum(x => x.Quantity * x.Price)
+                });
+            }
+            else
+            {
+                int userId = int.Parse(userIdStr);
+                var cartItem = await _datacontext.CartItems
+                    .FirstOrDefaultAsync(c => c.UserID == userId && c.ProductID == id);
+
+                int itemQuantity = 0;
+
+                if (cartItem != null)
+                {
+                    if (cartItem.Quantity > 1)
+                    {
+                        cartItem.Quantity--;
+                        cartItem.TotalPrice = cartItem.Quantity * cartItem.Price;
+                        itemQuantity = cartItem.Quantity;
+                    }
+                    else
+                    {
+                        _datacontext.CartItems.Remove(cartItem);
+                    }
+                    await _datacontext.SaveChangesAsync();
+                }
+
+                var cartDb = await _datacontext.CartItems.Where(c => c.UserID == userId).ToListAsync();
+
+                return Json(new
+                {
+                    itemId = id,
+                    itemQuantity = itemQuantity,
+                    totalItems = cartDb.Sum(x => x.Quantity),
+                    grandTotal = cartDb.Sum(x => x.Quantity * x.Price),
+                });
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Increase(int id)
+        {
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userIdStr))
+            {
+                var cart = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
+                var cartItem = cart.FirstOrDefault(c => c.ProductID == id);
+
+                if (cartItem != null)
+                {
+                    cartItem.Quantity++;
+                    cartItem.TotalPrice = cartItem.Quantity * cartItem.Price;
+                }
+
+                HttpContext.Session.SetJson("Cart", cart);
+
+                return Json(new
+                {
+                    itemId = id,
+                    itemQuantity = cartItem?.Quantity ?? 0,
+                    totalItems = cart.Sum(x => x.Quantity),
+                    grandTotal = cart.Sum(x => x.Quantity * x.Price)
+                });
+            }
+            else
+            {
+                int userId = int.Parse(userIdStr);
+                var cartItem = await _datacontext.CartItems
+                    .FirstOrDefaultAsync(c => c.UserID == userId && c.ProductID == id);
+
+                if (cartItem != null)
+                {
+                    cartItem.Quantity++;
+                    cartItem.TotalPrice = cartItem.Quantity * cartItem.Price;
+                    await _datacontext.SaveChangesAsync();
+                }
+
+                var cartDb = await _datacontext.CartItems.Where(c => c.UserID == userId).ToListAsync();
+
+                return Json(new
+                {
+                    itemId = id,
+                    itemQuantity = cartItem?.Quantity ?? 0,
+                    totalItems = cartDb.Sum(x => x.Quantity),
+                    grandTotal = cartDb.Sum(x => x.Quantity * x.Price)
+                });
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> RemoveItem(int productId)
+        {
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userIdStr))
+            {
+                var cart = HttpContext.Session.GetJson<List<CartModel>>("Cart") ?? new List<CartModel>();
+                cart.RemoveAll(c => c.ProductID == productId);
+
+                if (cart.Count == 0)
+                    HttpContext.Session.Remove("Cart");
+                else
+                    HttpContext.Session.SetJson("Cart", cart);
+
+                return Json(new
+                {
+                    success = true,
+                    totalItems = cart.Sum(x => x.Quantity),
+                    grandTotal = cart.Sum(x => x.TotalPrice),
+                    cart = cart
+                });
+            }
+            else
+            {
+                int userId = int.Parse(userIdStr);
+                var item = await _datacontext.CartItems
+                    .FirstOrDefaultAsync(c => c.UserID == userId && c.ProductID == productId);
+                if (item != null)
+                {
+                    _datacontext.CartItems.Remove(item);
+                    await _datacontext.SaveChangesAsync();
+                }
+
+                var cartDb = await _datacontext.CartItems.Where(c => c.UserID == userId).ToListAsync();
+
+                return Json(new
+                {
+                    success = true,
+                    totalItems = cartDb.Sum(x => x.Quantity),
+                    grandTotal = cartDb.Sum(x => x.TotalPrice),
+                    cart = cartDb
+                });
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> ClearCart()
+        {
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+
+            if (string.IsNullOrEmpty(userIdStr))
+            {
+                HttpContext.Session.Remove("Cart");
+                return Json(new { success = true, totalItems = 0, grandTotal = 0, cart = new List<CartModel>() });
+            }
+            else
+            {
+                int userId = int.Parse(userIdStr);
+                var cartDb = await _datacontext.CartItems.Where(c => c.UserID == userId).ToListAsync();
+                _datacontext.CartItems.RemoveRange(cartDb);
+                await _datacontext.SaveChangesAsync();
+
+                return Json(new { success = true, totalItems = 0, grandTotal = 0, cart = new List<CartModel>() });
+            }
         }
     }
 }
+
 

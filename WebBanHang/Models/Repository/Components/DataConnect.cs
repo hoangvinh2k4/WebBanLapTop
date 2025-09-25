@@ -13,6 +13,7 @@ namespace WebBanHang.Models.Repository.component
         public DbSet<ProductImagesModel> ProductImages { get; set; }
         public DbSet<CategoriesModel> Categories { get; set; }
         public DbSet<OperatingSystemModel> OperatingSystem { get; set; }
+        public DbSet<CartModel> CartItems { get; set; }
         public DbSet<WishListModel> WishList { get; set; } // trong này phải đặt tên trùng vs các bảng trong db
     }
 }

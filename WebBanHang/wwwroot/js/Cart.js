@@ -38,7 +38,6 @@
         });
     });
 });
-// Thêm vào danh sách yêu thích
 $(document).ready(function () {
     $(".add-to-wishlist").click(function (e) {
         e.preventDefault();
@@ -56,16 +55,31 @@ $(document).ready(function () {
                     title: 'Thêm sản phẩm thành công!',
                     text: `Sản phẩm đã được thêm vào danh sách yêu thích.`,
                     showConfirmButton: false,
-                    timer: 1500, // tự ẩn sau 1.5 giây
+                    timer: 1500,
                     position: 'top',
                     toast: true
                 });
+                console.log("AJAX response:", res);
+                // --- CẬP NHẬT DOM WISHLIST ---
+                if (res && res.wl) {
+                    console.log("Wishlist array:", res.wl);
+                    var html = '';
+                    res.wl.forEach(function (item) {
+                        html += `
+                            <li class="wishlist-item" data-id="${item.Product.ProductID}">
+                                <a href="/Product/Details/${item.Product.ProductID}">
+                                    ${item.Product.NameProduct}
+                                </a>
+                            </li>`;
+                    });
+                    $("#wishlist-list").html(html); // #wishlist-list là container hiển thị wishlist
+                }
             },
             error: function () {
                 Swal.fire({
                     icon: 'error',
                     title: 'Có lỗi!',
-                    text: 'Không thể thêm sản phẩm vào danh sách yêu thich.',
+                    text: 'Không thể thêm sản phẩm vào danh sách yêu thích.',
                     timer: 1500,
                     toast: true,
                     position: 'top-end',

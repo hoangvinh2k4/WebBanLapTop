@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BCrypt.Net; // NuGet: BCrypt.Net-Next
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
+using WebBanHang.Models.Repository;
 using WebBanHang.Models.Repository.component;
 using WebBanHang.Models.ViewModel;
-using BCrypt.Net; // NuGet: BCrypt.Net-Next
 
 namespace WebBanHang.Controllers
 {
