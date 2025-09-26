@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CartModel>
+
+@{
+    ViewData["Title"] = "Thanh toán";
+    decimal total = Model.Sum(c => c.Price * c.Quantity);
+}
+
+<div class="container mt-4">
+    <h2>Thanh toán</h2>
+
+    <!-- Bảng giỏ hàng -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Mô tả</th>
+                <th>Số lượng</th>
+                <th>Tạm tính</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.NameProduct</td>                   
+                    <td>@string.Format("{0:N0} đ", item.Price)</td>
+                    <td>@item.Product.Description</td>
+                    <td>@item.Quantity</td>
+                    <td>@string.Format("{0:N0} đ", item.TotalPrice)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4 class="text-end">Tổng tiền: <b>@string.Format("{0:N0} đ", total)</b></h4>
+
+    <!-- Form thanh toán -->
+    <form asp-controller="Checkout" asp-action="PlaceOrder" method="post" class="mt-3">
+        <div class="mb-3">
+            <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
+            <select id="paymentMethod" name="paymentMethod" class="form-select" required>
+                <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+                <option value="Momo">Momo</option>
+                <option value="VNPay">VNPay</option>
+                <option value="CreditCard">Thẻ tín dụng</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Xác nhận thanh toán</button>
+    </form>
+</div>

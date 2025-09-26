@@ -91,10 +91,6 @@
 
 				// Xóa dòng sản phẩm khỏi table
 				row.remove();
-
-				// Cập nhật số lượng wishlist trên header nếu có
-				$("#wishlist-count").text(res.totalItems);
-
 				// Nếu wishlist trống, hiển thị thông báo
 				if (res.totalItems === 0) {
 					$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Danh sách yêu thích của bạn trống.</h4></td></tr>");
@@ -119,7 +115,6 @@
 				if (result.isConfirmed) {
 					$.post("/WishList/ClearWishList", function(res) {
 						if (!res) return;
-
 						// Xóa hết các dòng sản phẩm trong bảng
 						$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Danh sách yêu thích của bạn trống.</h4></td></tr>");
 						Swal.fire('Đã xóa!', 'Danh sách yêu thích đã được làm trống.', 'success');

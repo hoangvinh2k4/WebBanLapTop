@@ -2533,4 +2533,180 @@ h2.title {
   color: #FE980F;
 }
 
+// CheckOut
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f9;
+	margin: 0;
+	padding: 20px;
+	color: #333;
+}
 
+/* Bố cục 2 cột chính */
+.checkout-container {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	gap: 40px;
+	background-color: #fff;
+	padding: 30px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.checkout-form {
+	flex: 3; /* Cột form chiếm khoảng 70% */
+}
+
+.order-summary {
+	flex: 1.5; /* Cột tóm tắt chiếm khoảng 30% */
+	background-color: #f9f9f9;
+	padding: 20px;
+	border-radius: 8px;
+	height: fit-content; /* Giúp cột ôm sát nội dung */
+}
+
+/* Định dạng các bước trong Form */
+.step {
+	border: 1px solid #ddd;
+	padding: 20px;
+	margin-bottom: 20px;
+	border-radius: 6px;
+}
+
+.checkout-form h1 {
+	color: #007bff; /* Màu thương hiệu */
+	margin-top: 0;
+}
+
+.step h2 {
+	color: #0056b3;
+	border-bottom: 2px solid #eee;
+	padding-bottom: 10px;
+	margin-top: 0;
+	margin-bottom: 15px;
+}
+
+/* Định dạng Input và Textarea */
+input[type="email"], input[type="text"], input[type="tel"], textarea {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 15px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box; /* Quan trọng để padding không làm tăng chiều rộng */
+}
+
+/* Định dạng tùy chọn Vận chuyển và Thanh toán */
+.shipping-option, .payment-option {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid #eee;
+	border-radius: 4px;
+}
+
+	.shipping-option label, .payment-option label {
+		margin-left: 10px;
+		cursor: pointer;
+		flex-grow: 1;
+	}
+
+/* Nút CTA (Call to Action) */
+.cta-button {
+	background-color: #28a745; /* Màu xanh lá nổi bật */
+	color: white;
+	border: none;
+	padding: 15px 30px;
+	font-size: 1.1em;
+	font-weight: bold;
+	border-radius: 6px;
+	cursor: pointer;
+	width: 100%;
+	margin-top: 20px;
+	transition: background-color 0.3s;
+}
+
+	.cta-button:hover {
+		background-color: #218838;
+	}
+
+/* TÓM TẮT ĐƠN HÀNG */
+.order-summary h2 {
+	color: #333;
+	text-align: center;
+	border-bottom: 2px solid #ddd;
+	padding-bottom: 10px;
+	margin-top: 0;
+}
+
+.product-item {
+	display: flex;
+	gap: 15px;
+	margin-bottom: 20px;
+	border-bottom: 1px dashed #ddd;
+	padding-bottom: 15px;
+}
+
+.product-thumb {
+	width: 80px; /* Ảnh thu nhỏ */
+	height: 80px;
+	object-fit: cover;
+	border-radius: 4px;
+}
+
+.product-details {
+	flex-grow: 1;
+}
+
+.product-name {
+	font-weight: bold;
+	margin: 0;
+}
+
+.product-config {
+	color: #6c757d;
+	font-size: 0.9em;
+	margin: 5px 0;
+}
+
+.product-price {
+	font-weight: bold;
+	color: #dc3545; /* Màu đỏ cho giá */
+	margin: 0;
+}
+
+.summary-details p {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 8px;
+	font-size: 1em;
+}
+
+.summary-total {
+	display: flex;
+	justify-content: space-between;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #007bff; /* Màu tổng tiền nổi bật */
+	border-top: 2px solid #007bff;
+	padding-top: 10px;
+	margin-top: 15px;
+}
+
+.trust-info {
+	text-align: center;
+	font-size: 0.9em;
+	color: #6c757d;
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+}
+
+/* Ẩn nút thanh toán di động trên desktop */
+.cta-button-mobile {
+	display: none;
+}

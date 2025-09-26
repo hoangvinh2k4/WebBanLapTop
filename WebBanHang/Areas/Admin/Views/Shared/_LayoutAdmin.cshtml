@@ -132,6 +132,7 @@
 											<li><a asp-controller="Admin" asp-action="HomeAdmin"><i class="fa-solid fa-house"></i> Trang chủ </a></li>
 											<li><a asp-controller="User" asp-action="ListUser"><i class="fa-solid fa-gear"></i> Quản lý người dùng </a></li>
 											<li><a asp-controller="Product" asp-action="Index"><i class="fa-solid fa-gear"></i> Quản lý sản phẩm </a></li>
+											<li><a asp-controller="Statistical" asp-action="StatisticalIndex"><i class="fa-solid fa-chart-column"></i>  Thống kê doanh số </a></li>
 										</ul>
 
 									</div>
@@ -382,9 +383,9 @@
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
 	<script src="~/js/cart.js"></script> <!-- Hoàng Vinh thêm -->
-
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	@RenderSection("Scripts", required: false)
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Hoàng Vinh thêm -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Hoàng Vinh thêm -->
+	@RenderSection("Scripts", required: false) <!-- Hoàng Vinh thêm -->
 </body>
 </html>
 
