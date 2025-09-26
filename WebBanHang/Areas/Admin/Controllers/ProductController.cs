@@ -26,16 +26,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View(await _datacontext.Products.OrderByDescending(p => p.ProductID).Include(p => p.Category).Include(p => p.Brand).Include(p => p.ProductImage).Include(p => p.OperatingSystem).ToListAsync());
         }
        
-        public IActionResult thongke()
-        {
-            var products = _datacontext.Products
-                .Include(p => p.Brand)
-                .Include(p => p.Category)
-                .Include(p => p.OperatingSystem)
-                .ToList();
-
-            return View(products);
-        }
+       
 
         [HttpGet]
         public IActionResult Create()
