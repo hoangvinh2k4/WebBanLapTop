@@ -5,6 +5,7 @@ wwwroot\css\Discount.css
 wwwroot\css\Edit.css
 wwwroot\css\font-awesome.min.css
 wwwroot\css\Login.css
+wwwroot\css\LuckyWheel.css
 wwwroot\css\main.css
 wwwroot\css\prettyPhoto.css
 wwwroot\css\price-range.css
@@ -24,7 +25,6 @@ wwwroot\js\html5shiv.js
 wwwroot\js\jquery.js
 wwwroot\js\jquery.prettyPhoto.js
 wwwroot\js\jquery.scrollUp.min.js
-wwwroot\js\LuckyWheel.js
 wwwroot\js\main.js
 wwwroot\js\price-range.js
 wwwroot\js\Toggle.js
@@ -154,4 +154,4 @@ wwwroot\media\products\f1b37119-f8db-40bf-b724-7e9f3785366d.png
 wwwroot\media\products\f1b7e98d-069a-47ba-8f20-e50197b101b9.png
 wwwroot\media\products\f787b940-502c-427a-876e-102cbc222f1d.png
 wwwroot\media\products\f933008f-2522-4ab7-b7fa-e0aa39d1d8c2.png
-wwwroot\css\LuckyWheel.css
+wwwroot\js\LuckyWheel.js

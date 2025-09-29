@@ -15,13 +15,13 @@ namespace WebBanHang.Areas.Admin.Controllers
             _context = context;
         }
 
-        // Check quyền Admin
+        // Kiểm tra quyền Admin
         private bool IsAdmin()
         {
             return HttpContext.Session.GetString("UserRole") == "Admin";
         }
 
-        // Danh sách mã giảm giá
+        // 📋 Danh sách mã giảm giá
         public async Task<IActionResult> Index()
         {
             if (!IsAdmin())
@@ -53,14 +53,12 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                // Kiểm tra ngày
                 if (model.StartDate >= model.EndDate)
                 {
                     ModelState.AddModelError("EndDate", "Ngày kết thúc phải lớn hơn ngày bắt đầu.");
                     return View(model);
                 }
 
-                // Kiểm tra trùng Code
                 bool exists = await _context.Discounts.AnyAsync(d => d.Code == model.Code);
                 if (exists)
                 {
@@ -70,6 +68,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 
                 try
                 {
+                    model.Quantity = model.Quantity < 0 ? 0 : model.Quantity; // xử lý số lượng
                     _context.Discounts.Add(model);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -79,6 +78,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Có lỗi xảy ra khi lưu: " + ex.Message);
                 }
             }
+
             return View(model);
         }
 
@@ -91,6 +91,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             var discount = await _context.Discounts.FindAsync(id);
             if (discount == null) return NotFound();
+
             return View(discount);
         }
 
@@ -106,7 +107,6 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                // Kiểm tra ngày
                 if (model.StartDate >= model.EndDate)
                 {
                     ModelState.AddModelError("EndDate", "Ngày kết thúc phải lớn hơn ngày bắt đầu.");
@@ -116,7 +116,6 @@ namespace WebBanHang.Areas.Admin.Controllers
                 var discount = await _context.Discounts.FindAsync(id);
                 if (discount == null) return NotFound();
 
-                // Kiểm tra trùng Code (ngoại trừ chính nó)
                 bool exists = await _context.Discounts
                     .AnyAsync(d => d.Code == model.Code && d.DiscountID != id);
                 if (exists)
@@ -132,6 +131,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                     discount.StartDate = model.StartDate;
                     discount.EndDate = model.EndDate;
                     discount.IsActive = model.IsActive;
+                    discount.Quantity = model.Quantity < 0 ? 0 : model.Quantity; // cập nhật số lượng
 
                     _context.Update(discount);
                     await _context.SaveChangesAsync();
@@ -143,6 +143,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                     ModelState.AddModelError("", "Có lỗi xảy ra khi lưu: " + ex.Message);
                 }
             }
+
             return View(model);
         }
 
@@ -156,7 +157,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             var discount = await _context.Discounts.FindAsync(id);
             if (discount == null) return NotFound();
 
-            return View(discount); // Mở Delete.cshtml để confirm
+            return View(discount); // mở Delete.cshtml để confirm
         }
 
         // POST: Xoá

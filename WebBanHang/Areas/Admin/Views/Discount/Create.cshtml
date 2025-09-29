@@ -36,6 +36,13 @@
             <label class="form-check-label">Kích hoạt</label>
         </div>
 
+        <div class="form-group">
+            <label>Số lượng</label>
+            <input asp-for="Quantity" class="form-control" type="number" min="1" />
+            <span asp-validation-for="Quantity" class="text-danger"></span>
+        </div>
+
+
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Lưu</button>
             <a asp-action="Index" class="btn btn-secondary">Quay lại</a>
