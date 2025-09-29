@@ -21,7 +21,6 @@ namespace WebBanHang.Models
         [EmailAddress(ErrorMessage = "Email không hợp lệ")]
         public string Email { get; set; } = string.Empty;
 
-        [NotMapped]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Vui lòng nhập Password")]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6 ký tự trở lên")]
