@@ -31,15 +31,15 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
         {
 
             shippingModel.City = tinh;
-            shippingModel.District = quan;
-            shippingModel.Ward = phuong;
+
+            shippingModel.Ward = quan;
             shippingModel.Price = price;
 
             try
             {
                 
                 var existingShipping = await _datacontext.Shippings
-                    .AnyAsync(x => x.City == tinh && x.District == quan && x.Ward == phuong);
+                    .AnyAsync(x => x.City == tinh && x.Ward == quan );
 
                 if (existingShipping)
                 {

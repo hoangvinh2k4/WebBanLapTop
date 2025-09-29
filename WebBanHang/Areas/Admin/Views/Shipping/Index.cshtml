@@ -33,18 +33,13 @@
         </div>
 
         <div class="form-group">
-            <label>Quận huyện</label>
+            <label>Phường xã</label>
             <select class="css_select" id="quan" name="quan" class="form-control" title="Chọn Quận Huyện">
-                <option value="0">Quận Huyện</option>
+                <option value="0">Phường xã</option>
             </select>
         </div>
 
-        <div class="form-group">
-            <label>Phường Xã</label>
-            <select class="css_select" id="phuong" name="phuong" class="form-control" title="Chọn Phường Xã">
-                <option value="0">Phường Xã</option>
-            </select>
-        </div>
+        
 
         <div class="form-group">
             <label>Giá</label>
@@ -63,10 +58,10 @@
     <table class="table table-striped" id="myTable">
         <thead>
             <tr>
-                <th>City</th>
-                <th>District</th>
-                <th>Ward</th>
-                <th>Price</th>
+                <th>Tỉnh/Thành Phố</th>
+              
+                <th>Phường Xã</th>
+                <th>Giá</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -75,7 +70,7 @@
             {
                 <tr>
                     <td>@shipping.City</td>
-                    <td>@shipping.District</td>
+               
                     <td>@shipping.Ward</td>
                     <td>@shipping.Price.ToString("#,##0 VNĐ")</td>
                     <td>
@@ -96,19 +91,19 @@
         $(".btn-add-shipping").click(function(){
             var tinh = $("#tinh").find('option:selected').text();
             var quan = $("#quan").find('option:selected').text();
-            var phuong = $("#phuong").find('option:selected').text();
+            
             var price = $("#price-shipping").val();
             // alert(tinh);
             // alert(quan);
             // alert(phuong);
             // alert(price);
-            if (tinh == '' || quan == '' || phuong == '' || price == '') {
+            if (tinh == '' || quan == '' ||  price == '') {
                 Swal.fire("Làm ơn ko bỏ trống.");
             }else{
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("StoreShipping", "Shipping")",
-                    data: { tinh: tinh, quan: quan, phuong: phuong, price: price }, // Send data to the server
+                    data: { tinh: tinh, quan: quan, price: price }, // Send data to the server
 
                            success: function (result) {
             if (result.success) {
@@ -133,7 +128,7 @@
         })
         $(document).ready(function () {
             //Lấy tỉnh thành
-            $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+            $.getJSON('https://esgoo.net/api-tinhthanh-new/1/0.htm', function (data_tinh) {
                 if (data_tinh.error == 0) {
                     $.each(data_tinh.data, function (key_tinh, val_tinh) {
                         $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
@@ -141,7 +136,7 @@
                     $("#tinh").change(function (e) {
                         var idtinh = $(this).val();
                         //Lấy quận huyện
-                        $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                        $.getJSON('https://esgoo.net/api-tinhthanh-new/2/'+idtinh+'.htm', function (data_quan) {
                             if (data_quan.error == 0) {
                                 $("#quan").html('<option value="0">Quận Huyện</option>');
                                 $("#phuong").html('<option value="0">Phường Xã</option>');
@@ -149,17 +144,7 @@
                                     $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
                                 });
                                 //Lấy phường xã
-                                $("#quan").change(function (e) {
-                                    var idquan = $(this).val();
-                                    $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
-                                        if (data_phuong.error == 0) {
-                                            $("#phuong").html('<option value="0">Phường Xã</option>');
-                                            $.each(data_phuong.data, function (key_phuong, val_phuong) {
-                                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
-                                            });
-                                        }
-                                    });
-                                });
+
 
                             }
                         }); //end $.getJson
