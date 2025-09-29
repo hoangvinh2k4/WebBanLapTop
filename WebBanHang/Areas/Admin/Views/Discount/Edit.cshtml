@@ -9,6 +9,7 @@
     <h2>@ViewData["Title"]</h2>
 
     <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
         <input type="hidden" asp-for="DiscountID" />
 
         <div class="form-group">
@@ -31,6 +32,7 @@
         <div class="form-group">
             <label>Ngày kết thúc</label>
             <input asp-for="EndDate" class="form-control" type="date" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
         </div>
 
         <div class="form-check">
@@ -44,3 +46,8 @@
         </div>
     </form>
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

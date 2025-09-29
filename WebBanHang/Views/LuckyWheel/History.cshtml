@@ -1,0 +1,38 @@
+﻿    @model IEnumerable<WebBanHang.Models.UserDiscountModel>
+    @{
+        ViewData["Title"] = "Lịch sử nhận voucher";
+        Layout = "_AuthLayout";
+    }
+
+    <link rel="stylesheet" href="~/css/luckywheel.css" /> <!-- Có thể dùng chung CSS -->
+
+    <h2>@ViewData["Title"]</h2>
+
+    @if (!Model.Any())
+    {
+        <p>Bạn chưa nhận voucher nào.</p>
+    }
+    else
+    {
+        <table class="voucher-history">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã Voucher</th>
+                    <th>Giảm (%)</th>
+                    <th>Ngày nhận</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Select((v, i) => new { v, i }))
+                {
+                    <tr>
+                        <td>@(item.i + 1)</td>
+                        <td>@item.v.Discount?.Code</td>
+                        <td>@item.v.Discount?.Percentage</td>
+                        <td>@item.v.SpinDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }

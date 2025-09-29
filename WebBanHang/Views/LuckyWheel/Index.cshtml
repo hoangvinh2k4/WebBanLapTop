@@ -1,0 +1,40 @@
+﻿@model IEnumerable<WebBanHang.Models.DiscountModel>
+@{
+    ViewData["Title"] = "Vòng quay may mắn";
+    Layout = "_AuthLayout";
+}
+
+<link rel="stylesheet" href="~/css/luckywheel.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<div class="wheel-container">
+    <div class="arrow">
+        <i class="fa-solid fa-caret-down"></i>
+    </div>
+    <canvas id="wheelCanvas" width="400" height="400">
+        Canvas không được hỗ trợ trên trình duyệt này.
+    </canvas>
+    <p>Lượt quay còn lại hôm nay: <span id="remainingSpins">@ViewBag.RemainingSpins</span></p>
+    <button id="spinBtn">Quay ngay</button>
+    <!-- Nút xem lịch sử voucher -->
+    @if (ViewBag.IsLoggedIn ?? false)
+    {
+        <div style="margin-top:20px; text-align:center;">
+            <a href="@Url.Action("History", "LuckyWheel")" class="history-btn">📜 Xem lịch sử voucher</a>
+        </div>
+    }
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+<!-- Chuyển dữ liệu từ server sang JS -->
+<script>
+    var discounts = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model));
+    var isLoggedIn = @((ViewBag.IsLoggedIn ?? false).ToString().ToLower());
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenMax.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/zarocknz/javascript-winwheel/Winwheel.min.js"></script>
+<script src="~/js/luckywheel.js"></script>

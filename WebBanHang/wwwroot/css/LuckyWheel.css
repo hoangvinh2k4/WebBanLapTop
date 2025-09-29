@@ -1,0 +1,125 @@
+﻿/* Container vòng quay */
+.wheel-container {
+    position: relative;
+    text-align: center;
+    margin: 50px auto;
+    width: 520px;
+    height: 580px;
+}
+
+/* Canvas vòng quay */
+#wheelCanvas {
+    border-radius: 50%;
+    background: #fdfdfd;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Container nút quay + nút lịch sử */
+.wheel-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* khoảng cách giữa nút quay và nút lịch sử */
+    margin-top: 20px;
+}
+
+/* Nút quay */
+#spinBtn {
+    padding: 14px 35px;
+    background: linear-gradient(135deg, #ff5f6d, #ffc371);
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+    #spinBtn:hover {
+        background: linear-gradient(135deg, #ff416c, #ff4b2b);
+        transform: scale(1.05);
+    }
+
+/* Nút xem lịch sử */
+.history-btn {
+    display: inline-block;
+    padding: 14px 25px;
+    background: #1abc9c;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+    .history-btn:hover {
+        background: #16a085;
+        transform: scale(1.05);
+    }
+
+/* Icon mũi tên */
+.arrow-icon {
+    position: absolute;
+    top: -25px; /* đưa icon lên phía trên vòng quay */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 50px;
+    color: #e74c3c;
+    z-index: 10;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Toast thông báo */
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.5s, bottom 0.5s;
+}
+
+    .toast.show {
+        visibility: visible;
+        opacity: 1;
+        bottom: 50px;
+    }
+
+/* Bảng lịch sử voucher */
+.voucher-history {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+    .voucher-history th,
+    .voucher-history td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .voucher-history th {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .voucher-history tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .voucher-history tr:hover {
+        background-color: #ddd;
+    }
