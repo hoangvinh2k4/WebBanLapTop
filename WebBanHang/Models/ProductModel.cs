@@ -58,5 +58,7 @@ namespace WebBanHang.Models
         // -------- RELATIONSHIP --------
         public ICollection<WishListModel>? WishList { get; set; }
         public ICollection<CartModel>? Cart { get; set; }
+        public virtual ICollection<ProductReviews> ProductReviews { get; set; }
+
     }
 }
