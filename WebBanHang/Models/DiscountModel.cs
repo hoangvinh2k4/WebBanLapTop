@@ -22,6 +22,7 @@ namespace WebBanHang.Models
         public DateTime EndDate { get; set; } = DateTime.Now.AddMonths(1);
 
         public bool IsActive { get; set; } = true;
+        public int Quantity { get; set; } = 1; // số lượt tối đa của voucher
     }
 }
 
