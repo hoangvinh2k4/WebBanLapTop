@@ -49,6 +49,7 @@ namespace WebBanHang.Controllers
                 else if (user.Role == "Customer")
                 {
                     return RedirectToAction("HomeIndex", "Home", new { area = (string?)null });
+
                 }
                 else
                 {
