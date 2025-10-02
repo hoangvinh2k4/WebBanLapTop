@@ -12,17 +12,11 @@ internal class Program
         //// Add services to the container.
         //builder.Services.AddControllersWithViews();
 
-        // ✅ Đăng ký DbContext
-        builder.Services.AddDbContext<DataConnect>(options =>
-        {
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
-        });
-        // Vòng lặp
-        builder.Services.AddControllersWithViews()
-       .AddNewtonsoftJson(options =>
-       {
-           options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-       });
+// ✅ Đăng ký DbContext
+builder.Services.AddDbContext<DataConnect>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
         // ✅ Đăng ký Session
         builder.Services.AddDistributedMemoryCache();

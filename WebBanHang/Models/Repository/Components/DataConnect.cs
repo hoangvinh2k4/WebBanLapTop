@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebBanHang.Models.ViewModel;
 namespace WebBanHang.Models.Repository.component
 {
     public class DataConnect : DbContext
@@ -18,5 +19,11 @@ namespace WebBanHang.Models.Repository.component
         public DbSet<PaymentModel> Payments { get; set; }
         public DbSet<CartModel> CartItems { get; set; }
         public DbSet<WishListModel> WishList { get; set; } // trong này phải đặt tên trùng vs các bảng trong db
-    }
+        public DbSet<ShippingModel> Shippings { get; set; }
+        public DbSet<WishListModel> WishList { get; set; }
+        public DbSet<ProductReviews> ProductReviews { get; set; }
+
+
+    }// trong này phải đặt tên trùng vs các bảng trong db
 }
+

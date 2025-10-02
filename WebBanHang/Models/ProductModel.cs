@@ -54,10 +54,15 @@ namespace WebBanHang.Models
 
         [NotMapped]
         [FileExtension]
+        public List<IFormFile>? ImageUpload { get; set; } // để upload ảnh mới
+
+        // -------- RELATIONSHIP --------
         public IFormFile? ImageUpload { get; set; }  // để upload ảnh mới
         [JsonIgnore]
         public ICollection<WishListModel>? WishList { get; set; }
         [JsonIgnore]
         public ICollection<CartModel>? Cart { get; set; }
+        public virtual ICollection<ProductReviews> ProductReviews { get; set; }
+
     }
 }
