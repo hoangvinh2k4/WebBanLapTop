@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -21,7 +22,7 @@
 	<link href="~/css/animate.css" rel="stylesheet">
 	<link href="~/css/main.css" rel="stylesheet">
 	<link href="~/css/responsive.css" rel="stylesheet">
-	<link href="~/css/register.css" rel="stylesheet">
+	<link href="~/css/register.css" rel="stylesheet" asp-append-version="true">
 
 	<!--[if lt IE 9]>
 	<script src="js/html5shiv.js"></script>
@@ -62,7 +63,7 @@
 					<!-- Logo bên trái -->
 					<div class="col-sm-2">
 						<div class="logo">
-							<a href="/"><img src="~/images/nitro5.jpg" alt="Logo" style="max-height:100px;" /></a>
+							<a href="/"><img src="~/images/thinkpad.jpg" alt="Logo" style="max-height:50px;" /></a>
 						</div>
 					</div>
 
@@ -70,14 +71,13 @@
 						<form id="searchForm" class="search_box" action="/Home/HomeIndex" autocomplete="off" style="width: 100%; position: relative;">
 							<input type="text" id="searchBox" name="keyword"
 								   class="form-control" placeholder="Nhập tên sản phẩm bạn cần tìm"
-								   style="padding-left: 40px;" />
+								   style="padding-left: 40px;" value='@(Context.Request.Query["keyword"])' />
+
 							<button type="submit" id="btnSearch"
 									style="position: absolute; top: 50%; left: 470px; transform: translateY(-50%);
                        background: none; border: none; color: #888; cursor: pointer;">
 								<i class="fa fa-search"></i>
 							</button>
-
-
 						</form>
 					</div>
 
@@ -86,10 +86,13 @@
 					<div class="col-sm-4">
 						<div class="shop-menu d-flex justify-content-end">
 							<ul class="nav">
+								@* <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-user"></i> Account</a></li>
+								<li class="nav-item"><a class="nav-link" href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li> *@
+
 								@if (Context.Session.GetString("UserId") != null) // đã đăng nhập
 								{
 									<li>
-										<a asp-controller="Account" asp-action="Logout" style="left: 150px">
+										<a asp-controller="Account" asp-action="Logout" style="left: 200px">
 											<i class="fa fa-lock"></i>Chào, @Context.Session.GetString("Username") - Đăng Xuất
 										</a>
 									</li>
@@ -97,7 +100,7 @@
 								else // chưa đăng nhập
 								{
 									<li class="nav-item">
-										<a class="nav-link" asp-controller="Account" asp-action="Login">
+										<a class="nav-link" asp-controller="Account" asp-action="Login" style="left: 250px">
 											<i class="fa fa-lock"></i> Login
 										</a>
 									</li>
@@ -110,7 +113,6 @@
 										</div>
 									</div>
 								</div>
-							</ul>
 						</div>
 
 					</div><!--/header-middle-->
@@ -134,6 +136,7 @@
 											<li><a asp-controller="User" asp-action="ListUser"><i class="fa-solid fa-gear"></i> Quản lý người dùng </a></li>
 											<li><a asp-controller="Product" asp-action="Index"><i class="fa-solid fa-gear"></i> Quản lý sản phẩm </a></li>
 											<li><a asp-controller="Statistical" asp-action="StatisticalIndex"><i class="fa-solid fa-chart-column"></i>  Thống kê doanh số </a></li>
+											<li><a asp-area="Admin" asp-controller="Shipping" asp-action="Index"><i class="fa-solid fa-gear"></i>Phí Ship</a></li>
 										</ul>
 
 									</div>
@@ -234,7 +237,7 @@
 							<div class="video-gallery text-center">
 								<a href="#">
 									<div class="iframe-img">
-										<img src="~/images/legion5.jpg" alt="" />
+										<img src="images/home/iframe1.png" alt="" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -377,11 +380,11 @@
 
 	</footer><!--/Footer-->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="~/js/bootstrap.min.js"></script>
+	@* <script src="~/js/bootstrap.min.js"></script>
+	<script src="~/js/bootstrap-slider.min.js"></script> <!-- nếu dùng slider --> *@
 	<script src="~/js/main.js"></script>
-	<script src="~/js/cart.js"></script> <!-- Hoàng Vinh thêm -->
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Hoàng Vinh thêm -->
-	@RenderSection("Scripts", required: false) <!-- Hoàng Vinh thêm -->
+	<script src="~/js/Common.js"></script>
+	@RenderSection("Scripts", required: false)
+
 </body>
 </html>
-
