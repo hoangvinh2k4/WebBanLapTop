@@ -1,14 +1,16 @@
-﻿@model IEnumerable<WebBanHang.Models.CategoriesModel>
+﻿@model List<WebBanHang.Models.CategoriesModel>
 
-@foreach (var item in Model)
-{
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a asp-action="CategoriesIndex" asp-controller="Categories" asp-route-id="@item.CategoryID">
-                    @item.CategoryName
-                </a>
-            </h4>
+<div class="panel-group category-products">
+    @foreach (var cat in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#" class="category-filter" data-category-id="@cat.CategoryID">
+                        @cat.CategoryName
+                    </a>
+                </h4>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>

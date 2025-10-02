@@ -1,14 +1,16 @@
-﻿@model IEnumerable<WebBanHang.Models.OperatingSystemModel>
+﻿@model List<WebBanHang.Models.OperatingSystemModel>
 
-@foreach (var item in Model)
-{
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a asp-action="OperatingSystemIndex" asp-controller="OperatingSystem" asp-route-id="@item.OperatingSystemID">
-                    @item.OperatingSystemName
-                </a>
-            </h4>
+<div class="panel-group category-products">
+    @foreach (var cat in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#" class="os-filter" data-os-id="@cat.OperatingSystemID">
+                        @cat.OperatingSystemName
+                    </a>
+                </h4>
+            </div>
         </div>
-    </div>
-}
+    }
+</div>

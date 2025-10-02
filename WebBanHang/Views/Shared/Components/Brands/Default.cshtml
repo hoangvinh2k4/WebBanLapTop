@@ -1,13 +1,16 @@
 ﻿@model List<WebBanHang.Models.BrandsModel>
-@foreach(var item in Model)
-{
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4 class="panel-title">
-                <a asp-action="BrandsIndex" asp-controller="Brands" asp-route-id="@item.BrandID">
-                @item.NameBrand
-            </a>
-        </h4>
-    </div>
+
+<div class="panel-group category-products">
+    @foreach (var cat in Model)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a href="#" class="brand-filter" data-brand-id="@cat.BrandID">
+                        @cat.NameBrand
+                    </a>
+                </h4>
+            </div>
+        </div>
+    }
 </div>
-}

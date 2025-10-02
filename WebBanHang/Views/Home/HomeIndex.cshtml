@@ -1,18 +1,151 @@
 ﻿@model IEnumerable<ProductModel>
+
 <div class="col-sm-3">
     @Html.Partial("_SidebarParticial")
 </div>
 
 <div class="col-sm-9 padding-right">
-        <!--features_items-->
+    <div class="features_items">
+        <h2 class="title text-center">Features Items</h2>
 
-        <div class="features_items">
-            <h2 class="title text-center">Features Items</h2>
+        <div class="row mb-3">
+            <div class="col-sm-3">
+                <select id="sortOption" class="form-control">
+                    <option value="default">-- Sắp xếp --</option>
+                    <option value="priceAsc">Giá: Thấp → Cao</option>
+                    <option value="priceDesc">Giá: Cao → Thấp</option>
+                    <option value="newest">Mới nhất</option>
+                    <option value="bestseller">Bán chạy</option>
+                </select>
+            </div>
+        </div>
 
-            <div id="productList">
-              @await Html.PartialAsync("HomeIndexPartial", Model)
+        <!-- Đây là khung chứa sản phẩm -->
+        <div id="productList">
+            <div class="row">
+                @await Html.PartialAsync("ProductListPartial", Model)
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        let currentCategory = null;
+        let currentBrand = null;
+        let currentOs = null;
+        let currentSort = "default";
+
+        $(document).ready(function () {
+
+            function loadProducts() {
+                let keyword = $('#searchBox').val();
+                console.log("Loading products with:", currentCategory, currentBrand, currentOs, currentSort, keyword);
+
+                $.ajax({
+                    url: '@Url.Action("HomeIndex", "Home")',
+                    type: 'GET',
+                    data: {
+                        keyword: keyword,
+                        categoryId: currentCategory,
+                        brandId: currentBrand,
+                        osId: currentOs,
+                        sortBy: currentSort,
+                        isAjax: true
+                    },
+                    success: function(result) {
+                        $("#productList").html(result);
+                        highlightFilters();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Lỗi load sản phẩm:", error);
+                    }
+                });
+            }
+
+            // Highlight filter đang chọn
+            function highlightFilters() {
+                $(".category-filter").removeClass("active");
+                if(currentCategory !== null) {
+                    $('.category-filter[data-category-id="'+currentCategory+'"]').addClass("active");
+                }
+
+                $(".brand-filter").removeClass("active");
+                if(currentBrand !== null) {
+                    $('.brand-filter[data-brand-id="'+currentBrand+'"]').addClass("active");
+                }
+
+                $(".os-filter").removeClass("active");
+                if(currentOs !== null) {
+                    $('.os-filter[data-os-id="'+currentOs+'"]').addClass("active");
+                }
+            }
+
+            // Search
+            $('#btnSearch').click(function(e){
+                e.preventDefault();
+                loadProducts();
+            });
+
+            // Category filter
+            $(document).on("click", ".category-filter", function(e){
+                e.preventDefault();
+                let id = $(this).data("category-id");
+                currentCategory = (currentCategory === id) ? null : id; // toggle
+                currentBrand = null; // reset brand
+                currentOs = null;    // reset OS
+
+                // Reset sort
+                currentSort = "default";
+                $('#sortOption').val("default");
+
+                loadProducts();
+            });
+
+            // Brand filter
+            $(document).on("click", ".brand-filter", function(e){
+                e.preventDefault();
+                let id = $(this).data("brand-id");
+                currentBrand = (currentBrand === id) ? null : id; // toggle
+                currentCategory = null; // reset category
+                currentOs = null;       // reset OS
+
+                // Reset sort
+                currentSort = "default";
+                $('#sortOption').val("default");
+
+                loadProducts();
+            });
+
+            // OS filter
+            $(document).on("click", ".os-filter", function(e){
+                e.preventDefault();
+                let id = $(this).data("os-id");
+                currentOs = (currentOs === id) ? null : id; // toggle
+                currentCategory = null; // reset category
+                currentBrand = null;    // reset brand
+
+                // Reset sort
+                currentSort = "default";
+                $('#sortOption').val("default");
+
+                loadProducts();
+            });
+
+            // Sort dropdown
+            $('#sortOption').change(function(){
+                currentSort = $(this).val();
+                loadProducts();
+            });
+
+            // Load mặc định khi mở trang
+            loadProducts();
+        });
+    </script>
+}
+
+
+
+
+
 

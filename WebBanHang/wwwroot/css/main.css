@@ -1637,7 +1637,7 @@ h2.title {
 	/*  margin: 15px -70px 10px 25px;*/
 }
 
-.cart_quantity_button a {
+/*.cart_quantity_button a {
 	background: #F0F0E9;
 	color: #696763;
 	display: inline-block;
@@ -1664,7 +1664,41 @@ h2.title {
 #cart_items .cart_info .cart_quantity,
 #cart_items .cart_info .cart_total {
 	vertical-align: middle;
+}*/
+
+.cart_quantity_button a {
+	background: #F0F0E9;
+	color: #696763;
+	display: inline-block;
+	font-size: 16px;
+	width: 35px;
+	height: 28px;
+	line-height: 28px; /* căn giữa dấu + - */
+	text-align: center;
+	vertical-align: middle; /* giúp thẳng hàng */
 }
+
+.cart_quantity_input {
+	color: #696763;
+	font-size: 16px;
+	text-align: center;
+	font-family: 'Roboto',sans-serif;
+	width: 50px;
+	height: 28px;
+	line-height: 28px; /* căn chữ trong input giữa */
+	margin: 0;
+	vertical-align: middle; /* giúp thẳng hàng với button */
+}
+
+#cart_items .cart_info .cart_product,
+#cart_items .cart_info .cart_description,
+#cart_items .cart_info .cart_price,
+#cart_items .cart_info .cart_quantity,
+#cart_items .cart_info .cart_total {
+	vertical-align: middle;
+}
+
+
 
 .cart_delete  {
   display: block;
@@ -2596,6 +2630,16 @@ input[type="email"], input[type="text"], input[type="tel"], textarea {
 	border-radius: 4px;
 	box-sizing: border-box; /* Quan trọng để padding không làm tăng chiều rộng */
 }
+
+.item-qty {
+	width: 50px !important;
+	height: 28px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	text-align: center;
+	box-sizing: border-box;
+}
+
 
 /* Định dạng tùy chọn Vận chuyển và Thanh toán */
 .shipping-option, .payment-option {

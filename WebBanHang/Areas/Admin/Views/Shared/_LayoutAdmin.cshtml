@@ -73,7 +73,7 @@
 								   style="padding-left: 40px;" />
 
 							<button type="submit" id="btnSearch"
-									style="position: absolute; top: 50%; left: 12px; transform: translateY(-50%);
+									style="position: absolute; top: 50%; left: 470px; transform: translateY(-50%);
                        background: none; border: none; color: #888; cursor: pointer;">
 								<i class="fa fa-search"></i>
 							</button>
@@ -88,7 +88,7 @@
 								@if (Context.Session.GetString("UserId") != null) // đã đăng nhập
 								{
 									<li>
-										<a asp-controller="Account" asp-action="Logout">
+										<a asp-controller="Account" asp-action="Logout" style="left: 150px">
 											<i class="fa fa-lock"></i>Chào, @Context.Session.GetString("Username") - Đăng Xuất
 										</a>
 									</li>
@@ -375,16 +375,11 @@
 		</div>
 
 	</footer><!--/Footer-->
-
-	<script src="~/js/jquery.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>
-	<script src="~/lib/jquery.scrollUp.min.js"></script>
-	<script src="~/js/price-range.js"></script>
-	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
 	<script src="~/js/cart.js"></script> <!-- Hoàng Vinh thêm -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Hoàng Vinh thêm -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Hoàng Vinh thêm -->
 	@RenderSection("Scripts", required: false) <!-- Hoàng Vinh thêm -->
 </body>
 </html>

@@ -13,14 +13,17 @@ namespace WebBanHang.Controllers
         {
             _datacontext = context;
         }
+        [HttpGet]
         public IActionResult CategoriesIndex(int id)
         {
-            var categories = _datacontext.Products
-                                 .Include(p => p.ProductImage)
-                                 .Include(p => p.Category)
-                                 .Where(p => p.CategoryID == id)
-                                 .ToList();
-            return View(categories);
+            var products = _datacontext.Products
+                .Include(p => p.Category)
+                .Include(p => p.ProductImage)
+                .Where(p => p.CategoryID == id)
+                .ToList();
+
+            return PartialView("~/Views/Shared/ProductListPartial.cshtml", products); // Partial view hiển thị sản phẩm
         }
+        
     }
 }
