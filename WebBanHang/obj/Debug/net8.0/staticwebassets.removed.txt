@@ -1,1 +1,73 @@
-D:\C#\WebBanHang\WebBanHang\wwwroot\js\Cart.js
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\aspire.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\dellinspiron.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\delllatitude.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\Docker Desktop Installer.exe
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\1ce05b4b.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\4f7f59796c5dda8f5dfc63a40583dfde7cebb050
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\anchor.html
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\api.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\app-b5b389af504724b7c5115f3e03127a06.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\app-wa-adc42f0f5cea7225671ba01ef8acb0ac.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\brands.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\carbon.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\chisel-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\config.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\duotone-light.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\duotone-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\duotone-thin.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\duotone.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\etch-solid.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\fontawesome.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\inner.html
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\jelly-duo-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\jelly-fill-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\jelly-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\js
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\light.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\m-outer-15a2b40a058ddff1cffdb63779fe3de1.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\m-outer-3437aaddcdf6922d623e172c2d6f9278.html
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\main.e33c0846.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\monetization.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\notdog-duo-solid.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\notdog-solid.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\out-4.5.44.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\recaptcha__en.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\saved_resource
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\saved_resource(1)
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\saved_resource(2).html
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\saved_resource.html
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\settings-f598960070dfae7413af5c36978e5890.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\sharp-duotone-light.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\sharp-duotone-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\sharp-duotone-solid.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\sharp-duotone-thin.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\sharp-light.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\sharp-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\sharp-solid.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\sharp-thin.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\slab-press-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\slab-regular.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\solid.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\styles__ltr.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\thin.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\thumbprint-light.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\vendor.90814eeb.js.tải xuống
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\whiteboard-semibold.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\facebook_files\woff2.css
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\ideapad.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\macm1.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\macm2.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\macm3.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\macm4.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\nitro5tiger.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\pavilion13.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\pavilion14.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\pavilion15.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\images\thinkpad.jpg
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\js\Cart.js
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\media\products\039795f2-07d9-48b4-8175-341993cd0f9e.png
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\media\products\392de9d2-9ad5-4a13-b243-31ec0443a3e4.png
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\media\products\755f4771-aaf1-4275-8035-843178f5a342.png
+C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\wwwroot\media\products\d0080d2a-f194-4d85-b5e4-90b94bc39005.png

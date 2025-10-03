@@ -62,7 +62,7 @@ namespace WebBanHang.Models
         public ICollection<WishListModel>? WishList { get; set; }
         [JsonIgnore]
         public ICollection<CartModel>? Cart { get; set; }
-        public virtual ICollection<ProductReviews> ProductReviews { get; set; }
+        public virtual ICollection<ProductReviews>? ProductReviews { get; set; }
 
     }
 }

@@ -9,173 +9,173 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebBanHang
 build_property.RootNamespace = WebBanHang
-build_property.ProjectDir = D:\C#\WebBanHang\WebBanHang\
+build_property.ProjectDir = C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\C#\WebBanHang\WebBanHang
+build_property.MSBuildProjectDirectory = C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Admin/HomeAdmin.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWRtaW5cSG9tZUFkbWluLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Admin/HomeAdminPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcQWRtaW5cSG9tZUFkbWluUGFydGlhbC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Product/Create.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Product/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZHVjdFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Product/Edit.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Product/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZHVjdFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Product/Index.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Product/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZHVjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Shared/Error.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9MYXlvdXRBZG1pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Shared/_LayoutMini.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Shared/_LayoutMini.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9MYXlvdXRNaW5pLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Shared/_SidebarParticial.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Shared/_SidebarParticial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9TaWRlYmFyUGFydGljaWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Sidebar/Brands/BrandsIndex.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Shipping/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2hpcHBpbmdcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Sidebar/Brands/BrandsIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2lkZWJhclxCcmFuZHNcQnJhbmRzSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Sidebar/Categories/CategoriesIndex.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Sidebar/Categories/CategoriesIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2lkZWJhclxDYXRlZ29yaWVzXENhdGVnb3JpZXNJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Sidebar/OperatingSystem/OperatingSystemIndex.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Sidebar/OperatingSystem/OperatingSystemIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2lkZWJhclxPcGVyYXRpbmdTeXN0ZW1cT3BlcmF0aW5nU3lzdGVtSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/Statistical/StatisticalIndex.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/Statistical/StatisticalIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU3RhdGlzdGljYWxcU3RhdGlzdGljYWxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/User/Create.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/User/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVXNlclxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/User/Edit.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/User/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVXNlclxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/User/ListUser.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/User/ListUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcVXNlclxMaXN0VXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/_ViewImports.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Areas/Admin/Views/_ViewStart.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Areas/Admin/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Account/Login.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Account/Register.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Cart/CartIndex.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Cart/CartIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxDYXJ0SW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/CheckOut/CheckOutIndex.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/CheckOut/CheckOutIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hlY2tPdXRcQ2hlY2tPdXRJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/CheckOut/OrderHistory.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/CheckOut/OrderHistory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hlY2tPdXRcT3JkZXJIaXN0b3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Home/HomeIndex.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Home/HomeIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxIb21lSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Login/Index.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Product/DetailProduct.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Product/DetailProduct.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxEZXRhaWxQcm9kdWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Product/Index.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Product/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/Components/Brands/Default.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Product/_ProductReviews.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxfUHJvZHVjdFJldmlld3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/Components/Brands/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQnJhbmRzXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/Components/Categories/Default.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/Components/Categories/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcmllc1xEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/Components/OperatingSystem/Default.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/Components/OperatingSystem/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcT3BlcmF0aW5nU3lzdGVtXERlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/Error.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/ProductListPartial.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/ProductListPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb2R1Y3RMaXN0UGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/_AuthLayout.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/_AuthLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9BdXRoTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/_SidebarParticial.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/_SidebarParticial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9TaWRlYmFyUGFydGljaWFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/WishList/WishListIndex.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/WishList/WishListIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcV2lzaExpc3RcV2lzaExpc3RJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/_ViewImports.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/_ViewStart.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/C\#/WebBanHang/WebBanHang/Views/Shared/_Layout.cshtml]
+[C:/Users/ADMIN/Source/Repos/WebBanLapTopmoine/WebBanHang/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ojic8umssh
