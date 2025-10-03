@@ -15,6 +15,9 @@ namespace WebBanHang.Models
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
         [Column(TypeName = "decimal(18,2)")]
+        public decimal ShippingFee { get; set; } = 0;
+
+        [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
 
         [Required]

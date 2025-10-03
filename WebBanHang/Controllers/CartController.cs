@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebBanHang.Models;
 using WebBanHang.Models.Repository;
 using WebBanHang.Models.Repository.component;
@@ -305,6 +306,7 @@ namespace WebBanHang.Controllers
                 return Json(new { success = true, totalItems = 0, grandTotal = 0, cart = new List<CartModel>() });
             }
         }
+      
     }
 }
 

@@ -19,7 +19,7 @@
                 <div class="card-header">
                     <b>Mã đơn:</b> @order.OrderID |
                     <b>Ngày đặt:</b> @order.OrderDate.ToString("dd/MM/yyyy HH:mm") |
-                    <b>Tổng tiền:</b> @string.Format("{0:N0} đ", order.TotalAmount) |
+                    <b>Tổng cuối:</b> @string.Format("{0:N0} đ", order.TotalAmount + order.ShippingFee) |
                     <b>Trạng thái:</b> @order.Status
                 </div>
                 <div class="card-body">

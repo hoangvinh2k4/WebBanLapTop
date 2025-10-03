@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebBanHang.Models;
 using WebBanHang.Models.Repository.component;
+using WebBanHang.Models.ViewModel;
 
 namespace WebBanHang.Controllers
 {
@@ -28,9 +30,9 @@ namespace WebBanHang.Controllers
 
             // Load giỏ hàng theo user
             var cartItems = _datacontext.CartItems
-            .Include(c => c.Product)  // ⚡️ Bắt buộc để tránh null
-            .Where(c => c.UserID == userId)
-            .ToList(); ;
+                .Include(c => c.Product)  // ⚡️ Bắt buộc để tránh null
+                .Where(c => c.UserID == userId)
+                .ToList();
 
             if (!cartItems.Any())
             {
@@ -38,8 +40,19 @@ namespace WebBanHang.Controllers
                 return RedirectToAction("Index", "Cart");
             }
 
+            decimal shippingPrice = 50000; // mặc định
+            var defaultShipping = _datacontext.Shippings.FirstOrDefault();
+            if (defaultShipping != null)
+            {
+                shippingPrice = defaultShipping.Price;
+            }
+
+            // Gửi qua ViewBag
+            ViewBag.ShippingPrice = 0;
+
             return View(cartItems); // Truyền cartItems sang view
         }
+
 
         // Xử lý khi bấm nút Thanh toán
         [HttpPost]
@@ -61,7 +74,11 @@ namespace WebBanHang.Controllers
                 TempData["Message"] = "Giỏ hàng trống, không thể đặt hàng!";
                 return RedirectToAction("Index", "Cart");
             }
-
+            decimal shippingFee = 0;
+            if (Request.Cookies.TryGetValue("ShippingPrice", out var shippingCookie))
+            {
+                decimal.TryParse(JsonConvert.DeserializeObject<string>(shippingCookie), out shippingFee);
+            }
             // ⚡ Transaction đảm bảo tính toàn vẹn dữ liệu
             using var transaction = _datacontext.Database.BeginTransaction();
 
@@ -73,6 +90,7 @@ namespace WebBanHang.Controllers
                     UserID = userId,
                     OrderDate = DateTime.Now,
                     TotalAmount = cartItems.Sum(c => c.TotalPrice),
+                    ShippingFee = shippingFee,
                     Status = "Đã thanh toán"
                 };
                 _datacontext.Orders.Add(order);
@@ -116,7 +134,7 @@ namespace WebBanHang.Controllers
                 {
                     OrderID = order.OrderID,
                     PaymentMethod = paymentMethod,
-                    Amount = order.TotalAmount,
+                    Amount = order.TotalAmount + order.ShippingFee,
                     PaidDate = DateTime.Now
                 };
                 _datacontext.Payments.Add(payment);
@@ -191,7 +209,44 @@ namespace WebBanHang.Controllers
 
             return RedirectToAction("OrderHistory");
         }
+        [HttpPost]
+        [Route("CheckOut/GetShipping")]
+        public async Task<IActionResult> GetShipping(ShippingModel shippingModel, string tinh)
+        {
 
+            var existingShipping = await _datacontext.Shippings
+                .FirstOrDefaultAsync(x => x.City == tinh );
+
+            decimal shippingPrice = 0; // Set mặc định giá tiền
+
+            if (existingShipping != null)
+            {
+                shippingPrice = existingShipping.Price;
+            }
+            else
+            {
+                //Set mặc định giá tiền nếu ko tìm thấy
+                shippingPrice = 50000;
+            }
+            ViewBag.ShippingPrice = shippingPrice;
+            var shippingPriceJson = JsonConvert.SerializeObject(shippingPrice);
+            try
+            {
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(30),
+                    Secure = true // using HTTPS
+                };
+
+                Response.Cookies.Append("ShippingPrice", shippingPriceJson, cookieOptions);
+            }
+            catch (Exception ex)
+            {
+                //
+                Console.WriteLine($"Error adding shipping price cookie: {ex.Message}");
+            }
+            return Json(new { shippingPrice });
+        }
     }
-
 }

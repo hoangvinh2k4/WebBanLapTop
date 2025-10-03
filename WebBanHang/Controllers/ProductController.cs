@@ -34,8 +34,6 @@ namespace WebBanHang.Controllers
             {
                 return RedirectToAction("Index");
             }
-
-            // Lấy sản phẩm cùng thương hiệu, trừ sản phẩm hiện tại
             // Lấy sản phẩm cùng thương hiệu, trừ sản phẩm hiện tại
             var relatedProducts = _datacontext.Products
                 .Include(p => p.Brand)              // ✅ thêm Brand để tránh null

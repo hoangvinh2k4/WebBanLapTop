@@ -142,10 +142,7 @@
                                 $("#phuong").html('<option value="0">Phường Xã</option>');
                                 $.each(data_quan.data, function (key_quan, val_quan) {
                                     $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
-                                });
-                                //Lấy phường xã
-
-
+                                });                             
                             }
                         }); //end $.getJson
 
