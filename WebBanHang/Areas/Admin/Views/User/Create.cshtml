@@ -4,7 +4,7 @@
     Layout = "_LayoutMini";
 }
 <link rel="stylesheet" href="~/css/CreateUser.css" />
-<div class="create-user-container" >
+<div class="create-user-container">
     <form asp-action="Create" enctype="multipart/form-data" class="create-user-form">
         <h3>Create User</h3>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -38,7 +38,6 @@
             <select asp-for="Role" class="form-control" asp-items="ViewBag.Roles"></select>
             <span asp-validation-for="Role" class="text-danger"></span>
         </div>
-
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Create</button>
