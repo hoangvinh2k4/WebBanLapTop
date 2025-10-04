@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models.Repository.component;
 using WebBanHang.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Http; // để dùng HttpContext.Session
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -59,7 +59,6 @@ namespace WebBanHang.Areas.Admin.Controllers
             {
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
-
                 return RedirectToAction("ListUser");
             }
 
@@ -101,7 +100,7 @@ namespace WebBanHang.Areas.Admin.Controllers
 
                 if (!string.IsNullOrEmpty(userUpdate.Password))
                 {
-                    // Lưu thẳng password (không hash)
+                    // ⚠ Password chưa mã hóa (bạn nên hash sau này)
                     user.Password = userUpdate.Password;
                 }
 
@@ -115,7 +114,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View(userUpdate);
         }
 
-        // Xóa user
+        // ✅ XÓA USER (đã sửa để tránh lỗi khóa ngoại)
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -125,6 +124,16 @@ namespace WebBanHang.Areas.Admin.Controllers
             var user = await _context.Users.FindAsync(id);
             if (user == null) return NotFound();
 
+            // 🔹 Xóa tất cả bản ghi UserDiscounts liên quan trước
+            var userDiscounts = await _context.UserDiscounts
+                                              .Where(ud => ud.UserId == id)
+                                              .ToListAsync();
+            if (userDiscounts.Any())
+            {
+                _context.UserDiscounts.RemoveRange(userDiscounts);
+            }
+
+            // 🔹 Sau đó mới xóa user
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
