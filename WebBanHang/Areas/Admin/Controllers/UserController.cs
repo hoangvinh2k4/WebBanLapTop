@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models.Repository.component;
 using WebBanHang.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http; // để dùng HttpContext.Session
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebBanHang.Areas.Admin.Controllers
 {
@@ -53,8 +57,6 @@ namespace WebBanHang.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
-
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
@@ -99,7 +101,8 @@ namespace WebBanHang.Areas.Admin.Controllers
 
                 if (!string.IsNullOrEmpty(userUpdate.Password))
                 {
-                    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userUpdate.Password);
+                    // Lưu thẳng password (không hash)
+                    user.Password = userUpdate.Password;
                 }
 
                 _context.Users.Update(user);

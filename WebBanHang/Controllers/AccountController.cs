@@ -1,8 +1,6 @@
-﻿using BCrypt.Net; // NuGet: BCrypt.Net-Next
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBanHang.Models;
-using WebBanHang.Models.Repository;
 using WebBanHang.Models.Repository.component;
 using WebBanHang.Models.ViewModel;
 
@@ -35,7 +33,8 @@ namespace WebBanHang.Controllers
             var user = await _context.Users
                                      .FirstOrDefaultAsync(u => u.Username == loginVM.Username);
 
-            if (user != null && BCrypt.Net.BCrypt.Verify(loginVM.Password, user.PasswordHash))
+            // ✅ So sánh trực tiếp Password (không hash)
+            if (user != null && user.Password == loginVM.Password)
             {
                 // Lưu session
                 HttpContext.Session.SetString("UserId", user.UserID.ToString());
@@ -54,7 +53,6 @@ namespace WebBanHang.Controllers
                 }
                 else
                 {
-                    // Nếu có role khác → đưa về trang chủ
                     return RedirectToAction("HomeIndex", "Home", new { area = (string?)null });
                 }
             }
@@ -96,9 +94,8 @@ namespace WebBanHang.Controllers
                 return View(user);
             }
 
-            // Hash mật khẩu
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            user.Role = "Customer"; // mặc định khi đăng ký là Customer
+            // ✅ Lưu mật khẩu trực tiếp (plain text)
+            user.Role = "Customer";
             user.Created = DateTime.Now;
 
             _context.Users.Add(user);
@@ -107,7 +104,7 @@ namespace WebBanHang.Controllers
             return RedirectToAction("Login");
         }
 
-        // GET: /logout
+        // GET: /Account/Logout
         [HttpGet]
         [Route("/logout")] // Bắt thẳng route, không phụ thuộc area
         public IActionResult Logout()
