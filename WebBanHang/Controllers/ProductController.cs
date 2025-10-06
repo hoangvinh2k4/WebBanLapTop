@@ -7,7 +7,7 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace WebBanHang.Controllers
 {
-    public class ProductController :Controller
+    public class ProductController : Controller
     {
         private readonly DataConnect _datacontext;
         public ProductController(DataConnect context)
@@ -34,13 +34,15 @@ namespace WebBanHang.Controllers
             {
                 return RedirectToAction("Index");
             }
+
+            // Lấy sản phẩm cùng thương hiệu, trừ sản phẩm hiện tại
             // Lấy sản phẩm cùng thương hiệu, trừ sản phẩm hiện tại
             var relatedProducts = _datacontext.Products
                 .Include(p => p.Brand)              // ✅ thêm Brand để tránh null
                 .Include(p => p.Category)           // (nếu cần show category)
                 .Include(p => p.OperatingSystem)    // (nếu cần show hệ điều hành)
                 .Include(p => p.ProductImage)
-          
+
                 .Where(p => p.BrandID == getbyproductID.BrandID && p.ProductID != id)
                 .Take(4) // lấy 4 sản phẩm thôi
                 .ToList();
@@ -75,4 +77,4 @@ namespace WebBanHang.Controllers
 }
 
 
-       
+
