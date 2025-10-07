@@ -2,95 +2,149 @@
 @{
     ViewData["title"] = "Create Product";
 }
-<h1>Create</h1>
-<div class="col-md-9">
-    <form asp-action="Create" enctype="multipart/form-data"> 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label>Name</label>
-            <input asp-for="NameProduct" class="form-control" />
-            <span asp-validation-for="NameProduct" class="text-danger"></span>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<div class="container" style="margin-top: 30px;">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-plus"></span> Thêm sản phẩm mới
+            </h3>
         </div>
 
-        <div class="form-group">
-            <label>Price</label>
-            <input asp-for="Price" pattern="[0-9.,]+" class="form-control typing-price" />
-            <span id="price-convert"></span>
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
+        <div class="panel-body">
+            <form asp-action="Create" enctype="multipart/form-data" class="form-horizontal">
 
-        <div class="form-group">
-            <label>Description</label>
-            <textarea asp-for="Description" class="form-control"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group">
-            <label>Category</label>
-            <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.Categories">
-                <option value="">-- Choose a category --</option>
-            </select>
-            <span asp-validation-for="CategoryID" class="text-danger"></span>
-        </div>
+                <!-- Tên sản phẩm -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Tên sản phẩm</label>
+                    <div class="col-md-9">
+                        <input asp-for="NameProduct" class="form-control" placeholder="Nhập tên sản phẩm..." />
+                        <span asp-validation-for="NameProduct" class="text-danger"></span>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label>Brand</label>
-            <select asp-for="BrandID" class="form-control" asp-items="ViewBag.Brands">
-                <option value="">-- Choose a brand --</option>
-            </select>
-            <span asp-validation-for="BrandID" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label>Stock</label>
-            <input asp-for="Stock" type="number" class="form-control" min="0" />
-            <span asp-validation-for="Stock" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label>Operating System</label>
-            <select asp-for="OperatingSystemID" class="form-control" asp-items="ViewBag.OperatingSystem">
-                <option value="">-- Choose an operating system --</option>
-            </select>
-            <span asp-validation-for="OperatingSystemID" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label>Images</label>
-            <input asp-for="ImageUpload" type="file" class="form-control" multiple />
-            <span asp-validation-for="ImageUpload" class="text-danger"></span>
-            <div id="preview" class="pt-2" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
-        </div>
+                <!-- Giá -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Giá (VNĐ)</label>
+                    <div class="col-md-9">
+                        <input asp-for="Price" pattern="[0-9.,]+" class="form-control typing-price" placeholder="Nhập giá sản phẩm..." />
+                        <span id="price-convert" class="help-block text-muted"></span>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
 
+                <!-- Mô tả -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Mô tả</label>
+                    <div class="col-md-9">
+                        <textarea asp-for="Description" class="form-control" rows="3" placeholder="Nhập mô tả sản phẩm..."></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <button class="btn btn-primary">Create</button>
+                <!-- Kiểu máy -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Kiểu máy</label>
+                    <div class="col-md-9">
+                        <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.Categories">
+                            <option value="">-- Chọn kiểu máy --</option>
+                        </select>
+                        <span asp-validation-for="CategoryID" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Thương hiệu -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Thương hiệu</label>
+                    <div class="col-md-9">
+                        <select asp-for="BrandID" class="form-control" asp-items="ViewBag.Brands">
+                            <option value="">-- Chọn thương hiệu --</option>
+                        </select>
+                        <span asp-validation-for="BrandID" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Số lượng -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Số lượng</label>
+                    <div class="col-md-9">
+                        <input asp-for="Stock" type="number" class="form-control" min="0" placeholder="Nhập số lượng..." />
+                        <span asp-validation-for="Stock" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Hệ điều hành -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Hệ điều hành</label>
+                    <div class="col-md-9">
+                        <select asp-for="OperatingSystemID" class="form-control" asp-items="ViewBag.OperatingSystem">
+                            <option value="">-- Chọn hệ điều hành --</option>
+                        </select>
+                        <span asp-validation-for="OperatingSystemID" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Hình ảnh -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Hình ảnh</label>
+                    <div class="col-md-9">
+                        <input asp-for="ImageUpload" type="file" class="form-control" multiple id="ImageUpload" />
+                        <span asp-validation-for="ImageUpload" class="text-danger"></span>
+                        <div id="preview" class="pt-2" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
+                    </div>
+                </div>
+
+                <!-- Nút hành động -->
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="submit" class="btn btn-success">
+                            <span class="glyphicon glyphicon-floppy-disk"></span> Lưu 
+                        </button>
+                        <a asp-action="Index" class="btn btn-default">
+                            <span class="glyphicon glyphicon-arrow-left"></span> Quay lại
+                        </a>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 
-    </form>
-    <a asp-action="Index">Back to list product</a>
-    <
-@section Scripts{
+@section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml"); 
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
     }
- 
-}    
-    <script>
-        document.getElementById('ImageUpload').addEventListener('change', function(){
-            const preview = document.getElementById('preview');
-            preview.innerHTML = ''; // clear preview cũ
-            for (const file of this.files) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.style.width = "100px";
-                    img.style.height = "100px";
-                    img.style.objectFit = "cover";
-                    img.style.border = "1px solid #ccc";
-                    preview.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+}
 
+<script>
+    // Preview hình ảnh khi chọn file
+    document.getElementById('ImageUpload').addEventListener('change', function () {
+        const preview = document.getElementById('preview');
+        preview.innerHTML = '';
+        for (const file of this.files) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = "100px";
+                img.style.height = "100px";
+                img.style.objectFit = "cover";
+                img.style.border = "1px solid #ccc";
+                img.style.borderRadius = "4px";
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
+    // Hiển thị giá có định dạng
+    document.querySelector('.typing-price').addEventListener('input', function () {
+        const value = this.value.replace(/[^\d]/g, '');
+        const formatted = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById('price-convert').textContent = formatted ? formatted + ' VNĐ' : '';
+    });
+</script>

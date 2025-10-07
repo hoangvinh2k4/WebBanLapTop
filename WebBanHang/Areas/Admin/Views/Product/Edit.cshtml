@@ -1,163 +1,182 @@
 ﻿@model ProductModel
 @{
-    ViewData["title"] = "Edit Product";
+    ViewData["title"] = "Chỉnh sửa sản phẩm";
 }
-<h1>Edit</h1>
 
+<!-- Bổ sung link Bootstrap 3 để Glyphicons hoạt động -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet" />
 
-<div class="col-md-9">
-    <form asp-action="Edit" enctype="multipart/form-data">
-
-        <div class="form-group">
-            <label asp-for="ProductID"></label>
-            <input asp-for="ProductID" class="form-control" readonly />
-            <span asp-validation-for="ProductID" class="text-danger"></span>
-        </div>
-
-
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="form-group">
-            <label>Name</label>
-            <input asp-for="NameProduct" class="form-control" />
-            <span asp-validation-for="NameProduct" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label>Price</label>
-            <input asp-for="Price" pattern="[0-9.,]+" class="form-control typing-price" />
-            <span id="price-convert"></span>
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label>Description</label>
-            <textarea asp-for="Description" class="form-control"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label>Category</label>
-            <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.Categories">
-                <option value="">-- Choose a category --</option>
-            </select>
-            <span asp-validation-for="CategoryID" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label>Brand</label>
-            <select asp-for="BrandID" class="form-control" asp-items="ViewBag.Brands">
-                <option value="">-- Choose a brand --</option>
-            </select>
-            <span asp-validation-for="BrandID" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label>Stock</label>
-            <input asp-for="Stock" type="number" class="form-control" min="0" />
-            <span asp-validation-for="Stock" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label>Operating System</label>
-            <select asp-for="OperatingSystemID" class="form-control" asp-items="ViewBag.OperatingSystem">
-                <option value="">-- Choose an operating system --</option>
-            </select>
-            <span asp-validation-for="OperatingSystemID" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <label>Thêm ảnh mới</label>
-            <input asp-for="ImageUpload" type="file" class="form-control" multiple id="ImageUpload" />
-            <span asp-validation-for="ImageUpload" class="text-danger"></span>
-
-            <!-- khung preview ảnh -->
-            <div id="previewContainer" style="margin-top:10px; display:flex; flex-wrap:wrap; gap:10px;"></div>
-        </div>
-
-        <script>
-            document.getElementById('ImageUpload').addEventListener('change', function () {
-                const previewContainer = document.getElementById('previewContainer');
-                previewContainer.innerHTML = ""; // xoá preview cũ
-
-                Array.from(this.files).forEach(file => {
-                    const reader = new FileReader();
-                    reader.onload = e => {
-                        const img = document.createElement("img");
-                        img.src = e.target.result;
-                        img.style.width = "100px";
-                        img.style.height = "100px";
-                        img.style.objectFit = "cover";
-                        img.style.border = "1px solid #ccc";
-                        previewContainer.appendChild(img);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            });
-        </script>
-
-
-       
-
-       
-        <div class="form-group">
-            <button class="btn btn-primary">Update</button>
-        </div>
-    </form> <!-- kết thúc form Edit ở đây -->
-        <!-- Danh sách ảnh và form xóa riêng -->
-    <h3>Ảnh hiện tại</h3>
-    <div style="display:flex; flex-wrap:wrap; gap:15px;">
-        @if (Model.ProductImage != null && Model.ProductImage.Any())
-        {
-            foreach (var img in Model.ProductImage)
-            {
-                var isMain = img.IsMain ? "2px solid red" : "1px solid #ccc";
-
-                <div style="width:130px; text-align:center; display:flex; flex-direction:column; align-items:center;">
-                    <!-- Ảnh -->
-                    <img src="/media/products/@img.ImageUrl"
-                         style="width:120px; height:120px; object-fit:cover; border:@isMain;" />
-
-                    <!-- Hai nút nhỏ dưới ảnh -->
-                    <div style="margin-top:5px; display:flex; gap:6px; justify-content:center;">
-                        <!-- Nút Set -->
-                        <form asp-action="SetMainImage" method="post" style="margin:0;">
-                            <input type="hidden" name="imageId" value="@img.ImageID" />
-                            <input type="hidden" name="productId" value="@Model.ProductID" />
-                            <button type="submit" class="btn btn-sm btn-success" style="padding:2px 8px; font-size:12px;">
-                                ✔ SetAvt
-                            </button>
-                        </form>
-
-                        <!-- Nút Xóa -->
-                        <form asp-action="DeleteImage" method="post" style="margin:0;"
-                              onsubmit="return confirm('Bạn có chắc muốn xóa ảnh này không?');">
-                            <input type="hidden" name="imageId" value="@img.ImageID" />
-                            <input type="hidden" name="productId" value="@Model.ProductID" />
-                            <button type="submit" class="btn btn-sm btn-outline-danger" style="padding:2px 8px; font-size:12px;">
-                                ✖ Xóa
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            }
-        }
-        else
-        {
-            <p><i>Chưa có ảnh nào</i></p>
-        }
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span class="glyphicon glyphicon-edit"></span> Chỉnh sửa sản phẩm
+        </h3>
     </div>
 
+    <div class="panel-body">
+        <form asp-action="Edit" enctype="multipart/form-data">
 
-    
-    <a asp-action="Index">Back to list product</a>
-    <
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    @section Scripts {
-        @{
-            await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
-        }
-      
+            <div class="form-group">
+                <label asp-for="ProductID">Mã sản phẩm</label>
+                <input asp-for="ProductID" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input asp-for="NameProduct" class="form-control" placeholder="Nhập tên sản phẩm..." />
+                <span asp-validation-for="NameProduct" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Giá (VND)</label>
+                <input asp-for="Price" pattern="[0-9.,]+" class="form-control typing-price" placeholder="Nhập giá sản phẩm..." />
+                <span id="price-convert"></span>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Mô tả</label>
+                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Nhập mô tả sản phẩm..."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Danh mục</label>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.Categories">
+                    <option value="">-- Chọn danh mục --</option>
+                </select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Thương hiệu</label>
+                <select asp-for="BrandID" class="form-control" asp-items="ViewBag.Brands">
+                    <option value="">-- Chọn thương hiệu --</option>
+                </select>
+                <span asp-validation-for="BrandID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng</label>
+                <input asp-for="Stock" type="number" min="0" class="form-control" placeholder="Nhập số lượng..." />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Hệ điều hành</label>
+                <select asp-for="OperatingSystemID" class="form-control" asp-items="ViewBag.OperatingSystem">
+                    <option value="">-- Chọn hệ điều hành --</option>
+                </select>
+                <span asp-validation-for="OperatingSystemID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Thêm ảnh mới</label>
+                <input asp-for="ImageUpload" type="file" class="form-control" multiple id="ImageUpload" />
+                <span asp-validation-for="ImageUpload" class="text-danger"></span>
+
+                <div id="previewContainer" style="margin-top:10px; display:flex; flex-wrap:wrap; gap:10px;"></div>
+            </div>
+
+            <script>
+                document.getElementById('ImageUpload').addEventListener('change', function () {
+                    const previewContainer = document.getElementById('previewContainer');
+                    previewContainer.innerHTML = "";
+                    Array.from(this.files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = e => {
+                            const img = document.createElement("img");
+                            img.src = e.target.result;
+                            img.style.width = "100px";
+                            img.style.height = "100px";
+                            img.style.objectFit = "cover";
+                            img.style.border = "1px solid #ccc";
+                            img.style.borderRadius = "5px";
+                            previewContainer.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                });
+            </script>
+
+            <!-- Nút hành động -->
+            <div class="text-center" style="margin-top:25px;">
+                <button type="submit" class="btn btn-success btn-lg" style="padding: 10px 25px; font-size: 16px;">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> Lưu thay đổi
+                </button>
+                <a asp-action="Index" class="btn btn-default btn-lg" style="margin-left:10px; padding:10px 25px; font-size:16px;">
+                    <span class="glyphicon glyphicon-arrow-left"></span> Quay lại
+                </a>
+            </div>
+        </form>
+
+        <hr />
+
+        <h3><span class="glyphicon glyphicon-picture"></span> Ảnh hiện tại</h3>
+
+        <div style="display:flex; flex-wrap:wrap; justify-content:flex-start; gap:30px; margin-top:15px;">
+            @if (Model.ProductImage != null && Model.ProductImage.Any())
+            {
+                foreach (var img in Model.ProductImage)
+                {
+                    var isMain = img.IsMain ? "2px solid #337ab7" : "1px solid #ccc";
+
+                    <div style="
+                width:150px;
+                text-align:center;
+                display:flex;
+                flex-direction:column;
+                align-items:center;
+                background-color:#fff;
+                padding:10px;
+                border-radius:8px;
+                box-shadow:0 2px 6px rgba(0,0,0,0.1);
+                margin:10px;">
+
+                        <img src="/media/products/@img.ImageUrl"
+                             style="width:130px; height:130px; object-fit:cover; border:@isMain; border-radius:6px; margin-bottom:10px;" />
+
+                        <div style="display:flex; justify-content:center; gap:10px; margin-top:5px;">
+                            <!-- Nút SetAvt -->
+                            <form asp-action="SetMainImage" method="post" style="margin:0;">
+                                <input type="hidden" name="imageId" value="@img.ImageID" />
+                                <input type="hidden" name="productId" value="@Model.ProductID" />
+                                <button type="submit"
+                                        class="btn btn-warning btn-sm"
+                                        style="min-width:70px; padding:6px 10px; font-size:13px; color:white;">
+                                    SetAvt
+                                </button>
+                            </form>
+
+                            <!-- Nút Xóa -->
+                            <form asp-action="DeleteImage" method="post" style="margin:0;"
+                                  onsubmit="return confirm('Bạn có chắc muốn xóa ảnh này không?');">
+                                <input type="hidden" name="imageId" value="@img.ImageID" />
+                                <input type="hidden" name="productId" value="@Model.ProductID" />
+                                <button type="submit"
+                                        class="btn btn-warning btn-sm"
+                                        style="min-width:70px; padding:6px 10px; font-size:13px; color:white;">
+                                    Xóa
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p><i>Chưa có ảnh nào</i></p>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
     }
-
-
-    
-
+}
