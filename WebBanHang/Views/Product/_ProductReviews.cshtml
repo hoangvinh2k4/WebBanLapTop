@@ -1,0 +1,29 @@
+﻿@model IEnumerable<WebBanHang.Models.ProductReviews>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var r in Model.OrderByDescending(r => r.CreatedAt))
+    {
+        <div class="review-item mb-3 p-3" style="border:1px solid #eee; border-radius:8px; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.03);">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <strong>@r.UserName</strong>
+                <small class="text-muted">@r.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+            </div>
+            <div class="mb-2">
+                @for (int i = 0; i < r.Rating; i++)
+                {
+                    <i class="fa fa-star" style="color:#f39c12;"></i>
+                }
+                @for (int i = r.Rating ?? 0; i < 5; i++)
+                {
+                    <i class="fa fa-star-o" style="color:#ccc;"></i>
+                }
+            </div>
+            <p>@r.Content</p>
+        </div>
+    }
+}
+else
+{
+    <p>Chưa có đánh giá nào.</p>
+}

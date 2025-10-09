@@ -8,15 +8,17 @@
 }
 else
 {
+
     <div class="row">
         @foreach (var item in Model)
         {
             <div class="col-sm-4">
                 <div class="product-image-wrapper">
                     <div class="single-products">
-                        <div class="productinfo text-center">                            
+                        <div class="productinfo text-center">
+                            <a asp-action="DetailProduct" asp-controller="Product" asp-route-id="@item.ProductID">
                                 @{
-                                var firstImage = item.ProductImage?.FirstOrDefault(x => x.IsMain);
+                                    var firstImage = item.ProductImage?.FirstOrDefault(x => x.IsMain);
                                     string imagePath = (firstImage != null && !string.IsNullOrEmpty(firstImage.ImageUrl))
                                     ? $"/media/products/{firstImage.ImageUrl}"
                                     : "/images/no-image-available.jpg";
@@ -25,6 +27,7 @@ else
                                 <h2>@item.Price.ToString("N0") VNĐ</h2>
                                 <p>Tên sản phẩm: @item.NameProduct</p>
                                 <p>Thương hiệu: @item.Brand?.NameBrand</p>
+                            </a>
                             <a class="btn btn-default add-to-cart"
                                data-id="@item.ProductID"
                                href="#">

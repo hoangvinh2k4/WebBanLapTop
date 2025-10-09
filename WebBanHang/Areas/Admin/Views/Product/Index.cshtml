@@ -33,26 +33,66 @@
             <th scope="col">Hệ điều hành</th>
         </tr>
     </thead>
+    
+
     <tbody>
+        @{
+            var stt = 1;
+        }
         @foreach (var item in Model.OrderBy(x => x.ProductID)) // sắp xếp tăng dần theo ProductID
         {
             <tr>
-                <td>@item.ProductID</td>   <!-- STT chính là ProductID -->
+                <td>@stt</td>
+                <!-- STT chính là ProductID -->
                 <td>@item.NameProduct</td>
                 <td>@item.Price</td>
                 <td>
-                    @{
-                        var mainImage = item.ProductImage?.FirstOrDefault(x => x.IsMain);
-                        string imagePath = (mainImage != null && !string.IsNullOrEmpty(mainImage.ImageUrl))
-                        ? $"/media/products/{mainImage.ImageUrl}"
-                        : "/images/no-image-available.jpg";
-                    }
-                    <img src="@imagePath"
-                         alt="@item.NameProduct"
-                         style="width:90px; height:90px; object-fit:cover; border-radius:5px;"
-                         class="img-thumbnail" />
+                    @if (item.ProductImage != null && item.ProductImage.Any())
+                    {
+                        var mainImg = item.ProductImage.FirstOrDefault(x => x.IsMain) ?? item.ProductImage.First();
+                        var mainPath = $"/media/products/{mainImg.ImageUrl}";
 
+                        <!-- Ảnh chính -->
+                        <img src="@mainPath"
+                             style="width:80px; height:80px; object-fit:cover; border-radius:5px; display:block; margin-bottom:5px;" />
+
+                        <!-- Nút xem thêm -->
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#gallery-@item.ProductID">
+                            Xem thêm
+                        </button>
+
+                        <!-- Modal Bootstrap 3 -->
+                        <div class="modal fade" id="gallery-@item.ProductID" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Ảnh sản phẩm: @item.NameProduct</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            @foreach (var img in item.ProductImage)
+                                            {
+                                                <div class="col-xs-6 col-sm-4 col-md-3" style="margin-bottom:15px;">
+                                                    <img src="/media/products/@img.ImageUrl"
+                                                         class="img-responsive img-thumbnail"
+                                                         style="height:150px; object-fit:cover; width:100%;" />
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <img src="/images/no-image-available.jpg"
+                             style="width:80px; height:80px; object-fit:cover; border-radius:5px;" />
+                    }
                 </td>
+
+
                 <td>@item.Brand.NameBrand</td>
                 <td>@item.Category.CategoryName</td>
                 <td>@item.Description</td>
@@ -93,6 +133,7 @@
 
                 </td>
             </tr>
+            stt++;
         }
     </tbody>
 </table>

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -21,7 +22,7 @@
 	<link href="~/css/animate.css" rel="stylesheet">
 	<link href="~/css/main.css" rel="stylesheet">
 	<link href="~/css/responsive.css" rel="stylesheet">
-	<link href="~/css/register.css" rel="stylesheet">
+	<link href="~/css/register.css" rel="stylesheet" asp-append-version="true">
 
 	<!--[if lt IE 9]>
 	<script src="js/html5shiv.js"></script>
@@ -70,10 +71,10 @@
 						<form id="searchForm" class="search_box" action="/Home/HomeIndex" autocomplete="off" style="width: 100%; position: relative;">
 							<input type="text" id="searchBox" name="keyword"
 								   class="form-control" placeholder="Nhập tên sản phẩm bạn cần tìm"
-								   style="padding-left: 40px;" />
+								   style="padding-left: 40px;" value='@(Context.Request.Query["keyword"])' />
 
 							<button type="submit" id="btnSearch"
-									style="position: absolute; top: 50%; left: 12px; transform: translateY(-50%);
+									style="position: absolute; top: 50%; left: 470px; transform: translateY(-50%);
                        background: none; border: none; color: #888; cursor: pointer;">
 								<i class="fa fa-search"></i>
 							</button>
@@ -91,7 +92,7 @@
 								@if (Context.Session.GetString("UserId") != null) // đã đăng nhập
 								{
 									<li>
-										<a asp-controller="Account" asp-action="Logout">
+										<a asp-controller="Account" asp-action="Logout" style="left: 200px">
 											<i class="fa fa-lock"></i>Chào, @Context.Session.GetString("Username") - Đăng Xuất
 										</a>
 									</li>
@@ -99,7 +100,7 @@
 								else // chưa đăng nhập
 								{
 									<li class="nav-item">
-										<a class="nav-link" asp-controller="Account" asp-action="Login">
+										<a class="nav-link" asp-controller="Account" asp-action="Login" style="left: 250px">
 											<i class="fa fa-lock"></i> Login
 										</a>
 									</li>
@@ -134,6 +135,7 @@
 											<li><a asp-controller="Home" asp-action="HomeIndex"><i class="fa-solid fa-house"></i> Trang chủ </a></li>
 											<li><a asp-controller="Cart" asp-action="CartIndex"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng </a></li>
 											<li><a asp-controller="WishList" asp-action="WishListIndex"><i class="fa-solid fa-heart"></i> Yêu thích</a></li>
+											<li><a asp-controller="CheckOut" asp-action="OrderHistory"><i class="fa-solid fa-clock"></i> Lịch sử đơn hàng</a></li>
 											<li><a asp-controller="LuckyWheel" asp-action="Index"><i class="fa-solid fa-dharmachakra"></i> Vòng quay may mắn</a></li>
 											<li><a href="contact-us.html">Contact</a></li>
 										</ul>
@@ -378,17 +380,12 @@
 		</div>
 
 	</footer><!--/Footer-->
-
-	<script src="~/js/jquery.js"></script>
-	<script src="~/js/bootstrap.min.js"></script>
-	<script src="~/lib/jquery.scrollUp.min.js"></script>
-	<script src="~/js/price-range.js"></script>
-	<script src="~/js/jquery.prettyPhoto.js"></script>
-	<script src="~/js/main.js"></script>
-	<script src="~/js/cart.js"></script> <!-- Hoàng Vinh thêm -->
-
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	@* <script src="~/js/bootstrap.min.js"></script>
+	<script src="~/js/bootstrap-slider.min.js"></script> <!-- nếu dùng slider --> *@
+	<script src="~/js/main.js"></script>
+	<script src="~/js/Common.js"></script>
 	@RenderSection("Scripts", required: false)
+
 </body>
 </html>
-

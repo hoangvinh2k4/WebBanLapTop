@@ -1,0 +1,140 @@
+﻿@model IEnumerable<CartModel>
+
+@{
+    ViewData["Title"] = "Thanh toán";
+    decimal total = Model.Sum(c => c.Price * c.Quantity);	
+}
+
+<div class="container mt-4">
+    <h2>Thanh toán</h2>
+
+    <!-- Bảng giỏ hàng -->
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Giá</th>
+                <th>Mô tả</th>
+                <th>Số lượng</th>
+                <th>Tạm tính</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.NameProduct</td>                   
+                    <td>@string.Format("{0:N0} đ", item.Price)</td>
+                    <td>@item.Product.Description</td>
+                    <td>@item.Quantity</td>
+                    <td>@string.Format("{0:N0} đ", item.TotalPrice)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <label>Tỉnh thành phố</label>
+        <select class="css_select" id="tinh" name="tinh" class="form-control" title="Chọn Tỉnh Thành">
+            <option value="0">Tỉnh Thành</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Phường xã</label>
+        <select class="css_select" id="quan" name="quan" class="form-control" title="Chọn Quận Huyện">
+            <option value="0">Phường xã</option>
+        </select>
+    </div>
+    <h4 class="text-end">
+        Phí ship: <b id="shipFee">@ViewBag.ShippingPrice đ</b>
+    </h4>
+
+    <h4 class="text-end">
+        Tổng tiền:
+        <b id="totalAmount" data-value="@total">
+            @total.ToString("N0") đ
+        </b>
+    </h4>
+
+    <!-- Form thanh toán -->
+    <form asp-controller="Checkout" asp-action="PlaceOrder" method="post" class="mt-3">
+        <div class="mb-3">
+            <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán:</label>
+            <select id="paymentMethod" name="paymentMethod" class="form-select" required>
+                <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+                <option value="Momo">Momo</option>
+                <option value="VNPay">VNPay</option>
+                <option value="CreditCard">Thẻ tín dụng</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Xác nhận thanh toán</button>
+    </form>
+</div>
+@section Scripts {
+    <script>
+               // Khi chọn xong tỉnh hoặc quận thì tự động gọi Ajax luôn
+        $("#tinh, #quan").change(function () {
+            var tinh = $("#tinh").find('option:selected').text();
+            var quan = $("#quan").find('option:selected').text();
+
+            if (tinh === '' || quan === '') {
+                $("#shipFee").text("0 đ");
+                $("#totalAmount").text($("#totalAmount").data("value").toLocaleString("vi-VN") + " đ");
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetShipping", "CheckOut")",
+                data: { tinh: tinh, quan: quan },
+                success: function (result) {
+                    if (result && result.shippingPrice !== undefined) {
+                        // ✅ Cập nhật phí ship
+                        $("#shipFee").text(result.shippingPrice.toLocaleString("vi-VN") + " đ");
+
+                        // ✅ Lấy tổng gốc từ data-value
+                        var total = parseInt($("#totalAmount").data("value"));
+
+                        // ✅ Cộng phí ship
+                        var newTotal = total + parseInt(result.shippingPrice);
+
+                        $("#totalAmount").text(newTotal.toLocaleString("vi-VN") + " đ");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Không lấy được phí ship!");
+                }
+            });
+        });
+
+</script>
+<script>
+        $(document).ready(function () {
+               //Lấy tỉnh thành
+               $.getJSON('https://esgoo.net/api-tinhthanh-new/1/0.htm', function (data_tinh) {
+                   if (data_tinh.error == 0) {
+                       $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                           $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
+                       });
+                       $("#tinh").change(function (e) {
+                           var idtinh = $(this).val();
+                           //Lấy quận huyện
+                           $.getJSON('https://esgoo.net/api-tinhthanh-new/2/'+idtinh+'.htm', function (data_quan) {
+                               if (data_quan.error == 0) {
+                                   $("#quan").html('<option value="0">Quận Huyện</option>');
+                                   $("#phuong").html('<option value="0">Phường Xã</option>');
+                                   $.each(data_quan.data, function (key_quan, val_quan) {
+                                       $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                                   });
+                               }
+                           }); //end $.getJson
+
+                       });
+
+                   }
+               });
+           });
+</script>
+}

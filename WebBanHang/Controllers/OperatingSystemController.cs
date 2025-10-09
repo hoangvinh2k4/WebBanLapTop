@@ -12,15 +12,16 @@ namespace WebBanHang.Controllers
         {
             _datacontext = context;
         }
-        public IActionResult OperatingSystemIndex(int id)
+        [HttpGet]
+        public IActionResult OperatingSystemsIndex(int id)
         {
-            // Lấy toàn bộ danh mục
-            var os = _datacontext.Products
-                               .Include(p => p.ProductImage) // load kèm bảng ProductImages
-                               .Include(p => p.OperatingSystem)         // load kèm thương hiệu
-                               .Where(p => p.OperatingSystemID == id)
-                               .ToList();
-            return View(os);
+            var products = _datacontext.Products
+                .Include(p => p.OperatingSystem)
+                .Include(p => p.ProductImage)
+                .Where(p => p.OperatingSystemID == id)
+                .ToList();
+
+            return PartialView("~/Views/Shared/ProductListPartial.cshtml", products); // Partial view hiển thị sản phẩm
         }
     }
 }

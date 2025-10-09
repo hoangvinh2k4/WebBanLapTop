@@ -44,7 +44,12 @@ namespace WebBanHang.Controllers
                 // Điều hướng theo Role
                 if (user.Role == "Admin")
                 {
-                    return RedirectToAction("HomeAdmin", "Admin", new { area = "Admin" });
+                    return RedirectToAction("ListUser", "User", new { area = "Admin" });
+                }
+                else if (user.Role == "Customer")
+                {
+                    return RedirectToAction("HomeIndex", "Home", new { area = (string?)null });
+
                 }
                 else
                 {
