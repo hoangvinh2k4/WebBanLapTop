@@ -20,13 +20,13 @@ namespace WebBanHang.Areas.Admin.Controllers
             _context = context;
         }
 
-        // ✅ Mặc định khi vào /Admin/User thì redirect về ListUser
+        // ✅ Khi vào /Admin/User -> chuyển sang ListUser
         public IActionResult Index()
         {
             return RedirectToAction("ListUser");
         }
 
-        // Danh sách user
+        // ✅ Hiển thị danh sách User
         [HttpGet]
         public async Task<IActionResult> ListUser()
         {
@@ -36,7 +36,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View(users);
         }
 
-        // GET: Tạo user
+        // ✅ GET: Tạo User
         [HttpGet]
         public IActionResult Create()
         {
@@ -47,7 +47,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View(new UserModel());
         }
 
-        // POST: Tạo user
+        // ✅ POST: Tạo User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UserModel user)
@@ -66,7 +66,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View(user);
         }
 
-        // GET: Sửa user
+        // ✅ GET: Sửa User
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -80,7 +80,7 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View(user);
         }
 
-        // POST: Sửa user
+        // ✅ POST: Sửa User
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UserModel userUpdate)
@@ -100,13 +100,11 @@ namespace WebBanHang.Areas.Admin.Controllers
 
                 if (!string.IsNullOrEmpty(userUpdate.Password))
                 {
-                    // ⚠ Password chưa mã hóa (bạn nên hash sau này)
-                    user.Password = userUpdate.Password;
+                    user.Password = userUpdate.Password; // ⚠ chưa hash
                 }
 
                 _context.Users.Update(user);
                 await _context.SaveChangesAsync();
-
                 return RedirectToAction("ListUser");
             }
 
@@ -114,39 +112,40 @@ namespace WebBanHang.Areas.Admin.Controllers
             return View(userUpdate);
         }
 
-        // ✅ XÓA USER (đã sửa để tránh lỗi khóa ngoại)
-        [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        // ✅ XÓA (bằng AJAX)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteUserAjax(int id)
+
+
         {
             if (!IsAdmin())
-                return RedirectToAction("Login", "Account", new { area = "" });
+                return Json(new { success = false, message = "Bạn không có quyền xoá." });
 
             var user = await _context.Users.FindAsync(id);
-            if (user == null) return NotFound();
+            if (user == null)
+                return Json(new { success = false, message = "Không tìm thấy người dùng." });
 
-            // 🔹 Xóa tất cả bản ghi UserDiscounts liên quan trước
+            // 🔹 Xoá các bản ghi phụ thuộc
             var userDiscounts = await _context.UserDiscounts
                                               .Where(ud => ud.UserId == id)
                                               .ToListAsync();
             if (userDiscounts.Any())
-            {
                 _context.UserDiscounts.RemoveRange(userDiscounts);
-            }
 
-            // 🔹 Sau đó mới xóa user
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("ListUser");
+            return Json(new { success = true, message = $"Đã xoá người dùng \"{user.Username}\" thành công!" });
         }
 
-        // Check admin
+        // ✅ Kiểm tra Admin
         private bool IsAdmin()
         {
             return HttpContext.Session.GetString("UserRole") == "Admin";
         }
 
-        // Danh sách roles
+        // ✅ Danh sách Role
         private List<SelectListItem> GetRoles()
         {
             return new List<SelectListItem>

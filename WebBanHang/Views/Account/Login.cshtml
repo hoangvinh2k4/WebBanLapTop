@@ -4,7 +4,6 @@
     ViewData["Title"] = "Login";
 }
 
-<!-- Gọi CSS riêng -->
 <link rel="stylesheet" href="~/css/Login.css" />
 
 <section>
@@ -33,11 +32,15 @@
     </div>
 </section>
 
+@Html.AntiForgeryToken()
+
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            // 👁 Ẩn/hiện mật khẩu
             const pwd = document.getElementById("Password");
             const btn = document.getElementById("togglePassword");
 
@@ -46,8 +49,24 @@
                 pwd.setAttribute("type", type);
                 btn.textContent = type === "password" ? "👁" : "🙈";
             });
+
+            // 🎉 Hiển thị thông báo đăng ký thành công
+            @if (ViewBag.SuccessMessage != null)
+            {
+                    <text>
+                        Swal.fire({
+                            icon: 'success',
+                            title: '🎉 Đăng ký thành công!',
+                            text: @Html.Raw(Json.Serialize(ViewBag.SuccessMessage)),
+                            showConfirmButton: true,
+                            confirmButtonColor: '#3085d6',
+                            background: '#fefefe',
+                            color: '#333',
+                            timer: 1500,
+                            timerProgressBar: true
+                        });
+                    </text>
+            }
         });
     </script>
 }
-
-@Html.AntiForgeryToken()
