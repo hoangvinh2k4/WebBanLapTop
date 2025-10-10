@@ -3865,15 +3865,20 @@
   },
   "packageFolders": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "C:\\Users\\ADMIN\\.nuget\\packages\\": {},
 =======
     "C:\\Users\\MY LAPTOP\\.nuget\\packages\\": {},
 >>>>>>> h
+=======
+    "C:\\Users\\MY LAPTOP\\.nuget\\packages\\": {},
+>>>>>>> EnViDi
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
 <<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\ADMIN\\Source\\Repos\\WebBanLapTopmoine\\WebBanHang\\WebBanHang.csproj",
       "projectName": "WebBanHang",
@@ -3887,16 +3892,27 @@
       "packagesPath": "C:\\Users\\MY LAPTOP\\.nuget\\packages\\",
       "outputPath": "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\obj\\",
 >>>>>>> h
+=======
+      "projectUniqueName": "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\WebBanHang.csproj",
+      "projectName": "WebBanHang",
+      "projectPath": "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\WebBanHang.csproj",
+      "packagesPath": "C:\\Users\\MY LAPTOP\\.nuget\\packages\\",
+      "outputPath": "E:\\WebBanLapTop\\WebBanLapTop\\WebBanHang\\obj\\",
+>>>>>>> EnViDi
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
 <<<<<<< HEAD
+<<<<<<< HEAD
         "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
 =======
         "C:\\Users\\MY LAPTOP\\AppData\\Roaming\\NuGet\\NuGet.Config",
 >>>>>>> h
+=======
+        "C:\\Users\\MY LAPTOP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> EnViDi
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3993,10 +4009,14 @@
           }
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
 =======
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
 >>>>>>> h
+=======
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+>>>>>>> EnViDi
       }
     }
   }

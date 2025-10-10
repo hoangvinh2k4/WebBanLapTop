@@ -156,6 +156,7 @@ D:\C#\WebBanHang\WebBanHang\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
 D:\C#\WebBanHang\WebBanHang\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\C#\WebBanHang\WebBanHang\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\bin\Debug\net8.0\appsettings.json
 C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\bin\Debug\net8.0\WebBanHang.staticwebassets.runtime.json
@@ -319,6 +320,8 @@ C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\obj\Debug\net8.0\WebBan
 C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\obj\Debug\net8.0\WebBanHang.genruntimeconfig.cache
 C:\Users\ADMIN\Source\Repos\WebBanLapTopmoine\WebBanHang\obj\Debug\net8.0\ref\WebBanHang.dll
 =======
+=======
+>>>>>>> EnViDi
 E:\WebBanLapTop\WebBanLapTop\WebBanHang\bin\Debug\net8.0\appsettings.Development.json
 E:\WebBanLapTop\WebBanLapTop\WebBanHang\bin\Debug\net8.0\appsettings.json
 E:\WebBanLapTop\WebBanLapTop\WebBanHang\bin\Debug\net8.0\WebBanHang.staticwebassets.runtime.json
@@ -480,4 +483,7 @@ E:\WebBanLapTop\WebBanLapTop\WebBanHang\obj\Debug\net8.0\refint\WebBanHang.dll
 E:\WebBanLapTop\WebBanLapTop\WebBanHang\obj\Debug\net8.0\WebBanHang.pdb
 E:\WebBanLapTop\WebBanLapTop\WebBanHang\obj\Debug\net8.0\WebBanHang.genruntimeconfig.cache
 E:\WebBanLapTop\WebBanLapTop\WebBanHang\obj\Debug\net8.0\ref\WebBanHang.dll
+<<<<<<< HEAD
 >>>>>>> h
+=======
+>>>>>>> EnViDi
