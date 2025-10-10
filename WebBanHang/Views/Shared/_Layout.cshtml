@@ -86,9 +86,7 @@
 					<div class="col-sm-4">
 						<div class="shop-menu d-flex justify-content-end">
 							<ul class="nav">
-								@* <li class="nav-item"><a class="nav-link" href="#"><i class="fa fa-user"></i> Account</a></li>
-								<li class="nav-item"><a class="nav-link" href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li> *@
-
+							
 								@if (Context.Session.GetString("UserId") != null) // đã đăng nhập
 								{
 									<li>
@@ -137,10 +135,6 @@
 											<li><a asp-controller="WishList" asp-action="WishListIndex"><i class="fa-solid fa-heart"></i> Yêu thích</a></li>
 											<li><a asp-controller="CheckOut" asp-action="OrderHistory"><i class="fa-solid fa-clock"></i> Lịch sử đơn hàng</a></li>
 											<li><a asp-controller="LuckyWheel" asp-action="Index"><i class="fa-solid fa-dharmachakra"></i> Vòng quay may mắn</a></li>											
-											<li><a asp-controller="LuckyWheel" asp-action="Index"><i class="fa-solid fa-dharmachakra"></i> Vòng quay may mắn</a></li>
-											<li><a asp-controller="CheckOut" asp-action="OrderHistory"><i class="fa-solid fa-clock"></i> Lịch sử đơn hàng</a></li>
-											<li><a asp-controller="LuckyWheel" asp-action="Index"><i class="fa-solid fa-dharmachakra"></i> Vòng quay may mắn</a></li>
-											<li><a href="contact-us.html">Contact</a></li>
 										</ul>
 
 									</div>

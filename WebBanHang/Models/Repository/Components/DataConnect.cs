@@ -20,15 +20,10 @@ namespace WebBanHang.Models.Repository.component
         public DbSet<CartModel> CartItems { get; set; }
         public DbSet<WishListModel> WishList { get; set; } // trong này phải đặt tên trùng vs các bảng trong db
         public DbSet<DiscountModel> Discounts { get; set; }
-        public DbSet<UserDiscountModel> UserDiscounts { get; set; }
-
-
-    
+        public DbSet<UserDiscountModel> UserDiscounts { get; set; }    
         public DbSet<ShippingModel> Shippings { get; set; }
         public DbSet<ProductReviews> ProductReviews { get; set; }// trong này phải đặt tên trùng vs các bảng trong db
-        public DbSet<DiscountModel> Discounts { get; set; }
-        public DbSet<UserDiscountModel> UserDiscounts { get; set; }
-
+       
 
     }
 }
