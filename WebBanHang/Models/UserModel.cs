@@ -14,8 +14,11 @@ namespace WebBanHang.Models
         [StringLength(50)]
         public string Username { get; set; } = string.Empty;
 
-        [StringLength(20)]
+        [Required(ErrorMessage = "Vui lòng nhập SĐT")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "Số điện thoại phải bắt đầu bằng số 0 và gồm 10 số")]
+        [RegularExpression(@"^0\d{9}$", ErrorMessage = "Số điện thoại không hợp lệ (phải là 10 chữ số)")]
         public string? Phone { get; set; }
+
 
         [Required(ErrorMessage = "Vui lòng nhập Email")]
         [EmailAddress(ErrorMessage = "Email không hợp lệ")]
@@ -31,7 +34,6 @@ namespace WebBanHang.Models
         [StringLength(20)]
         public string Role { get; set; } = "Customer";
 
-        // Nếu chưa dùng RoleId thì có thể bỏ thuộc tính này
         public string? RoleId { get; set; }
 
         public DateTime Created { get; set; } = DateTime.Now;

@@ -32,6 +32,12 @@
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
 
+        <div class="form-group">
+            <label asp-for="Phone"></label>
+            <input asp-for="Phone" class="form-control" type="phone" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
         <button type="submit">Register</button>
     </form>
 </div>
