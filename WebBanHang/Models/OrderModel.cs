@@ -16,6 +16,10 @@ namespace WebBanHang.Models
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal ShippingFee { get; set; } = 0;
+        public int? DiscountID { get; set; }  // Nullable vì đơn hàng có thể không áp dụng mã
+        [ForeignKey("DiscountID")]
+        public DiscountModel Discount { get; set; }
+
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
@@ -29,5 +33,11 @@ namespace WebBanHang.Models
 
         // Quan hệ 1-1: Order -> Payment
         public PaymentModel Payment { get; set; }
+     
+        [NotMapped]
+        public string DiscountCode => Discount?.Code;
+
+        [NotMapped]
+        public decimal DiscountAmount => Discount != null ? TotalAmount * Discount.Percentage / 100 : 0;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebBanHang.Models;
@@ -56,7 +57,7 @@ namespace WebBanHang.Controllers
 
         // Xử lý khi bấm nút Thanh toán
         [HttpPost]
-        public IActionResult PlaceOrder(string paymentMethod)
+        public IActionResult PlaceOrder(string paymentMethod, int? discountId)
         {
             string? userIdStr = HttpContext.Session.GetString("UserId");
             if (string.IsNullOrEmpty(userIdStr))
@@ -91,6 +92,7 @@ namespace WebBanHang.Controllers
                     OrderDate = DateTime.Now,
                     TotalAmount = cartItems.Sum(c => c.TotalPrice),
                     ShippingFee = shippingFee,
+                    DiscountID = discountId,
                     Status = "Đã thanh toán"
                 };
                 _datacontext.Orders.Add(order);
@@ -155,27 +157,26 @@ namespace WebBanHang.Controllers
 
             return RedirectToAction("HomeIndex", "Home");
         }
-
         public IActionResult OrderHistory()
         {
             string? userIdStr = HttpContext.Session.GetString("UserId");
             if (string.IsNullOrEmpty(userIdStr))
-            {
                 return RedirectToAction("Login", "Account");
-            }
 
             int userId = int.Parse(userIdStr);
 
-            // Lấy danh sách đơn hàng của user
             var orders = _datacontext.Orders
                 .Include(o => o.OrderDetails)
-                .ThenInclude(od => od.Product) 
+                .ThenInclude(od => od.Product)
+                .Include(o => o.Discount)
                 .Where(o => o.UserID == userId)
                 .OrderByDescending(o => o.OrderDate)
                 .ToList();
 
-            return View(orders);
+            return View(orders); // View dùng trực tiếp OrderModel
         }
+
+
         [HttpPost]
         public IActionResult ClearOrderHistory()
         {
@@ -215,7 +216,7 @@ namespace WebBanHang.Controllers
         {
 
             var existingShipping = await _datacontext.Shippings
-                .FirstOrDefaultAsync(x => x.City == tinh );
+                .FirstOrDefaultAsync(x => x.City == tinh);
 
             decimal shippingPrice = 0; // Set mặc định giá tiền
 
@@ -248,5 +249,83 @@ namespace WebBanHang.Controllers
             }
             return Json(new { shippingPrice });
         }
+        [HttpGet]
+        public IActionResult CheckDiscount()
+        {
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdStr))
+                return RedirectToAction("Login", "Account");
+
+            int userId = int.Parse(userIdStr);
+
+            // Lấy danh sách PGG mà user có
+            var discounts = (from ud in _datacontext.UserDiscounts
+                             join d in _datacontext.Discounts on ud.DiscountID equals d.DiscountID
+                             where ud.UserId == userId
+                                   && d.IsActive
+                                   && d.Quantity > 0
+                                   && d.StartDate <= DateTime.Now
+                                   && d.EndDate >= DateTime.Now
+                             select new
+                             {
+                                 d.DiscountID,
+                                 DisplayText = d.Code + " - Giảm " + d.Percentage + "% (HSD: " + d.EndDate.ToString("dd/MM/yyyy") + ")"
+                             }).ToList();
+
+            ViewBag.DiscountList = new SelectList(discounts, "DiscountID", "DisplayText");
+
+            // Load giỏ hàng
+            var cartItems = _datacontext.CartItems
+                .Include(c => c.Product)
+                .Where(c => c.UserID == userId)
+                .ToList();
+
+            ViewBag.Total = cartItems.Sum(c => c.Product.Price * c.Quantity);
+            return View(cartItems);
+        }
+        [HttpGet]
+        public IActionResult GetDiscounts()
+        {
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdStr))
+                return Json(new { success = false, message = "Chưa đăng nhập" });
+
+            int userId = int.Parse(userIdStr);
+
+            // Load cùng Discount qua navigation property
+            var userDiscounts = _datacontext.UserDiscounts
+                .Include(ud => ud.Discount)
+                .Where(ud => ud.UserId == userId
+                          && ud.Discount.IsActive
+                          && ud.Discount.Quantity >= 0
+                          && ud.Discount.StartDate <= DateTime.Now
+                          && ud.Discount.EndDate >= DateTime.Now)
+                .Select(ud => new
+                {
+                    id = ud.Discount.DiscountID,
+                    text = $"{ud.Discount.Code} - Giảm {ud.Discount.Percentage}% (HSD: {ud.Discount.EndDate:dd/MM/yyyy})",
+                    percent = ud.Discount.Percentage,
+                    code = ud.Discount.Code
+                })
+                .ToList();
+
+            return Json(new { success = true, data = userDiscounts });
+        }
+
+        [HttpGet]
+        public IActionResult ApplyDiscount(int discountId)
+        {
+            var discount = _datacontext.Discounts.FirstOrDefault(d => d.DiscountID == discountId);
+            if (discount == null)
+                return Json(new { success = false });
+
+            return Json(new
+            {
+                success = true,
+                code = discount.Code,
+                percent = discount.Percentage
+            });
+        }
+
     }
 }

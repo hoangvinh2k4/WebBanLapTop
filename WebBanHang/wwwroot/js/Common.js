@@ -28,7 +28,7 @@
                 text: 'Không thể thêm sản phẩm vào giỏ hàng.',
                 timer: 1500,
                 toast: true,
-                position: 'top-end',
+                position: 'top',
                 showConfirmButton: false
             });
         }
@@ -44,26 +44,29 @@ $(document).on("click", ".add-to-wishlist", function (e) {
         url: '/WishList/AddToWishList',
         type: 'POST',
         data: { id: id },
+        dataType: 'json',
         success: function (res) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Thêm sản phẩm thành công!',
-                text: `Sản phẩm đã được thêm vào danh sách yêu thích.`,
-                showConfirmButton: false,
-                timer: 1500,
-                position: 'top',
-                toast: true
-            });           
+            if (res.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thêm sản phẩm thành công!',
+                    text: 'Sản phẩm đã được thêm vào danh sách yêu thích.',
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 1500,                   
+                    toast: true
+                });
+            } 
         },
         error: function () {
             Swal.fire({
                 icon: 'error',
                 title: 'Có lỗi!',
                 text: 'Không thể thêm sản phẩm vào danh sách yêu thích.',
+                showConfirmButton: false,
                 timer: 1500,
                 toast: true,
-                position: 'top-end',
-                showConfirmButton: false
+                position: 'top'
             });
         }
     });

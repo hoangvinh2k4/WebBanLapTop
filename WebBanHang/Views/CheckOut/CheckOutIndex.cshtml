@@ -46,9 +46,26 @@
             <option value="0">Phường xã</option>
         </select>
     </div>
+
     <h4 class="text-end">
         Phí ship: <b id="shipFee">@ViewBag.ShippingPrice đ</b>
     </h4>
+
+    <div class="mb-3">
+        <label for="discountSelect" class="form-label">Chọn mã giảm giá:</label>
+        <select id="discountSelect" class="form-select">
+            <option value="">-- Chọn mã giảm giá --</option>
+        </select>
+    </div>
+
+    <div id="discountMessage" class="mt-2"></div>
+
+    @if (ViewBag.SelectedDiscount != null)
+    {
+        <div class="alert alert-success">
+            Mã <strong>@ViewBag.SelectedDiscount</strong> được áp dụng - Giảm @ViewBag.DiscountPercent%
+        </div>
+    }
 
     <h4 class="text-end">
         Tổng tiền:
@@ -69,72 +86,152 @@
             </select>
         </div>
 
+        <!-- Hidden field để gửi DiscountID -->
+        <input type="hidden" name="discountId" id="discountId" value="" />
+
         <button type="submit" class="btn btn-success">Xác nhận thanh toán</button>
     </form>
 </div>
 @section Scripts {
     <script>
-               // Khi chọn xong tỉnh hoặc quận thì tự động gọi Ajax luôn
-        $("#tinh, #quan").change(function () {
-            var tinh = $("#tinh").find('option:selected').text();
-            var quan = $("#quan").find('option:selected').text();
+        $("form").on("submit", function(e) {
+            e.preventDefault();
 
-            if (tinh === '' || quan === '') {
-                $("#shipFee").text("0 đ");
-                $("#totalAmount").text($("#totalAmount").data("value").toLocaleString("vi-VN") + " đ");
-                return;
-            }
+            const form = this; // lưu lại form để submit sau
 
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("GetShipping", "CheckOut")",
-                data: { tinh: tinh, quan: quan },
-                success: function (result) {
-                    if (result && result.shippingPrice !== undefined) {
-                        // ✅ Cập nhật phí ship
-                        $("#shipFee").text(result.shippingPrice.toLocaleString("vi-VN") + " đ");
-
-                        // ✅ Lấy tổng gốc từ data-value
-                        var total = parseInt($("#totalAmount").data("value"));
-
-                        // ✅ Cộng phí ship
-                        var newTotal = total + parseInt(result.shippingPrice);
-
-                        $("#totalAmount").text(newTotal.toLocaleString("vi-VN") + " đ");
-                    }
-                },
-                error: function () {
-                    Swal.fire("Không lấy được phí ship!");
-                }
+            Swal.fire({
+                icon: 'success',
+                title: 'Thanh toán thành công!',
+                text: 'Cảm ơn bạn đã mua hàng.',
+                showConfirmButton: false,
+                timer: 2000,
+                position: 'center' // chính giữa màn hình
+            }).then(() => {
+                form.submit(); // gửi form sau khi thông báo kết thúc
             });
         });
 
-</script>
-<script>
         $(document).ready(function () {
-               //Lấy tỉnh thành
-               $.getJSON('https://esgoo.net/api-tinhthanh-new/1/0.htm', function (data_tinh) {
-                   if (data_tinh.error == 0) {
-                       $.each(data_tinh.data, function (key_tinh, val_tinh) {
-                           $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
-                       });
-                       $("#tinh").change(function (e) {
-                           var idtinh = $(this).val();
-                           //Lấy quận huyện
-                           $.getJSON('https://esgoo.net/api-tinhthanh-new/2/'+idtinh+'.htm', function (data_quan) {
-                               if (data_quan.error == 0) {
-                                   $("#quan").html('<option value="0">Quận Huyện</option>');
-                                   $("#phuong").html('<option value="0">Phường Xã</option>');
-                                   $.each(data_quan.data, function (key_quan, val_quan) {
-                                       $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
-                                   });
-                               }
-                           }); //end $.getJson
+            const $discountSelect = $("#discountSelect");
+            const $discountMsg = $("#discountMessage");
+            const $totalAmount = $("#totalAmount");
+            const $shipFee = $("#shipFee");
+            const baseTotal = parseFloat($totalAmount.data("value")); // Tổng tiền sản phẩm
+            let currentDiscountPercent = 0; // Phần trăm giảm hiện tại
+            let currentShippingFee = 0; // Phí ship hiện tại
 
-                       });
+            // =================== Hàm cập nhật tổng tiền ===================
+            function updateTotal() {
+                let discountValue = baseTotal * currentDiscountPercent / 100;
+                let total = baseTotal + currentShippingFee - discountValue;
+                if(total < 0) total = 0;
+                $totalAmount.text(total.toLocaleString("vi-VN") + " đ");
+            }
 
-                   }
-               });
-           });
-</script>
+            // =================== Load tỉnh thành ===================
+            $.getJSON('https://esgoo.net/api-tinhthanh-new/1/0.htm', function (data_tinh) {
+                if (data_tinh.error === 0) {
+                    $.each(data_tinh.data, function (_, val_tinh) {
+                        $("#tinh").append(`<option value="${val_tinh.id}">${val_tinh.full_name}</option>`);
+                    });
+                }
+            });
+
+            // Khi chọn tỉnh -> load quận
+            $("#tinh").change(function () {
+                const idtinh = $(this).val();
+                if (!idtinh) return;
+
+                $.getJSON(`https://esgoo.net/api-tinhthanh-new/2/${idtinh}.htm`, function (data_quan) {
+                    if (data_quan.error === 0) {
+                        $("#quan").html('<option value="0">Quận Huyện</option>');
+                        $.each(data_quan.data, function (_, val_quan) {
+                            $("#quan").append(`<option value="${val_quan.id}">${val_quan.full_name}</option>`);
+                        });
+                    }
+                });
+            });
+
+            // =================== Khi chọn tỉnh/quận -> tính phí ship ===================
+            $("#tinh, #quan").change(function () {
+                const tinh = $("#tinh option:selected").text();
+                const quan = $("#quan option:selected").text();
+
+                if(!tinh || !quan) {
+                    currentShippingFee = 0;
+                    $shipFee.text("0 đ");
+                    updateTotal();
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetShipping", "CheckOut")",
+                    data: { tinh: tinh, quan: quan },
+                    success: function (res) {
+                        if(res && res.shippingPrice !== undefined) {
+                            currentShippingFee = parseFloat(res.shippingPrice) || 0;
+                            $shipFee.text(currentShippingFee.toLocaleString("vi-VN") + " đ");
+                            updateTotal();
+                        }
+                    },
+                    error: function () { Swal.fire("Không lấy được phí ship!"); }
+                });
+            });
+
+            // =================== Load danh sách mã giảm giá ===================
+            $discountSelect.empty().append(`<option value="">-- Chọn mã giảm giá --</option>`);
+            $.ajax({
+                url: "@Url.Action("GetDiscounts", "CheckOut")",
+                type: "GET",
+                success: function(res) {
+                    if(res.success && res.data && res.data.length > 0) {
+                        res.data.forEach(function(item) {
+                            $discountSelect.append(`<option value="${item.id}" data-percent="${item.percent}" data-code="${item.code}">${item.text}</option>`);
+                        });
+                    } else {
+                        $discountSelect.append(`<option disabled>Không có mã giảm giá khả dụng</option>`);
+                    }
+                },
+                error: function() {
+                    $discountSelect.append(`<option disabled>Lỗi khi tải danh sách mã</option>`);
+                }
+            });
+
+            // =================== Khi chọn mã giảm giá ===================
+            $discountSelect.on("change", function () {
+                const selectedId = $(this).val();
+                $("#discountId").val(selectedId || ""); // cập nhật hidden field
+
+                if(!selectedId) {
+                    currentDiscountPercent = 0;
+                    $discountMsg.empty();
+                    updateTotal();
+                    return;
+                }
+
+                $.ajax({
+                    url: "@Url.Action("ApplyDiscount", "CheckOut")",
+                    type: "GET",
+                    data: { discountId: selectedId },
+                    success: function(res) {
+                        if(res.success) {
+                            currentDiscountPercent = parseFloat(res.percent) || 0;
+                            updateTotal();
+                            $discountMsg.html(`<div class="alert alert-success mt-2">Mã <strong>${res.code}</strong> được áp dụng - Giảm ${currentDiscountPercent}% (${(baseTotal * currentDiscountPercent / 100).toLocaleString("vi-VN")} đ)</div>`);
+                        } else {
+                            currentDiscountPercent = 0;
+                            updateTotal();
+                            $discountMsg.html(`<div class="alert alert-danger mt-2">${res.message || "Không thể áp dụng mã giảm giá."}</div>`);
+                        }
+                    },
+                    error: function() {
+                        currentDiscountPercent = 0;
+                        updateTotal();
+                        $discountMsg.html(`<div class="alert alert-danger mt-2">Lỗi khi áp dụng mã giảm giá.</div>`);
+                    }
+                });
+            });
+        });
+    </script>
 }

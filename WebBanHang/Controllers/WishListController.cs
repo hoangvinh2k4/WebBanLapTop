@@ -49,22 +49,21 @@ namespace WebBanHang.Controllers
         public async Task<IActionResult> AddToWishList(int id)
         {
             var product = await _datacontext.Products.FirstOrDefaultAsync(p => p.ProductID == id);
-            if (product == null) return NotFound();
+            if (product == null) return Json(new { success = false, message = "Sản phẩm không tồn tại" });
 
             string? userIdStr = HttpContext.Session.GetString("UserId");
 
             if (string.IsNullOrEmpty(userIdStr))
             {
-                // Chưa login → lưu Session
                 List<WishListModel> wishlist = HttpContext.Session.GetJson<List<WishListModel>>("Wishlist")
                     ?? new List<WishListModel>();
 
                 if (!wishlist.Any(w => w.ProductID == id))
                 {
-                    wishlist.Add(new WishListModel(product)); // Dùng constructor Session
+                    wishlist.Add(new WishListModel(product));
                 }
 
-                // Load Product và ProductImage cho frontend
+                // Load Product + ProductImage
                 foreach (var w in wishlist)
                 {
                     w.Product ??= await _datacontext.Products
@@ -73,11 +72,11 @@ namespace WebBanHang.Controllers
                 }
 
                 HttpContext.Session.SetJson("Wishlist", wishlist);
-                return Json(new { wl = wishlist });
+
+                return Json(new { success = true, wl = wishlist });
             }
             else
             {
-                // Login → lưu DB
                 int userId = int.Parse(userIdStr);
 
                 var existingItem = await _datacontext.WishList
@@ -85,22 +84,22 @@ namespace WebBanHang.Controllers
 
                 if (existingItem == null)
                 {
-                    // Dùng constructor chỉ set ProductID + UserID
                     var newItem = new WishListModel(product, userId);
                     _datacontext.WishList.Add(newItem);
-                    
                 }
+
                 await _datacontext.SaveChangesAsync();
-                // Load wishlist với Product + ProductImage để frontend render
+
                 var wishlistDb = await _datacontext.WishList
                     .Include(w => w.Product)
                         .ThenInclude(p => p.ProductImage)
                     .Where(w => w.UserID == userId)
                     .ToListAsync();
 
-                return Json(new { wl = wishlistDb });
+                return Json(new { success = true, wl = wishlistDb });
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> RemoveItem(int productId)
         {
