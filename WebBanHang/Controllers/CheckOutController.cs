@@ -53,17 +53,12 @@ namespace WebBanHang.Controllers
 
             return View(cartItems); // Truyền cartItems sang view
         }
-
-
-        // Xử lý khi bấm nút Thanh toán
         [HttpPost]
         public IActionResult PlaceOrder(string paymentMethod, int? discountId)
         {
             string? userIdStr = HttpContext.Session.GetString("UserId");
             if (string.IsNullOrEmpty(userIdStr))
-            {
                 return RedirectToAction("Login", "Account");
-            }
 
             int userId = int.Parse(userIdStr);
             var cartItems = _datacontext.CartItems
@@ -73,19 +68,20 @@ namespace WebBanHang.Controllers
             if (!cartItems.Any())
             {
                 TempData["Message"] = "Giỏ hàng trống, không thể đặt hàng!";
-                return RedirectToAction("Index", "Cart");
+                return RedirectToAction("CartIndex", "Cart");
             }
+
             decimal shippingFee = 0;
             if (Request.Cookies.TryGetValue("ShippingPrice", out var shippingCookie))
             {
                 decimal.TryParse(JsonConvert.DeserializeObject<string>(shippingCookie), out shippingFee);
             }
-            // ⚡ Transaction đảm bảo tính toàn vẹn dữ liệu
+
             using var transaction = _datacontext.Database.BeginTransaction();
 
             try
             {
-                // Tạo đơn hàng mới
+                // 🧾 Tạo đơn hàng
                 var order = new OrderModel
                 {
                     UserID = userId,
@@ -98,7 +94,7 @@ namespace WebBanHang.Controllers
                 _datacontext.Orders.Add(order);
                 _datacontext.SaveChanges();
 
-                // Thêm chi tiết đơn hàng + cập nhật tồn kho
+                // 🛒 Thêm chi tiết đơn hàng + trừ kho
                 foreach (var item in cartItems)
                 {
                     var product = _datacontext.Products.FirstOrDefault(p => p.ProductID == item.ProductID);
@@ -106,21 +102,19 @@ namespace WebBanHang.Controllers
                     {
                         TempData["Message"] = $"Sản phẩm ID {item.ProductID} không tồn tại!";
                         transaction.Rollback();
-                        return RedirectToAction("Index", "Cart");
+                        return RedirectToAction("CartIndex", "Cart");
                     }
 
                     if (product.Stock < item.Quantity)
                     {
                         TempData["Message"] = $"Sản phẩm {product.NameProduct} không đủ hàng trong kho!";
                         transaction.Rollback();
-                        return RedirectToAction("Index", "Cart");
+                        return RedirectToAction("CartIndex", "Cart");
                     }
 
-                    // Trừ kho
                     product.Stock -= item.Quantity;
                     _datacontext.Products.Update(product);
 
-                    // Thêm chi tiết đơn hàng
                     var detail = new OrderDetailModel
                     {
                         OrderID = order.OrderID,
@@ -129,9 +123,8 @@ namespace WebBanHang.Controllers
                         Price = item.Price
                     };
                     _datacontext.OrderDetails.Add(detail);
-                }
-
-                // Thêm Payment
+                }            
+                // 💸 Thêm Payment
                 var payment = new PaymentModel
                 {
                     OrderID = order.OrderID,
@@ -141,7 +134,18 @@ namespace WebBanHang.Controllers
                 };
                 _datacontext.Payments.Add(payment);
 
-                // Xóa giỏ hàng sau khi đặt hàng
+                // ❌ Xóa mã giảm giá sau khi dùng
+                if (discountId.HasValue)
+                {
+                    var userDiscount = _datacontext.UserDiscounts
+                        .FirstOrDefault(ud => ud.UserId == userId && ud.DiscountID == discountId.Value);
+                    if (userDiscount != null)
+                    {
+                        _datacontext.UserDiscounts.Remove(userDiscount);
+                    }
+                }
+
+                // 🧹 Xóa giỏ hàng
                 _datacontext.CartItems.RemoveRange(cartItems);
 
                 _datacontext.SaveChanges();
@@ -157,6 +161,7 @@ namespace WebBanHang.Controllers
 
             return RedirectToAction("HomeIndex", "Home");
         }
+
         public IActionResult OrderHistory()
         {
             string? userIdStr = HttpContext.Session.GetString("UserId");

@@ -20,7 +20,7 @@
 	<link href="~/css/prettyPhoto.css" rel="stylesheet">
 	<link href="~/css/price-range.css" rel="stylesheet">
 	<link href="~/css/animate.css" rel="stylesheet">
-	<link href="~/css/main.css" rel="stylesheet">
+	<link href="~/css/main.css" rel="stylesheet" asp-append-version="true">
 	<link href="~/css/responsive.css" rel="stylesheet">
 	<link href="~/css/register.css" rel="stylesheet" asp-append-version="true">
 
@@ -28,11 +28,13 @@
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-	<link rel="shortcut icon" href="images/ico/favicon.ico">
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
-	<link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+	<style>
+		.item h1,
+		.item h2,
+		.item p {
+			text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+		}
+	</style>
 </head><!--/head-->
 
 <body>
@@ -159,41 +161,34 @@
 						</ol>
 
 						<div class="carousel-inner">
-							<div class="item active">
+
+							<!-- Slide 1 -->
+							<div class="item active" style="background: url('/images/ngokhong1.jpg') center/cover no-repeat; min-height: 450px;">
 								<div class="col-sm-6">
 									<h1><span>VINH</span>-SHOPPER</h1>
 									<h2>CẬU BÉ NGU NGƠ</h2>
-									<p>SV Dũng  </p>
+									<p></p>
 									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="images/aspire.jpgg" class="girl img-responsive" alt="" />
-									<img src="images/asusrog.jpg" class="pricing" alt="" />
-								</div>
-							</div>
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>VINH</span>-SHOPPER</h1>
-									<h2>CẬU BÉ NGU NGƠ</h2>
-									<p>SV Hiếu </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="images/home/girl2.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png" class="pricing" alt="" />
 								</div>
 							</div>
 
-							<div class="item">
+							<!-- Slide 2 -->
+							<div class="item" style="background: url('/images/ngokhong2.jpg') center/cover no-repeat; min-height: 450px;">
 								<div class="col-sm-6">
 									<h1><span>VINH</span>-SHOPPER</h1>
 									<h2>CẬU BÉ NGU NGƠ</h2>
-									<p>SV BẮC </p>
+									<p></p>
 									<button type="button" class="btn btn-default get">Get it now</button>
 								</div>
+							</div>
+
+							<!-- Slide 3 -->
+							<div class="item" style="background: url('/images/laptop.jpg') center/cover no-repeat; min-height: 450px;">
 								<div class="col-sm-6">
-									<img src="images/home/girl3.jpg" class="girl img-responsive" alt="" />
-									<img src="images/home/pricing.png" class="pricing" alt="" />
+									<h1><span>VINH</span>-SHOPPER</h1>
+									<h2>CẬU BÉ NGU NGƠ</h2>
+									<p></p>
+									<button type="button" class="btn btn-default get">Get it now</button>
 								</div>
 							</div>
 
@@ -233,9 +228,9 @@
 					<div class="col-sm-10">
 						<div class="col-sm-2">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href="https://www.facebook.com/share/19hSea78hv/?mibextid=wwXIfr" style="height: 200px;">
 									<div class="iframe-img" style="height: 200px;">
-										<img src="images/facebook_files/z7101113145272_44daea22e7769e857887d1c84dafef7a.jpg" alt="" style="height: 200px"/>
+										<img src="/images/facebook_files/z7101113145272_44daea22e7769e857887d1c84dafef7a.jpg" alt="" style="height: 200px"/>
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -248,9 +243,9 @@
 
 						<div class="col-sm-2">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href="https://www.facebook.com/share/16BTCbVXSR/?mibextid=wwXIfr">
 									<div class="iframe-img" style="height: 200px;">
-										<img src="images/facebook_files/z7101113154476_500220be1555538b1e28162e88897585.jpg" alt="" style="height: 200px;" />
+										<img src="/images/facebook_files/z7101113154476_500220be1555538b1e28162e88897585.jpg" alt="" style="height: 200px;" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -263,9 +258,9 @@
 
 						<div class="col-sm-2">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href=" https://www.facebook.com/share/17A87Jj7rU/?mibextid=wwXIfr">
 									<div class="iframe-img" style="height: 200px;">
-										<img src="images/facebook_files/z7101113159896_f418552dd4bb6e03aceecf364cea21de.jpg" alt="" style="height: 200px;" />
+										<img src="/images/facebook_files/z7101113159896_f418552dd4bb6e03aceecf364cea21de.jpg" alt="" style="height: 200px;" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -278,9 +273,9 @@
 
 						<div class="col-sm-2">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href="https://www.facebook.com/share/17CQX34roy/?mibextid=wwXIfr">
 									<div class="iframe-img" style="height: 200px;">
-										<img src="images/home/iframe4.png" alt="" style="height: 200px;" />
+										<img src="/images/home/iframe4.png" alt="" style="height: 200px;" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -292,9 +287,9 @@
 						</div>
 						<div class="col-sm-2">
 							<div class="video-gallery text-center">
-								<a href="#">
+								<a href="https://www.facebook.com/share/1ACn7tGr6n/?mibextid=wwXIfr">
 									<div class="iframe-img" style="height: 200px;">
-										<img src="images/home/iframe4.png" alt="" style="height: 200px;" />
+										<img src="/images/home/iframe4.png" alt="" style="height: 200px;" />
 									</div>
 									<div class="overlay-icon">
 										<i class="fa fa-play-circle-o"></i>
@@ -313,8 +308,7 @@
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
-					<p class="pull-left">Create by 2004 V-SHOPPER Inc. All rights reserved.</p>
-					@* <p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p> *@
+					<p class="pull-left">Create by 2004 V-SHOPPER Inc. All rights reserved.</p>		
 				</div>
 			</div>
 		</div>
@@ -326,7 +320,6 @@
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/Common.js"></script>
 	<script src="~/js/main.js"></script>
-	<script src="~/js/Common.js"></script>
 	@RenderSection("Scripts", required: false)
 </body>
 </html>

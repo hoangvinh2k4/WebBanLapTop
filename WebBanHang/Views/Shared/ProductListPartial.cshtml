@@ -28,11 +28,21 @@ else
                                 <p>Tên sản phẩm: @item.NameProduct</p>
                                 <p>Thương hiệu: @item.Brand?.NameBrand</p>
                             </a>
-                            <a class="btn btn-default add-to-cart"
-                               data-id="@item.ProductID"
-                               href="#">
-                                <i class="fa fa-shopping-cart"></i> Add to cart
-                            </a>
+                            @if (item.Stock <= 0)
+                            {
+                                <a class="btn btn-secondary disabled" href="#"
+                                   style="opacity:0.6; cursor:not-allowed;">
+                                    <i class="fa fa-ban"></i> Hết hàng
+                                </a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-default add-to-cart"
+                                   data-id="@item.ProductID"
+                                   href="#">
+                                    <i class="fa fa-shopping-cart"></i> Add to cart
+                                </a>
+                            }
                         </div>
                     </div>
                     <div class="choose">

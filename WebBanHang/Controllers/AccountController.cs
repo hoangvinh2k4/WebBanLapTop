@@ -42,7 +42,7 @@ namespace WebBanHang.Controllers
                 HttpContext.Session.SetString("UserRole", user.Role);
 
                 if (user.Role == "Admin")
-<<<<<<< HEAD
+
                 {
                     return RedirectToAction("ListUser", "User", new { area = "Admin" });
                 }
@@ -50,14 +50,8 @@ namespace WebBanHang.Controllers
                 {
                     return RedirectToAction("HomeIndex", "Home", new { area = (string?)null });
 
-                }
-=======
-                    return RedirectToAction("HomeAdmin", "Admin", new { area = "Admin" });
->>>>>>> EnViDi
-                else
-                    return RedirectToAction("HomeIndex", "Home", new { area = (string?)null });
+                }                         
             }
-
             ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu");
             return View(loginVM);
         }

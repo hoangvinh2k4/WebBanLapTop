@@ -18,6 +18,12 @@ public class LuckyWheelController : Controller
     // 🌀 Trang vòng quay
     public IActionResult Index()
     {
+        var userIdStr = HttpContext.Session.GetString("UserId");
+        int? userId = null;
+        if (!string.IsNullOrEmpty(userIdStr))
+            userId = int.Parse(userIdStr);
+
+        // Lấy danh sách discount còn khả dụng
         var discounts = _datacontext.Discounts
             .Where(d => d.IsActive
                      && d.StartDate <= DateTime.Now
@@ -25,16 +31,25 @@ public class LuckyWheelController : Controller
                      && d.Quantity > 0)
             .ToList();
 
-        ViewBag.IsLoggedIn = HttpContext.Session.GetString("UserId") != null;
+        // Nếu user đã login, lọc bỏ các voucher đã trúng hôm nay
+        if (userId.HasValue)
+        {
+            var todayWonIds = _datacontext.UserDiscounts
+                .Where(ud => ud.UserId == userId.Value && ud.SpinDate.Date == DateTime.Now.Date)
+                .Select(ud => ud.DiscountID)
+                .ToList();
+
+            discounts = discounts.Where(d => !todayWonIds.Contains(d.DiscountID)).ToList();
+        }
+
+        ViewBag.IsLoggedIn = userId.HasValue;
 
         // Số lượt còn lại hôm nay
         int remainingSpins = 0;
-        var userIdStr = HttpContext.Session.GetString("UserId");
-        if (!string.IsNullOrEmpty(userIdStr))
+        if (userId.HasValue)
         {
-            int userId = int.Parse(userIdStr);
             var todaySpins = _datacontext.UserDiscounts
-                .Count(ud => ud.UserId == userId && ud.SpinDate.Date == DateTime.Now.Date);
+                .Count(ud => ud.UserId == userId.Value && ud.SpinDate.Date == DateTime.Now.Date);
             remainingSpins = Math.Max(MaxSpinsPerDay - todaySpins, 0);
         }
 
@@ -64,15 +79,24 @@ public class LuckyWheelController : Controller
             return Json(new { error = true, message = $"Bạn đã hết lượt quay hôm nay ({MaxSpinsPerDay} lượt)!" });
         }
 
+        // Lấy danh sách voucher còn khả dụng
         var discounts = _datacontext.Discounts
             .Where(d => d.IsActive
                      && d.StartDate <= DateTime.Now
                      && d.EndDate >= DateTime.Now
-                     && d.Quantity > 0) // chỉ lấy voucher còn số lượng
+                     && d.Quantity > 0)
             .ToList();
 
+        // Lọc bỏ các voucher user đã trúng hôm nay
+        var todayWonIds = _datacontext.UserDiscounts
+            .Where(ud => ud.UserId == userId && ud.SpinDate.Date == DateTime.Now.Date)
+            .Select(ud => ud.DiscountID)
+            .ToList();
+
+        discounts = discounts.Where(d => !todayWonIds.Contains(d.DiscountID)).ToList();
+
         if (!discounts.Any())
-            return Json(new { error = true, message = "Không còn mã giảm giá nào khả dụng!" });
+            return Json(new { error = true, message = "Không còn mã giảm giá khả dụng!" });
 
         // Random chọn mã
         var random = new Random();
@@ -105,7 +129,6 @@ public class LuckyWheelController : Controller
             remainingSpins = MaxSpinsPerDay - todaySpins - 1
         });
     }
-
 
     // 📜 Xem lịch sử voucher
     public IActionResult History()

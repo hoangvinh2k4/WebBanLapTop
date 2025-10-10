@@ -61,20 +61,38 @@ namespace WebBanHang.Controllers
         {
             var product = await _datacontext.Products
                 .FirstOrDefaultAsync(p => p.ProductID == id);
-            if (product == null) return NotFound();
+
+            if (product == null)
+                return Json(new { success = false, message = "Sản phẩm không tồn tại!" });
+
+            // 🧭 Kiểm tra hết hàng
+            if (product.Stock <= 0)
+            {
+                return Json(new { success = false, message = "Hiện tại sản phẩm này đã hết hàng!" });
+            }
 
             string? userIdStr = HttpContext.Session.GetString("UserId");
 
+            // 🧺 Nếu chưa đăng nhập (lưu Session)
             if (string.IsNullOrEmpty(userIdStr))
             {
                 List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart")
                                             ?? new List<CartModel>();
 
                 var cartItem = cart.FirstOrDefault(c => c.ProductID == id);
+
                 if (cartItem == null)
+                {
                     cart.Add(new CartModel(product));
+                }
                 else
                 {
+                    // 🔒 Kiểm tra nếu số lượng vượt quá tồn kho
+                    if (cartItem.Quantity >= product.Stock)
+                    {
+                        return Json(new { success = false, message = "Số lượng trong kho không đủ để thêm!" });
+                    }
+
                     cartItem.Quantity++;
                     cartItem.TotalPrice = cartItem.Quantity * cartItem.Price;
                 }
@@ -83,6 +101,7 @@ namespace WebBanHang.Controllers
 
                 return Json(new
                 {
+                    success = true,
                     totalItems = cart.Sum(x => x.Quantity),
                     totalPrice = cart.Sum(x => x.TotalPrice)
                 });
@@ -101,6 +120,12 @@ namespace WebBanHang.Controllers
                 }
                 else
                 {
+                    // 🔒 Kiểm tra nếu số lượng vượt quá tồn kho
+                    if (cartItem.Quantity >= product.Stock)
+                    {
+                        return Json(new { success = false, message = "Số lượng trong kho không đủ để thêm!" });
+                    }
+
                     cartItem.Quantity++;
                     cartItem.TotalPrice = cartItem.Quantity * cartItem.Price;
                 }
@@ -113,11 +138,13 @@ namespace WebBanHang.Controllers
 
                 return Json(new
                 {
+                    success = true,
                     totalItems = cartDb.Sum(x => x.Quantity),
                     totalPrice = cartDb.Sum(x => x.Quantity * x.Price)
                 });
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> Decrease(int id)
         {

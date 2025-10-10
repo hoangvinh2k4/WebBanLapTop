@@ -72,21 +72,3 @@ $(document).on("click", ".add-to-wishlist", function (e) {
     });
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
