@@ -50,7 +50,7 @@ namespace WebBanHang.Controllers
                 CartViewModel cartVM = new()
                 {
                     CartModels = cartDb,
-                    TotalPrice = cartDb.Sum(x => x.TotalPrice)
+                    TotalPrice = cartDb.Sum(x => x.Product.Price * x.Quantity)
                 };
                 return View(cartVM);
             }

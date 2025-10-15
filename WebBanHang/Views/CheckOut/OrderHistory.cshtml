@@ -5,7 +5,7 @@
 }
 
 <div class="container mt-4">
-    <h2>Lịch sử mua hàng</h2>
+    <h2>Lịch sử đặt hàng</h2>
 
     @if (!Model.Any())
     {
@@ -19,8 +19,7 @@
                 <div class="card-header">
                     <b>Mã đơn:</b> @order.OrderID |
                     <b>Ngày đặt:</b> @order.OrderDate.ToString("dd/MM/yyyy HH:mm") |
-                    <b>Tổng cuối:</b> @string.Format("{0:N0} đ", order.TotalAmount + order.ShippingFee - order.DiscountAmount) |
-                    <b>Trạng thái:</b> @order.Status
+                    <b>Tổng cuối:</b> @string.Format("{0:N0} đ", order.TotalAmount + order.ShippingFee - order.DiscountAmount) |                
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">

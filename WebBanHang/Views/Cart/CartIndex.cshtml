@@ -66,97 +66,19 @@
 								</td>
 							</tr>
 						}
-						<tr>
-							<td rowspan="5">
-								Grand Total: <p id="grand-total" class="cart_total_price">@Model.TotalPrice.ToString("#,##0 VNĐ")</p>
-								@*  <form>
-									Coupon Code: <input type="text" class="form-control coupon-value" /><span class="text text-success">@Model.CouponCode</span> <br />
-									
-									<input type="button" value="Apply" class="btn btn-sm btn-primary btn-apply-coupon" />
-								</form> 
-
-								  Ship cost: <p class="cart_total_price">@Model.ShippingPrice.ToString("#,##0 đ") 
-
-						 		</p> 
-								 @if (@Model.ShippingPrice > 0)
-								{
-									<a style="cursor:pointer" class="btn-delete-shipping">Xóa vận chuyển</a>
-								} *@
-								@* <div class="form-group">
-									<label>Tỉnh thành phố</label>
-									<select class="css_select" id="tinh" name="tinh" class="form-control" title="Chọn Tỉnh Thành">
-										<option value="0">Tỉnh Thành</option>
-									</select>
-								</div>
-
-								<div class="form-group">
-									<label>Quận huyện</label>
-									<select class="css_select" id="quan" name="quan" class="form-control" title="Chọn Quận Huyện">
-										<option value="0">Quận Huyện</option>
-									</select>
-								</div>
-
-								<div class="form-group">
-									<label>Phường Xã</label>
-									<select class="css_select" id="phuong" name="phuong" class="form-control" title="Chọn Phường Xã">
-										<option value="0">Phường Xã</option>
-									</select>
-								</div> 
-									<button type="button" class="btn btn-primary btn-add-shipping">Tính phí vận chuyển</button>
-								
-							 </td>   *@
-
-								@*  @if (User.Identity?.IsAuthenticated ?? false)
-							{
-								<td>
-									@if (@Model.ShippingPrice > 0)
-									{
-										<a  class="btn btn-primary btn-sm btn-checkout"
-										   onclick="return confirm('Xác nhận đặt hàng?');"
-										   asp-action="Checkout" asp-controller="Checkout"> Xác nhận đặt hàng </a>
-										   
-									}
-									else
-									{
-										<a disabled class="btn btn-primary btn-sm btn-checkout"
-										   onclick="return confirm('Xác nhận đặt hàng?');"
-										   asp-action="Checkout" asp-controller="Checkout"> Xác nhận đặt hàng </a>
-										<p><span class="text text-danger">Tính phí vận chuyển để xác nhận đơn.</span></p>
-									}
-								</td>
-								<td>
-									<form method="POST" asp-action="CreatePaymentMomo" asp-controller="Payment">
-										<input type="hidden" name="FullName" value="@User.Identity.Name" />
-										<input type="hidden" name="Amount" value="@Model.GrandTotal" />
-										<input type="hidden" name="OrderInfo" value="Thanh toán qua Momo Payment tại HieuTanStore" />
-										
-										<button class="btn btn-danger" name="PayUrl" type="submit">Pay with MoMo</button>
-									</form>
-									<form method="POST" asp-action="CreatePaymentUrlVnpay" asp-controller="Payment">
-
-										<input type="hidden" name="Name" value="@User.Identity.Name" />
-										<input type="hidden" name="Amount" value="@Model.GrandTotal" />
-										<input type="hidden" name="OrderDescription" value="Thanh toán qua Vnpay tại HieuTanStore" />
-										<input type="hidden" name="OrderType" value="other" />
-
-										<button class="btn btn-success"  type="submit">Pay with Vnpay</button>
-									</form>
-									
-								</td>
-								
-							}  *@
-							<td colspan="5">
-								<button id="btn-clear-cart" class="btn btn-danger btn-sm">
-									Xóa tất cả
-								</button>
-							</td>
-							<td colspan="5">
-								<a href="@Url.Action("CheckOutIndex", "Checkout")" class="btn btn-danger btn-sm">
-									Thanh toán
-								</a>
-							</td>
-
-						</tr>
+						    <tr>
+                                <td rowspan="4"> Grand Total: 
+                                    <p id="grand-total" class="cart_total_price">@Model.TotalPrice.ToString("#,##0 VNĐ")</p>
+                                </td>
+                                <td colspan="8" style="text-align: right;">
+                                    <button id="btn-clear-cart" class="btn btn-danger btn-sm">
+										 Xóa tất cả
+                                    </button>
+                                    <a href="@Url.Action("CheckOutIndex", "Checkout")" class="btn btn-danger btn-sm">
+                                         Thanh toán
+                                    </a>
+                                </td>
+                             </tr>
 					}
 					else
 					{
@@ -166,7 +88,6 @@
 							</td>
 						</tr>
 					}
-
 				</tbody>
 			</table>
 		</div>

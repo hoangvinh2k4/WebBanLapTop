@@ -64,8 +64,8 @@
     align-items: center;
 }
 
-button[type="submit"] {
-    width: 10% !important;
+button[type="submitregister"] {
+    width: 100%;
     height: 33px;
     padding: 12px;
     background: #ff9800;
