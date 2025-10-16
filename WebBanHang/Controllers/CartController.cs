@@ -64,16 +64,14 @@ namespace WebBanHang.Controllers
 
             if (product == null)
                 return Json(new { success = false, message = "Sản phẩm không tồn tại!" });
-
-            // 🧭 Kiểm tra hết hàng
+         
             if (product.Stock <= 0)
             {
                 return Json(new { success = false, message = "Hiện tại sản phẩm này đã hết hàng!" });
             }
 
             string? userIdStr = HttpContext.Session.GetString("UserId");
-
-            // 🧺 Nếu chưa đăng nhập (lưu Session)
+            
             if (string.IsNullOrEmpty(userIdStr))
             {
                 List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart")

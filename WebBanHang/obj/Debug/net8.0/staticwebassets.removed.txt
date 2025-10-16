@@ -1,9 +1,0 @@
-<<<<<<< HEAD
-E:\WebBanLapTop\WebBanLapTop\WebBanHang\wwwroot\css\Edit.css
-=======
-<<<<<<< HEAD
-E:\WebBanLapTop\WebBanLapTop\WebBanHang\wwwroot\css\Edit.css
-=======
-D:\C#\WebBanHang\WebBanHang\wwwroot\js\Cart.js
->>>>>>> Vinh
->>>>>>> EnViDi
