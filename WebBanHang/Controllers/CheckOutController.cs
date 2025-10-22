@@ -18,67 +18,61 @@ namespace WebBanHang.Controllers
         }
         public IActionResult CheckOutIndex()
         {
-            // Lấy UserId từ Session
+            
             string? userIdStr = HttpContext.Session.GetString("UserId");
 
             if (string.IsNullOrEmpty(userIdStr))
-            {
-                // Nếu chưa đăng nhập → về trang Login
+            {               
                 return RedirectToAction("Login", "Account");
             }
 
             int userId = int.Parse(userIdStr);
-
-            // Load giỏ hàng theo user
+            
             var cartItems = _datacontext.CartItems
-                .Include(c => c.Product)  // ⚡️ Bắt buộc để tránh null
+                .Include(c => c.Product)  
                 .Where(c => c.UserID == userId)
                 .ToList();
 
             if (!cartItems.Any())
             {
                 TempData["Message"] = "Giỏ hàng trống, không thể thanh toán!";
-                return RedirectToAction("Index", "Cart");
+                return RedirectToAction("CartIndex", "Cart");
             }
 
-            decimal shippingPrice = 50000; // mặc định
+            decimal shippingPrice = 50000; 
             var defaultShipping = _datacontext.Shippings.FirstOrDefault();
             if (defaultShipping != null)
             {
                 shippingPrice = defaultShipping.Price;
             }
 
-            // Gửi qua ViewBag
             ViewBag.ShippingPrice = 0;
 
-            return View(cartItems); // Truyền cartItems sang view
+            return View(cartItems); 
         }
         [HttpPost]
-        public IActionResult PlaceOrder(string paymentMethod, int? discountId)
+        public IActionResult PlaceOrder(string paymentMethod, int? discountId, string city)
         {
             string? userIdStr = HttpContext.Session.GetString("UserId");
             if (string.IsNullOrEmpty(userIdStr))
-                return RedirectToAction("Login", "Account");
+                return Json(new { success = false, message = "Vui lòng đăng nhập để đặt hàng." });
 
             int userId = int.Parse(userIdStr);
+
             var cartItems = _datacontext.CartItems
                 .Where(c => c.UserID == userId)
                 .ToList();
 
             if (!cartItems.Any())
-            {
-                TempData["Message"] = "Giỏ hàng trống, không thể đặt hàng!";
-                return RedirectToAction("CartIndex", "Cart");
-            }
+                return Json(new { success = false, message = "Giỏ hàng trống, không thể đặt hàng!" });
 
-            decimal shippingFee = 0;
-            if (Request.Cookies.TryGetValue("ShippingPrice", out var shippingCookie))
-            {
-                decimal.TryParse(JsonConvert.DeserializeObject<string>(shippingCookie), out shippingFee);
-            }
+            // ✅ Lấy phí ship từ DB dựa theo tỉnh được gửi từ form
+            decimal shippingFee = 50000; // Mặc định
+            var shipping = _datacontext.Shippings.FirstOrDefault(s => s.City == city);
+            if (shipping != null)
+                shippingFee = shipping.Price;
 
             using var transaction = _datacontext.Database.BeginTransaction();
-
             try
             {
                 // 🧾 Tạo đơn hàng
@@ -88,172 +82,81 @@ namespace WebBanHang.Controllers
                     OrderDate = DateTime.Now,
                     TotalAmount = cartItems.Sum(c => c.TotalPrice),
                     ShippingFee = shippingFee,
-                    DiscountID = discountId,
-                    Status = "Đã thanh toán"
+                    DiscountID = discountId,                  
                 };
+
                 _datacontext.Orders.Add(order);
                 _datacontext.SaveChanges();
 
-                // 🛒 Thêm chi tiết đơn hàng + trừ kho
+                // 💰 Thêm chi tiết đơn hàng + trừ kho
                 foreach (var item in cartItems)
                 {
                     var product = _datacontext.Products.FirstOrDefault(p => p.ProductID == item.ProductID);
                     if (product == null)
-                    {
-                        TempData["Message"] = $"Sản phẩm ID {item.ProductID} không tồn tại!";
-                        transaction.Rollback();
-                        return RedirectToAction("CartIndex", "Cart");
-                    }
+                        return Json(new { success = false, message = $"Sản phẩm ID {item.ProductID} không tồn tại!" });
 
                     if (product.Stock < item.Quantity)
-                    {
-                        TempData["Message"] = $"Sản phẩm {product.NameProduct} không đủ hàng trong kho!";
-                        transaction.Rollback();
-                        return RedirectToAction("CartIndex", "Cart");
-                    }
+                        return Json(new { success = false, message = $"Sản phẩm {product.NameProduct} không đủ hàng!" });
 
                     product.Stock -= item.Quantity;
                     _datacontext.Products.Update(product);
 
-                    var detail = new OrderDetailModel
+                    _datacontext.OrderDetails.Add(new OrderDetailModel
                     {
                         OrderID = order.OrderID,
                         ProductID = item.ProductID,
                         Quantity = item.Quantity,
                         Price = item.Price
-                    };
-                    _datacontext.OrderDetails.Add(detail);
-                }            
-                // 💸 Thêm Payment
-                var payment = new PaymentModel
+                    });
+                }
+
+                //  Thanh toán
+                _datacontext.Payments.Add(new PaymentModel
                 {
                     OrderID = order.OrderID,
                     PaymentMethod = paymentMethod,
-                    Amount = order.TotalAmount + order.ShippingFee,
+                    Amount = order.TotalAmount + order.ShippingFee - order.DiscountAmount,
                     PaidDate = DateTime.Now
-                };
-                _datacontext.Payments.Add(payment);
+                });
 
-                // ❌ Xóa mã giảm giá sau khi dùng
+                //  Xóa mã giảm giá đã dùng
                 if (discountId.HasValue)
                 {
                     var userDiscount = _datacontext.UserDiscounts
                         .FirstOrDefault(ud => ud.UserId == userId && ud.DiscountID == discountId.Value);
                     if (userDiscount != null)
-                    {
                         _datacontext.UserDiscounts.Remove(userDiscount);
-                    }
                 }
 
-                // 🧹 Xóa giỏ hàng
+                //  Xóa giỏ hàng
                 _datacontext.CartItems.RemoveRange(cartItems);
-
                 _datacontext.SaveChanges();
+
                 transaction.Commit();
 
-                TempData["Message"] = "Đặt hàng thành công!";
+                return Json(new { success = true, message = "Đặt hàng thành công!" });
             }
             catch (Exception ex)
             {
                 transaction.Rollback();
-                TempData["Message"] = "Có lỗi xảy ra khi đặt hàng: " + ex.Message;
+                return Json(new { success = false, message = "Có lỗi khi đặt hàng: " + ex.Message });
             }
-
-            return RedirectToAction("HomeIndex", "Home");
         }
 
-        public IActionResult OrderHistory()
-        {
-            string? userIdStr = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userIdStr))
-                return RedirectToAction("Login", "Account");
-
-            int userId = int.Parse(userIdStr);
-
-            var orders = _datacontext.Orders
-                .Include(o => o.OrderDetails)
-                .ThenInclude(od => od.Product)
-                .Include(o => o.Discount)
-                .Where(o => o.UserID == userId)
-                .OrderByDescending(o => o.OrderDate)
-                .ToList();
-
-            return View(orders); // View dùng trực tiếp OrderModel
-        }
-
-
-        [HttpPost]
-        public IActionResult ClearOrderHistory()
-        {
-            string? userIdStr = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userIdStr))
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            int userId = int.Parse(userIdStr);
-
-            // Lấy tất cả đơn hàng của user
-            var orders = _datacontext.Orders
-                .Where(o => o.UserID == userId)
-                .Include(o => o.OrderDetails)
-                .Include(o => o.Payment)
-                .ToList();
-
-            if (orders.Any())
-            {
-                // Xóa chi tiết + payment trước rồi mới xóa order
-                foreach (var order in orders)
-                {
-                    _datacontext.OrderDetails.RemoveRange(order.OrderDetails);
-                    _datacontext.Payments.RemoveRange(order.Payment);
-                }
-
-                _datacontext.Orders.RemoveRange(orders);
-                _datacontext.SaveChanges();
-            }
-
-            return RedirectToAction("OrderHistory");
-        }
-        [HttpPost]
+        [HttpGet]
         [Route("CheckOut/GetShipping")]
-        public async Task<IActionResult> GetShipping(ShippingModel shippingModel, string tinh)
+        public async Task<IActionResult> GetShipping(string tinh)
         {
-
+            // Tìm phí ship theo tỉnh
             var existingShipping = await _datacontext.Shippings
                 .FirstOrDefaultAsync(x => x.City == tinh);
 
-            decimal shippingPrice = 0; // Set mặc định giá tiền
+            decimal shippingPrice = existingShipping?.Price ?? 50000; 
 
-            if (existingShipping != null)
-            {
-                shippingPrice = existingShipping.Price;
-            }
-            else
-            {
-                //Set mặc định giá tiền nếu ko tìm thấy
-                shippingPrice = 50000;
-            }
-            ViewBag.ShippingPrice = shippingPrice;
-            var shippingPriceJson = JsonConvert.SerializeObject(shippingPrice);
-            try
-            {
-                var cookieOptions = new CookieOptions
-                {
-                    HttpOnly = true,
-                    Expires = DateTimeOffset.UtcNow.AddMinutes(30),
-                    Secure = true // using HTTPS
-                };
-
-                Response.Cookies.Append("ShippingPrice", shippingPriceJson, cookieOptions);
-            }
-            catch (Exception ex)
-            {
-                //
-                Console.WriteLine($"Error adding shipping price cookie: {ex.Message}");
-            }
-            return Json(new { shippingPrice });
+            // Gửi về JSON cho JavaScript hiển thị
+            return Json(new { success = true, shippingPrice });
         }
+   
         [HttpGet]
         public IActionResult CheckDiscount()
         {
@@ -330,6 +233,49 @@ namespace WebBanHang.Controllers
                 code = discount.Code,
                 percent = discount.Percentage
             });
+        }
+        public IActionResult OrderHistory()
+        {
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdStr))
+                return RedirectToAction("Login", "Account");
+
+            int userId = int.Parse(userIdStr);
+
+            var orders = _datacontext.Orders
+                .Where(o => o.UserID == userId && !o.IsDeleted) // lọc soft delete
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .Include(o => o.Discount)
+                .OrderByDescending(o => o.OrderDate)
+                .ToList();
+
+            return View(orders);
+        }
+
+        [HttpPost]
+        public IActionResult ClearOrderHistory()
+        {
+            string? userIdStr = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdStr))
+                return RedirectToAction("Login", "Account");
+
+            int userId = int.Parse(userIdStr);
+
+            var orders = _datacontext.Orders
+                .Where(o => o.UserID == userId && !o.IsDeleted)
+                .Include(o => o.OrderDetails)
+                .Include(o => o.Payment)
+                .ToList();
+
+            foreach (var order in orders)
+            {
+                order.IsDeleted = true; // chỉ đánh dấu soft delete
+            }
+
+            _datacontext.SaveChanges();
+
+            return RedirectToAction("OrderHistory");
         }
 
     }
