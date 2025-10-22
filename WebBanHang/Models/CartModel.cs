@@ -19,9 +19,8 @@ namespace WebBanHang.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
         public DateTime ADDed { get; set; }
-        //UserID INT NOT NULL REFERENCES Users(UserID), 
-        [ForeignKey("ProductID")]
-        [JsonIgnore]
+        
+        [ForeignKey("ProductID")]     
         public ProductModel Product { get; set; }
         public CartModel()
         {
@@ -30,10 +29,10 @@ namespace WebBanHang.Models
         public CartModel(ProductModel product)
         {
             ProductID = product.ProductID;
-            Product = product;   // gán nguyên object Product
+            Product = product;   
             Quantity = 1;
             Price = product.Price;
-            TotalPrice = product.Price; // giá ban đầu = đơn giá
+            TotalPrice = product.Price;
             ADDed = DateTime.Now;
         }
         public CartModel(ProductModel product, int userId)

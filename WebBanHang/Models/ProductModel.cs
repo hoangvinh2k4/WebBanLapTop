@@ -59,8 +59,7 @@ namespace WebBanHang.Models
         // -------- RELATIONSHIP --------
         //public IFormFile? ImageUpload { get; set; }  // để upload ảnh mới
         [JsonIgnore]
-        public ICollection<WishListModel>? WishList { get; set; }
-        [JsonIgnore]
+        public ICollection<WishListModel>? WishList { get; set; }       
         public ICollection<CartModel>? Cart { get; set; }
         public virtual ICollection<ProductReviews>? ProductReviews { get; set; }
 

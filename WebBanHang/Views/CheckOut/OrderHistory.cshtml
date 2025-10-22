@@ -18,8 +18,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <b>Mã đơn:</b> @order.OrderID |
-                    <b>Ngày đặt:</b> @order.OrderDate.ToString("dd/MM/yyyy HH:mm") |
-                    <b>Tổng cuối:</b> @string.Format("{0:N0} đ", order.TotalAmount + order.ShippingFee - order.DiscountAmount) |                
+                    <b>Ngày đặt:</b> @order.OrderDate.ToString("dd/MM/yyyy HH:mm")                                
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered">
@@ -29,7 +28,7 @@
                                 <th>Số lượng</th>
                                 <th>Mô tả</th>
                                 <th>Giá</th>
-                                <th>Tạm tính</th>
+                                <th>Tạm tính</th>                                           
                             </tr>
                         </thead>
                         <tbody>
@@ -43,24 +42,38 @@
                                     <td>@string.Format("{0:N0} đ", detail.Price * detail.Quantity)</td>
                                 </tr>
                             }
+                            <tr class="table-info">
+                                <td colspan="4" class="text-end"><b>Phí vận chuyển:</b></td>
+                                <td>@string.Format("{0:N0} đ", order.ShippingFee)</td>
+                            </tr>
+                            <tr class="table-info">
+                                <td colspan="4" class="text-end"><b>Mã giảm giá:</b></td>
+                                <td>@string.Format("{0:N0} đ", order.DiscountAmount)</td>
+                            </tr>
+                            <tr class="table-success">
+                                <td colspan="4" class="text-end"><b>Tổng cuối:</b></td>
+                                <td>@string.Format("{0:N0} đ", order.TotalAmount + order.ShippingFee - order.DiscountAmount)</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         }
-
-         <!-- Nút xóa -->
+    }
+    <!-- Nút xóa -->
+    <div class="text-center mt-4 mb-4">
         <form id="clearHistoryForm"
               asp-action="ClearOrderHistory"
               asp-controller="CheckOut"
               method="post">
-            <button type="submit" id="btnClearHistory" class="btn btn-danger mb-3">
+            <button type="submit" id="btnClearHistory" class="btn btn-danger">
                 <i class="fa fa-trash"></i> Xóa tất cả lịch sử đơn hàng
             </button>
         </form>
-    }
-</div>
+    </div>
 
+    
+</div>
 @section Scripts {
     <script>
         document.getElementById("btnClearHistory").addEventListener("click", function (e) {

@@ -25,11 +25,15 @@ namespace WebBanHang.Controllers
                 List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart")
                                             ?? new List<CartModel>();
 
+                var productIds = cart.Select(c => c.ProductID).ToList();
+                var products = await _datacontext.Products
+                    .Include(p => p.ProductImage)
+                    .Where(p => productIds.Contains(p.ProductID))
+                    .ToListAsync();
+
                 foreach (var item in cart)
                 {
-                    item.Product = await _datacontext.Products
-                        .Include(p => p.ProductImage)
-                        .FirstOrDefaultAsync(p => p.ProductID == item.ProductID);
+                    item.Product = products.FirstOrDefault(p => p.ProductID == item.ProductID);
                 }
 
                 CartViewModel cartVM = new()
@@ -64,16 +68,14 @@ namespace WebBanHang.Controllers
 
             if (product == null)
                 return Json(new { success = false, message = "Sản phẩm không tồn tại!" });
-
-            // 🧭 Kiểm tra hết hàng
+         
             if (product.Stock <= 0)
             {
                 return Json(new { success = false, message = "Hiện tại sản phẩm này đã hết hàng!" });
             }
 
             string? userIdStr = HttpContext.Session.GetString("UserId");
-
-            // 🧺 Nếu chưa đăng nhập (lưu Session)
+            
             if (string.IsNullOrEmpty(userIdStr))
             {
                 List<CartModel> cart = HttpContext.Session.GetJson<List<CartModel>>("Cart")
@@ -239,7 +241,7 @@ namespace WebBanHang.Controllers
                 return Json(new
                 {
                     itemId = id,
-                    itemQuantity = cartItem?.Quantity ?? 0,
+                    itemQuantity = cartItem.Quantity,
                     totalItems = cart.Sum(x => x.Quantity),
                     grandTotal = cart.Sum(x => x.Quantity * x.Price)
                 });
@@ -262,7 +264,7 @@ namespace WebBanHang.Controllers
                 return Json(new
                 {
                     itemId = id,
-                    itemQuantity = cartItem?.Quantity ?? 0,
+                    itemQuantity = cartItem.Quantity,
                     totalItems = cartDb.Sum(x => x.Quantity),
                     grandTotal = cartDb.Sum(x => x.Quantity * x.Price)
                 });
@@ -288,7 +290,6 @@ namespace WebBanHang.Controllers
                     success = true,
                     totalItems = cart.Sum(x => x.Quantity),
                     grandTotal = cart.Sum(x => x.TotalPrice),
-                    cart = cart
                 });
             }
             else

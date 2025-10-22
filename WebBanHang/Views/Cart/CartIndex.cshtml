@@ -9,8 +9,6 @@
 	<div class="container">
 		<div class="breadcrumbs">
 			<ol class="breadcrumb">
-				@* <li><a href="#">Home</a></li>
-				<li class="active">Shopping Cart</li> *@
 			</ol>
 		</div>
 		<div class="table-responsive cart_info">
@@ -75,7 +73,7 @@
 										 Xóa tất cả
                                     </button>
                                     <a href="@Url.Action("CheckOutIndex", "Checkout")" class="btn btn-danger btn-sm">
-                                         Thanh toán
+                                         Đặt hàng
                                     </a>
                                 </td>
                              </tr>
@@ -94,165 +92,34 @@
 	</div>
 </section>
 
-@*  @section Scripts{
-
-	<script>
-		//delete shipping cost
-		$(".btn-apply-coupon").click(function () {
-			var coupon_value = $(".coupon-value").val();
-			//alert(coupon_value);
-			$.ajax({
-				type: "POST",
-				url: "@Url.Action("GetCoupon", "Cart")",
-				data: { coupon_value: coupon_value },
-				success: function (result) {
-					if (result.success) {
-
-						Swal.fire(result.message);
-						location.reload();
-					} else {
-
-						Swal.fire(result.message);
-					}
-				}
-				
-			});
-		});
-	</script>
-	<script>
-		$(document).ready(function () {
-			$(".btn-add-shipping").click(function () {
-				var tinh = $("#tinh").find('option:selected').text();
-				var quan = $("#quan").find('option:selected').text();
-				var phuong = $("#phuong").find('option:selected').text();
-				
-				// alert(tinh);
-				// alert(quan);
-				// alert(phuong);
-				// alert(price);
-				if (tinh == '' || quan == '' || phuong == '') {
-					Swal.fire("Làm ơn ko bỏ trống.");
-				} else {
-					$.ajax({
-						type: "POST",
-						url: "@Url.Action("GetShipping", "Cart")",
-						data: { tinh: tinh, quan: quan, phuong: phuong}, // Send data to the server
-
-						success: function (result) {
-							// Handle successful update
-							if (result) {
-
-								location.reload();
-
-							} 
-						}
-
-					});
-				}
-
-
-			})
-			//delete shipping cost
-			$(".btn-delete-shipping").click(function () {
-				$.ajax({
-					type: "POST",
-					url: "@Url.Action("RemoveShippingCookie", "Cart")", // Replace with your controller and action name
-					success: function (result) {
-						if (result.success) {
-							// Handle successful removal (e.g., update UI or redirect)
-							Swal.fire("Xóa thành công.");
-							location.reload();
-						} else {
-							// Handle error (optional)
-							Swal.fire("Xóa thất bại.");
-						}
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						// Handle AJAX errors (optional)
-						console.error("Error removing cookie:", errorThrown);
-					}
-				});
-			});
-			//Lấy tỉnh thành
-			$.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
-				if (data_tinh.error == 0) {
-					$.each(data_tinh.data, function (key_tinh, val_tinh) {
-						$("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.full_name + '</option>');
-					});
-					$("#tinh").change(function (e) {
-						var idtinh = $(this).val();
-						//Lấy quận huyện
-						$.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
-							if (data_quan.error == 0) {
-								$("#quan").html('<option value="0">Quận Huyện</option>');
-								$("#phuong").html('<option value="0">Phường Xã</option>');
-								$.each(data_quan.data, function (key_quan, val_quan) {
-									$("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
-								});
-								//Lấy phường xã
-								$("#quan").change(function (e) {
-									var idquan = $(this).val();
-									$.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
-										if (data_phuong.error == 0) {
-											$("#phuong").html('<option value="0">Phường Xã</option>');
-											$.each(data_phuong.data, function (key_phuong, val_phuong) {
-												$("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
-											});
-										}
-									});
-								});
-
-							}
-						}); //end $.getJson
-
-					});
-
-				}
-			});
-		});
-	</script>
-} *@
 @section Scripts {
 	<script>
 		$(document).ready(function () {
-			// DELEGATION để phần tử mới cũng bắt được sự kiện
+			
 			$(document).on("click", ".btn-decrease", function (e) {
 				e.preventDefault();
 				var id = $(this).data("id");
 				var row = $("tr[data-id='" + id + "']");
 
 				$.post("/Cart/Decrease", { id: id }, function (res) {
-					console.log(res);
-					if (!res) return;
-
-					if (res.totalItems === 0) {
-						// giỏ hàng rỗng: refresh để hiển thị thông báo rỗng hoặc redirect
+					
+					if (res.totalItems === 0) {						
 						location.reload();
 						return;
 					}
-
-					// cập nhật số lượng trong input
 					row.find(".item-qty").val(res.itemQuantity);
-
-					// cập nhật tổng tiền của dòng (dựa vào data-price)
 					var pricePer = parseFloat(row.data("price")) || 0;
 					var perTotal = res.itemQuantity * pricePer;
-					row.find(".cart_total_price").text(perTotal.toLocaleString('vi-VN') + " VNĐ");
-
-					// cập nhật giỏ hàng nhỏ (header)
-					$("#cart-count").text(res.totalItems);
+					row.find(".cart_total_price").text(perTotal.toLocaleString('vi-VN') + " VNĐ");									
 					$("#cart-total").text(res.grandTotal.toLocaleString('vi-VN') + " VNĐ");
 					$("#grand-total").text(res.grandTotal.toLocaleString('vi-VN') + " VNĐ");
 
-
-					// nếu số lượng = 0 thì xóa dòng
 					if (res.itemQuantity === 0) {
 						row.remove();
 					}
 				});
 			});
-
-			// (Tùy chọn) nút tăng: gọi action Increase (nên trả Json, giống Decrease)
+		
 			$(document).on("click", ".btn-increase", function (e) {
 				e.preventDefault();
 				var id = $(this).data("id");
@@ -261,12 +128,10 @@
 				$.post("/Cart/Increase", { id: id }, function (res) {
 					console.log(res);
 					if (!res) return;
-					// xử lý giống decrease
 					row.find(".item-qty").val(res.itemQuantity);
 					var pricePer = parseFloat(row.data("price")) || 0;
 					var perTotal = res.itemQuantity * pricePer;
 					row.find(".cart_total_price").text(perTotal.toLocaleString('vi-VN') + " VNĐ");
-					$("#cart-count").text(res.totalItems);
 					$("#cart-total").text(res.grandTotal.toLocaleString('vi-VN') + " VNĐ");
 					$("#grand-total").text(res.grandTotal.toLocaleString('vi-VN') + " VNĐ");
 				});
@@ -285,12 +150,11 @@
 				// Xóa dòng sản phẩm khỏi table
 				row.remove();
 
-				// Cập nhật header cart
 				$("#cart-count").text(res.totalItems);
 				$("#cart-total").text(res.grandTotal.toLocaleString() + " VNĐ");
 				$("#grand-total").text(res.grandTotal.toLocaleString() + " VNĐ");
 
-				// Nếu giỏ hàng trống, hiển thị thông báo
+				
 				if (res.totalItems === 0) {
 					$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Giỏ hàng của bạn trống.</h4></td></tr>");
 				}
@@ -315,10 +179,8 @@
 						if (!res) return;
 
 						// Xóa hết các dòng sản phẩm trong bảng
-												$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Giỏ hàng của bạn trống.</h4></td></tr>");
-
-						// Cập nhật giỏ hàng nhỏ (header)
-						$("#cart-count").text(0);
+						$(".cart_info tbody").html("<tr><td colspan='6' style='text-align:center;'><h4>Giỏ hàng của bạn trống.</h4></td></tr>");
+						
 						$("#cart-total").text("0 VNĐ");
 
 						// Cập nhật Grand Total

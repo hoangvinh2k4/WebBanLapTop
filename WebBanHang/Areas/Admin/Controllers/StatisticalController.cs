@@ -21,14 +21,14 @@ namespace WebBanHang.Areas.Admin.Controllers
         {
             int currentYear = DateTime.Now.Year;
 
-            // Lấy tất cả đơn đã thanh toán trong năm hiện tại
-            var orders = _datacontext.Orders
-                .Where(o => o.Status == "Đã thanh toán" && o.OrderDate.Year == currentYear)
+            // Lấy tất cả payment trong năm hiện tại
+            var payments = _datacontext.Payments
+                .Where(p => p.PaidDate.Year == currentYear)
                 .AsNoTracking()
                 .ToList();
 
-            var totalRevenue = orders.Sum(o => o.TotalAmount);
-            var totalOrders = orders.Count;
+            var totalRevenue = payments.Sum(p => p.Amount);
+            var totalPayments = payments.Count;
             var totalUsers = _datacontext.Users.Count();
 
             // Doanh thu theo tháng
@@ -36,7 +36,7 @@ namespace WebBanHang.Areas.Admin.Controllers
                 .Select(m => new
                 {
                     Month = m,
-                    Revenue = orders.Where(o => o.OrderDate.Month == m).Sum(o => o.TotalAmount)
+                    Revenue = payments.Where(p => p.PaidDate.Month == m).Sum(p => p.Amount)
                 })
                 .ToList();
 
@@ -44,12 +44,10 @@ namespace WebBanHang.Areas.Admin.Controllers
             ViewBag.Data = revenueByMonth.Select(r => r.Revenue).ToList();
 
             ViewBag.TotalRevenue = totalRevenue;
-            ViewBag.TotalOrders = totalOrders;
+            ViewBag.TotalPayments = totalPayments;
             ViewBag.TotalUsers = totalUsers;
 
             return View();
         }
-
-
     }
 }

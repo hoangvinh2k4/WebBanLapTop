@@ -94,22 +94,39 @@
 </div>
 @section Scripts {
     <script>
-        $("form").on("submit", function(e) {
+                $("form").on("submit", function (e) {
             e.preventDefault();
 
-            const form = this; // lưu lại form để submit sau
+            const form = $(this);
+            const formData = form.serialize();
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Đặt hàng thành công!',
-                text: 'Cảm ơn bạn đã đặt hàng.',
-                showConfirmButton: false,
-                timer: 2000,
-                position: 'center' // chính giữa màn hình
-            }).then(() => {
-                form.submit(); // gửi form sau khi thông báo kết thúc
+            $.ajax({
+                url: form.attr("action"),
+                type: "POST",
+                data: formData,
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Đặt hàng thành công!',
+                            text: 'Cảm ơn bạn đã đặt hàng.',
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then(() => {
+                            window.location.href = "/Home/HomeIndex"; // về trang chủ
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Đặt hàng thất bại!',
+                            text: res.message || 'Vui lòng thử lại sau!',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                }            
             });
         });
+
 
         $(document).ready(function () {
             const $discountSelect = $("#discountSelect");
@@ -165,7 +182,7 @@
                 }
 
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     url: "@Url.Action("GetShipping", "CheckOut")",
                     data: { tinh: tinh, quan: quan },
                     success: function (res) {

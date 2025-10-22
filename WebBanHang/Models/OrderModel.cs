@@ -23,17 +23,17 @@ namespace WebBanHang.Models
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
-
-        [Required]
+ 
         [MaxLength(20)]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         // Quan hệ 1-n: Order -> OrderDetails
         public ICollection<OrderDetailModel> OrderDetails { get; set; }
 
         // Quan hệ 1-1: Order -> Payment
         public PaymentModel Payment { get; set; }
-     
+        public bool IsDeleted { get; set; } = false;
+
         [NotMapped]
         public string DiscountCode => Discount?.Code;
 
