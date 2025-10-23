@@ -51,7 +51,7 @@ namespace WebBanHang.Controllers
             return View(cartItems); 
         }
         [HttpPost]
-        public IActionResult PlaceOrder(string paymentMethod, int? discountId, string city)
+        public IActionResult PlaceOrder(string paymentMethod, int? discountId, string tinh)
         {
             string? userIdStr = HttpContext.Session.GetString("UserId");
             if (string.IsNullOrEmpty(userIdStr))
@@ -66,15 +66,19 @@ namespace WebBanHang.Controllers
             if (!cartItems.Any())
                 return Json(new { success = false, message = "Giỏ hàng trống, không thể đặt hàng!" });
 
-            // ✅ Lấy phí ship từ DB dựa theo tỉnh được gửi từ form
-            decimal shippingFee = 50000; // Mặc định
-            var shipping = _datacontext.Shippings.FirstOrDefault(s => s.City == city);
+            decimal shippingFee = 50000; 
+            var shipping = _datacontext.Shippings.FirstOrDefault(s => s.City == tinh);
             if (shipping != null)
                 shippingFee = shipping.Price;
 
             using var transaction = _datacontext.Database.BeginTransaction();
             try
             {
+                DiscountModel? discount = null;
+                if (discountId.HasValue)
+                {
+                    discount = _datacontext.Discounts.FirstOrDefault(d => d.DiscountID == discountId.Value);
+                }
                 // 🧾 Tạo đơn hàng
                 var order = new OrderModel
                 {
@@ -82,7 +86,8 @@ namespace WebBanHang.Controllers
                     OrderDate = DateTime.Now,
                     TotalAmount = cartItems.Sum(c => c.TotalPrice),
                     ShippingFee = shippingFee,
-                    DiscountID = discountId,                  
+                    DiscountID = discountId,
+                    Discount = discount,
                 };
 
                 _datacontext.Orders.Add(order);
@@ -115,7 +120,7 @@ namespace WebBanHang.Controllers
                 {
                     OrderID = order.OrderID,
                     PaymentMethod = paymentMethod,
-                    Amount = order.TotalAmount + order.ShippingFee - order.DiscountAmount,
+                    Amount = order.TotalAmount  - order.DiscountAmount,
                     PaidDate = DateTime.Now
                 });
 
@@ -156,41 +161,7 @@ namespace WebBanHang.Controllers
             // Gửi về JSON cho JavaScript hiển thị
             return Json(new { success = true, shippingPrice });
         }
-   
-        [HttpGet]
-        public IActionResult CheckDiscount()
-        {
-            string? userIdStr = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userIdStr))
-                return RedirectToAction("Login", "Account");
-
-            int userId = int.Parse(userIdStr);
-
-            // Lấy danh sách PGG mà user có
-            var discounts = (from ud in _datacontext.UserDiscounts
-                             join d in _datacontext.Discounts on ud.DiscountID equals d.DiscountID
-                             where ud.UserId == userId
-                                   && d.IsActive
-                                   && d.Quantity > 0
-                                   && d.StartDate <= DateTime.Now
-                                   && d.EndDate >= DateTime.Now
-                             select new
-                             {
-                                 d.DiscountID,
-                                 DisplayText = d.Code + " - Giảm " + d.Percentage + "% (HSD: " + d.EndDate.ToString("dd/MM/yyyy") + ")"
-                             }).ToList();
-
-            ViewBag.DiscountList = new SelectList(discounts, "DiscountID", "DisplayText");
-
-            // Load giỏ hàng
-            var cartItems = _datacontext.CartItems
-                .Include(c => c.Product)
-                .Where(c => c.UserID == userId)
-                .ToList();
-
-            ViewBag.Total = cartItems.Sum(c => c.Product.Price * c.Quantity);
-            return View(cartItems);
-        }
+        
         [HttpGet]
         public IActionResult GetDiscounts()
         {
@@ -211,9 +182,7 @@ namespace WebBanHang.Controllers
                 .Select(ud => new
                 {
                     id = ud.Discount.DiscountID,
-                    text = $"{ud.Discount.Code} - Giảm {ud.Discount.Percentage}% (HSD: {ud.Discount.EndDate:dd/MM/yyyy})",
-                    percent = ud.Discount.Percentage,
-                    code = ud.Discount.Code
+                    text = $"{ud.Discount.Code} - Giảm {ud.Discount.Percentage}% (HSD: {ud.Discount.EndDate:dd/MM/yyyy})",                  
                 })
                 .ToList();
 
@@ -243,7 +212,7 @@ namespace WebBanHang.Controllers
             int userId = int.Parse(userIdStr);
 
             var orders = _datacontext.Orders
-                .Where(o => o.UserID == userId && !o.IsDeleted) // lọc soft delete
+                .Where(o => o.UserID == userId && !o.IsDeleted) 
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Product)
                 .Include(o => o.Discount)

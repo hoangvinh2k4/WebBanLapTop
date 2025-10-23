@@ -86,48 +86,56 @@
             </select>
         </div>
 
-        <!-- Hidden field để gửi DiscountID -->
-        <input type="hidden" name="discountId" id="discountId" value="" />
-
+        
+        <input type="hidden" name="discountId" id="discountId" value="" />        
+        <input type="hidden" name="tinh" id="tinh-hidden" value="" />
         <button type="submit" class="btn btn-success">Xác nhận thanh toán</button>
     </form>
 </div>
 @section Scripts {
     <script>
-                $("form").on("submit", function (e) {
-            e.preventDefault();
 
-            const form = $(this);
-            const formData = form.serialize();
+                    $("form").on("submit", function (e) {
+                e.preventDefault();               
+                const tinh = $("#tinh option:selected").text() || "";               
+                $("#tinh-hidden").val(tinh);       
+                const form = $(this);
+                const formData = form.serialize();
 
-            $.ajax({
-                url: form.attr("action"),
-                type: "POST",
-                data: formData,
-                success: function (res) {
-                    if (res.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Đặt hàng thành công!',
-                            text: 'Cảm ơn bạn đã đặt hàng.',
-                            showConfirmButton: false,
-                            timer: 2000
-                        }).then(() => {
-                            window.location.href = "/Home/HomeIndex"; // về trang chủ
-                        });
-                    } else {
+                $.ajax({
+                    url: form.attr("action"),
+                    type: "POST",
+                    data: formData,
+                    success: function (res) {
+                        if (res.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Đặt hàng thành công!',
+                                text: 'Cảm ơn bạn đã đặt hàng.',
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                window.location.href = "/Home/HomeIndex";
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Đặt hàng thất bại!',
+                                text: res.message || 'Vui lòng thử lại sau!',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function () {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Đặt hàng thất bại!',
-                            text: res.message || 'Vui lòng thử lại sau!',
-                            confirmButtonText: 'OK'
+                            title: 'Lỗi server!',
+                            text: 'Không thể đặt hàng, vui lòng thử lại sau.'
                         });
                     }
-                }            
+                });
             });
-        });
-
-
+        
         $(document).ready(function () {
             const $discountSelect = $("#discountSelect");
             const $discountMsg = $("#discountMessage");
@@ -137,7 +145,7 @@
             let currentDiscountPercent = 0; // Phần trăm giảm hiện tại
             let currentShippingFee = 0; // Phí ship hiện tại
 
-            // =================== Hàm cập nhật tổng tiền ===================
+            // Hàm cập nhật tổng tiền 
             function updateTotal() {
                 let discountValue = baseTotal * currentDiscountPercent / 100;
                 let total = baseTotal + currentShippingFee - discountValue;
@@ -145,7 +153,7 @@
                 $totalAmount.text(total.toLocaleString("vi-VN") + " đ");
             }
 
-            // =================== Load tỉnh thành ===================
+            // Load tỉnh thành 
             $.getJSON('https://esgoo.net/api-tinhthanh-new/1/0.htm', function (data_tinh) {
                 if (data_tinh.error === 0) {
                     $.each(data_tinh.data, function (_, val_tinh) {
@@ -169,12 +177,12 @@
                 });
             });
 
-            // =================== Khi chọn tỉnh/quận -> tính phí ship ===================
+            // Khi chọn tỉnh/quận -> tính phí ship
             $("#tinh, #quan").change(function () {
                 const tinh = $("#tinh option:selected").text();
                 const quan = $("#quan option:selected").text();
 
-                if(!tinh || !quan) {
+                if(!tinh) {
                     currentShippingFee = 0;
                     $shipFee.text("0 đ");
                     updateTotal();
@@ -196,7 +204,7 @@
                 });
             });
 
-            // =================== Load danh sách mã giảm giá ===================
+            // Load danh sách mã giảm giá
             $discountSelect.empty().append(`<option value="">-- Chọn mã giảm giá --</option>`);
             $.ajax({
                 url: "@Url.Action("GetDiscounts", "CheckOut")",
@@ -215,7 +223,7 @@
                 }
             });
 
-            // =================== Khi chọn mã giảm giá ===================
+            // Khi chọn mã giảm giá
             $discountSelect.on("change", function () {
                 const selectedId = $(this).val();
                 $("#discountId").val(selectedId || ""); // cập nhật hidden field
