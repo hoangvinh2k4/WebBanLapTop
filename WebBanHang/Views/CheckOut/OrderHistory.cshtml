@@ -61,18 +61,14 @@
         }
     }
     <!-- Nút xóa -->
-    <div class="text-center mt-4 mb-4">
-        <form id="clearHistoryForm"
-              asp-action="ClearOrderHistory"
-              asp-controller="CheckOut"
-              method="post">
-            <button type="submit" id="btnClearHistory" class="btn btn-danger">
-                <i class="fa fa-trash"></i> Xóa tất cả lịch sử đơn hàng
-            </button>
-        </form>
-    </div>
-
-    
+    <form id="clearHistoryForm"
+          asp-action="ClearOrderHistory"
+          asp-controller="CheckOut"
+          method="post">
+        <button type="submit" id="btnClearHistory" class="btn btn-danger mt-4 mb-4">
+            <i class="fa fa-trash"></i> Xóa tất cả lịch sử đơn hàng
+        </button>
+    </form>
 </div>
 @section Scripts {
     <script>
