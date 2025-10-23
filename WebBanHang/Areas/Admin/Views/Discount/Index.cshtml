@@ -6,6 +6,16 @@
 
 <h2>Danh sách Mã Giảm Giá</h2>
 
+@* Hiển thị thông báo TempData từ Controller *@
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
 <a asp-action="Create" class="btn btn-success mb-3">Tạo Mã Giảm Giá</a>
 
 <table class="table table-bordered table-striped">
@@ -25,6 +35,9 @@
     <tbody>
         @foreach (var item in Model)
         {
+            // Mã đã hết hạn nếu ngày kết thúc NHỎ HƠN ngày hiện tại.
+            bool isExpired = item.EndDate.Date < DateTime.Now.Date;
+
             <tr>
                 <td>@item.DiscountID</td>
                 <td>@item.Code</td>
@@ -43,7 +56,7 @@
                     }
                 </td>
                 <td>
-                    @if (DateTime.Now > item.EndDate)
+                    @if (isExpired) // SỬ DỤNG BIẾN isExpired ĐÃ TÍNH
                     {
                         <span class="badge bg-danger">Đã hết hạn</span>
                     }
@@ -57,7 +70,20 @@
 
                     <form asp-action="Delete" asp-route-id="@item.DiscountID"
                           method="post" class="delete-form" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
+
+                        @* 💡 2. CHÈN TRƯỜNG ẨN CHO JAVASCRIPT *@
+                        @if (isExpired)
+                        {
+                            // Nếu đã hết hạn, chèn trường ẩn để JS cho phép tiếp tục
+                            <input type="hidden" name="is_expired" value="true" />
+                            <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
+                        }
+                        else
+                        {
+                            // Nếu chưa hết hạn, chèn trường ẩn để JS chặn (value="false")
+                            <input type="hidden" name="is_expired" value="false" />
+                            <button type="submit" class="btn btn-danger btn-sm" title="Chỉ có thể xoá mã giảm giá đã hết hạn.">Xoá</button>
+                        }
                     </form>
                 </td>
             </tr>
@@ -66,59 +92,5 @@
 </table>
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const forms = document.querySelectorAll(".delete-form");
-
-            forms.forEach(form => {
-                form.addEventListener("submit", function (e) {
-                    e.preventDefault(); // Ngăn reload
-
-                    Swal.fire({
-                        title: 'Bạn có chắc muốn xoá mã này không?',
-                        text: "Hành động này không thể hoàn tác!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: 'Xoá',
-                        cancelButtonText: 'Huỷ'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            // ✅ Gửi request bằng fetch
-                            fetch(form.action, {
-                                method: 'POST',
-                                body: new FormData(form)
-                            })
-                            .then(res => {
-                                if (res.ok) {
-                                    Swal.fire({
-                                        title: 'Đã xoá thành công!',
-                                        text: 'Mã giảm giá đã được xóa khỏi hệ thống.',
-                                        icon: 'success',
-                                        confirmButtonText: 'OK'
-                                    }).then(() => {
-                                        // Reload lại trang sau khi người dùng bấm OK
-                                        location.reload();
-                                    });
-                                } else {
-                                    throw new Error('Không thể xoá');
-                                }
-                            })
-                            .catch(err => {
-                                Swal.fire({
-                                    title: 'Lỗi!',
-                                    text: 'Không thể xoá vì mã này đang được sử dụng.',
-                                    icon: 'error',
-                                    confirmButtonText: 'Đóng'
-                                });
-                            });
-                        }
-                    });
-                });
-            });
-        });
-    </script>
+    <script src="~/js/deletemgg.js"></script>
 }
-
-

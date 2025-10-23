@@ -98,6 +98,7 @@ wwwroot\js\bootstrap.min.js
 wwwroot\js\ChatHub.js
 wwwroot\js\Common.js
 wwwroot\js\contact.js
+wwwroot\js\deletemgg.js
 wwwroot\js\gmaps.js
 wwwroot\js\html5shiv.js
 wwwroot\js\jquery.js

@@ -36,7 +36,6 @@ namespace WebBanHang.Controllers
             }
 
             // Lấy sản phẩm cùng thương hiệu, trừ sản phẩm hiện tại
-            // Lấy sản phẩm cùng thương hiệu, trừ sản phẩm hiện tại
             var relatedProducts = _datacontext.Products
                 .Include(p => p.Brand)              // ✅ thêm Brand để tránh null
                 .Include(p => p.Category)           // (nếu cần show category)
@@ -72,9 +71,36 @@ namespace WebBanHang.Controllers
                             .ToList();
             return PartialView("_ProductReviews", reviews);
         }
+        public IActionResult DeleteReview(int reviewId)
+        {
+            // tìm review theo Id
+            var review = _datacontext.ProductReviews.FirstOrDefault(r => r.Id == reviewId);
+            var user = HttpContext.Session.GetString("Username");
+
+            if (review == null)
+                return NotFound();
+
+            // chỉ cho xóa nếu là của người đăng
+            if (review.UserName == user)
+            {
+                _datacontext.ProductReviews.Remove(review);
+                _datacontext.SaveChanges();
+            }
+
+            // lấy lại danh sách review sau khi xóa
+            var reviews = _datacontext.ProductReviews
+                .Where(r => r.ProductId == review.ProductId)
+                .OrderByDescending(r => r.CreatedAt)
+                .ToList();
+
+            return PartialView("_ProductReviews", reviews);
+        }
+
 
     }
 }
+
+    
 
 
 

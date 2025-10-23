@@ -196,6 +196,10 @@
 										}
 									</div>
 									<p>@r.Content</p>
+									@if (username == r.UserName)
+									{
+										<button class="delete-review btn btn-danger btn-sm" data-id="@r.Id">Xóa</button>
+									}
 								</div>
 							}
 						}
@@ -204,36 +208,37 @@
 							<p>Chưa có đánh giá nào.</p>
 						}
 					</div>
-				</div>
+				
 
-				@section Scripts {
-					<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-					<script>
-												$(document).on('click', '#submit-review', function(){
-							var productId = $(this).data('product');
-						var userName = '@username';;
-							var content = $('#review-content').val();
-							var rating = $('#review-rating').val();
+				
 
-							if(content){
-								$.post('/Product/AddReview',
-								{ ProductId: productId, UserName: userName, Content: content, Rating: rating },
-								function(data){
-									$('#review-container').html(data); // Load lại review
-									$('#review-content').val('');
-									$('#review-rating').val('5'); // reset rating
-								});
-							} else {
-								alert('Nhập nội dung đánh giá!');
-							}
-						});
+		
+@section Scripts {
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script>
+									$(document).on('click', '#submit-review', function(){
+				var productId = $(this).data('product');
+			var userName = '@username';;
+				var content = $('#review-content').val();
+				var rating = $('#review-rating').val();
 
-					</script>
-				}
+				if(content){
+					$.post('/Product/AddReview',
+					{ ProductId: productId, UserName: userName, Content: content, Rating: rating },
+					function(data){
+						$('#review-container').html(data); // Load lại review
+						$('#review-content').val('');
+						$('#review-rating').val('5'); // reset rating
+					});
+				} else {
+					alert('Nhập nội dung đánh giá!');
+				}});
+										$(document).on('click', '.delete-review', function(){
+			var id = $(this).data('id');
+			$.post('/Product/DeleteReview', { reviewId: id }, function(data){
+				$('#review-container').html(data);
+			});
+			});
 
-
-			</div>
-
-
-		</div>
-	</div>
+		</script>
+}

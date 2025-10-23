@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<WebBanHang.Models.ProductReviews>
-
+@{
+    var username = Context.Session.GetString("Username");
+}
 @if (Model != null && Model.Any())
 {
     foreach (var r in Model.OrderByDescending(r => r.CreatedAt))
@@ -20,6 +22,10 @@
                 }
             </div>
             <p>@r.Content</p>
+            @if (username == r.UserName)
+            {
+                <button class="delete-review btn btn-danger btn-sm" data-id="@r.Id">Xóa</button>
+            }
         </div>
     }
 }

@@ -168,36 +168,37 @@ namespace WebBanHang.Areas.Admin.Controllers
             if (!IsAdmin())
                 return RedirectToAction("Login", "Account", new { area = "" });
 
+            // lấy một mã giảm giá trong database theo ID được truyền vào
             var discount = await _context.Discounts.FindAsync(id);
-            if (discount == null) return NotFound();
+            if (discount == null)
+            {
+                TempData["Error"] = "⚠️ Không tìm thấy mã giảm giá.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (discount.EndDate.Date >= DateTime.Now.Date)
+            {
+                // Điều kiện này đúng khi EndDate là ngày hôm nay hoặc tương lai (CHƯA HẾT HẠN)
+                TempData["Error"] = "❌ Không thể xoá mã giảm giá **vẫn còn hiệu lực** (chưa qua ngày hết hạn).";
+                return RedirectToAction(nameof(Index));
+            }
 
             try
             {
+                // ✅ Nếu logic trên sai (EndDate < Today), thì mã đã hết hạn và được phép xóa.
                 _context.Discounts.Remove(discount);
                 await _context.SaveChangesAsync();
+
+                TempData["Success"] = "✅ Đã xoá mã giảm giá hết hạn thành công.";
+                // Quay về trang danh sách
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ModelState.AddModelError("", "Có lỗi xảy ra khi xoá: " + ex.Message);
-                return View(discount);
+                // Thông báo lỗi nếu không thể xóa
+                TempData["Error"] = "❌ Lỗi: Không thể xoá vì mã này có thể đang được sử dụng trong các đơn hàng.";
+                return RedirectToAction(nameof(Index));
             }
-        }
-
-        // POST: Bật/Tắt nhanh (toggle IsActive)
-        [HttpPost]
-        public async Task<IActionResult> ToggleActive(int id)
-        {
-            if (!IsAdmin())
-                return RedirectToAction("Login", "Account", new { area = "" });
-
-            var discount = await _context.Discounts.FindAsync(id);
-            if (discount == null) return NotFound();
-
-            discount.IsActive = !discount.IsActive;
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }

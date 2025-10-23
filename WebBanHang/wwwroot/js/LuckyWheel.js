@@ -1,119 +1,76 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿// Khi toàn bộ nội dung HTML đã tải xong
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Nếu không có danh sách mã giảm giá, hiển thị cảnh báo và dừng
     if (!discounts || discounts.length === 0) {
         alert("Không có mã giảm giá khả dụng!");
         return;
     }
 
+    // 🎨 Danh sách màu để tô cho các ô trên bánh xe
     const colors = ["#e74c3c", "#3498db", "#2ecc71", "#f1c40f", "#9b59b6", "#1abc9c", "#e67e22", "#34495e", "#ff6f61", "#16a085"];
-    function randomColor(i) { return colors[i % colors.length]; }
 
-    // Biến toàn cục
-    let currentDiscounts = [...discounts];
-    let wheel = null;
+    // Hàm chọn màu theo thứ tự (dựa vào chỉ số i)
+    function randomColor(i) {
+        return colors[i % colors.length];
+    }
 
+    // ====== 🔧 Biến toàn cục ======
+    let currentDiscounts = [...discounts]; // clone danh sách mã giảm giá
+    let wheel = null; // đối tượng bánh xe Winwheel
+
+    // ====== 🎡 Hàm khởi tạo vòng quay ======
     function createWheel(discountList) {
         if (!discountList || discountList.length === 0) return null;
 
+        // Chuyển mỗi discount thành một segment (một ô trên bánh xe)
         const segments = discountList.map((d, i) => ({
-            fillStyle: randomColor(i),
-            text: d.Code + " - " + d.Percentage + "%"
+            fillStyle: randomColor(i),                // màu nền
+            text: d.Code + " - " + d.Percentage + "%" // nội dung hiển thị
         }));
 
+        // Tạo đối tượng Winwheel (thư viện vẽ bánh xe)
         return new Winwheel({
-            canvasId: 'wheelCanvas',
-            numSegments: segments.length,
-            outerRadius: 220,
+            canvasId: 'wheelCanvas',   // ID của thẻ <canvas> trong HTML
+            numSegments: segments.length, // số lượng ô
+            outerRadius: 220,          // bán kính bánh xe
             textFontSize: 14,
             textAlignment: 'center',
             textFillStyle: '#fff',
-            segments: segments,
-            animation: {
-                type: 'spinToStop',
-                duration: 6,
-                spins: 8,
-                easing: 'Power4.easeOut'
+            segments: segments,        // danh sách các ô
+            animation: {               // cấu hình hiệu ứng quay
+                type: 'spinToStop',    // quay và dừng lại
+                duration: 6,           // thời gian quay (giây)
+                spins: 8,              // số vòng quay
+                easing: 'Power4.easeOut' // kiểu giảm tốc
             }
         });
     }
 
-    // Khởi tạo wheel lần đầu
+    // 🌀 Khởi tạo bánh xe lần đầu tiên
     wheel = createWheel(currentDiscounts);
 
+    // Các phần tử HTML liên quan
     const remainingSpinsEl = document.getElementById("remainingSpins");
     const spinBtn = document.getElementById("spinBtn");
 
+    // ====== 🎯 Xử lý khi nhấn nút "Quay" ======
     spinBtn.addEventListener("click", function () {
+
+        // Nếu chưa đăng nhập → chuyển sang trang Login
         if (!isLoggedIn) {
             window.location.href = "/Account/Login";
             return;
         }
 
+        // Kiểm tra lượt quay còn lại
         if (parseInt(remainingSpinsEl.innerText) <= 0) {
             showToast("⚠️ Bạn đã hết lượt quay hôm nay!");
             return;
         }
 
+        // Nếu hết mã
         if (!currentDiscounts || currentDiscounts.length === 0) {
-            showToast("⚠️ Không còn mã giảm giá nào để quay nữa!");
-            return;
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
         }
-
-        spinBtn.disabled = true;
-
-        $.post('/LuckyWheel/Spin', function (res) {
-            if (res.error) {
-                showToast(res.message);
-                spinBtn.disabled = false;
-                return;
-            }
-
-            const winningCode = res.code;
-            const index = currentDiscounts.findIndex(d => d.Code === winningCode);
-
-            if (index === -1) {
-                showToast("❌ Lỗi: Không tìm thấy voucher trong danh sách hiện tại!");
-                spinBtn.disabled = false;
-                return;
-            }
-
-            // Reset bánh xe trước khi quay mới
-            if (wheel) {
-                wheel.stopAnimation(false);
-                wheel.rotationAngle = 0;
-                wheel.draw();
-            }
-
-            const segmentAngle = 360 / wheel.numSegments;
-            const stopAngle = (360 - (index * segmentAngle + segmentAngle / 2)) % 360;
-
-            wheel.animation.stopAngle = stopAngle;
-            wheel.animation.callbackFinished = function () {
-                const result = currentDiscounts[index];
-                showToast("🎉 Bạn nhận được: " + result.Code + " - " + result.Percentage + "%");
-
-                // Loại bỏ phần thưởng khỏi danh sách
-                currentDiscounts.splice(index, 1);
-
-                // Tái tạo wheel với danh sách mới
-                wheel = createWheel(currentDiscounts);
-
-                spinBtn.disabled = false;
-            };
-
-            wheel.startAnimation();
-            remainingSpinsEl.innerText = res.remainingSpins;
-
-        }).fail(function () {
-            showToast("❌ Lỗi kết nối đến Server!");
-            spinBtn.disabled = false;
-        });
     });
-
-    function showToast(message) {
-        const toast = document.getElementById("toast");
-        if (!toast) return;
-        toast.innerText = message;
-        toast.className = "toast show";
-        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
-    }
-});
